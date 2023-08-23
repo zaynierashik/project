@@ -1,3 +1,41 @@
+<?php
+    session_start();
+    include 'connect.php';
+
+    // $i_id = $_GET['userId'];
+
+    if(!isset($_SESSION['username'])){
+        header('location: homepage.php');
+    }
+
+    if(isset($_POST['update-submit'])){
+        $name = $_POST['name'];
+        $phone = $_POST['phone'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $conn->prepare("UPDATE user_data SET name = :name, phone = :phone, email = :email, password = :password WHERE userId = :userId");
+        $stmt ->bindParam(':name', $name);
+        $stmt ->bindParam(':phone', $phone);
+        $stmt ->bindParam(':email', $email);
+        $stmt ->bindParam(':password', $hashed_password);
+        $stmt ->bindParam(':userId', $i_id);
+        $stmt ->execute();
+        header('location: userpage.php');
+    }
+
+    if(isset($_POST['delete'])){
+        $stmt = $conn->prepare("DELETE FROM user_data WHERE userId = :userId");
+        $stmt->bindParam(':userId', $i_id);
+        $stmt->execute();
+
+        session_destroy();
+        echo '<script>alert("Account deleted successfully."); window.location.href = "homepage.php";</script>';
+        exit();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +51,7 @@
     <link rel="stylesheet" href="../CSS/user.css">
 </head>
 <body>
+
     <!-- Navbar -->
 
     <nav class="navbar navbar-expand-lg">
@@ -28,7 +67,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="usernavbar navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page">user@gmail.com</a>
+                        <a class="nav-link" aria-current="page"><?php echo $_SESSION['username'] ?></a>
                     </li>
                     <li class="nav-item">
                         <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>
@@ -57,7 +96,7 @@
 
     <!-- Applied College and Course -->
 
-    <div class="background-color" style="min-height: 73.5vh;">
+    <div class="background-color">
     <div id="admission">
         <div class="container admission-container">
             <p class="admission-title">APPLIED COLLEGE & COURSE</p>
@@ -67,31 +106,26 @@
                     <td class="table-body">College Name</td>
                     <td class="table-body">Course</td>
                 </tr>
+
+                <?php
+                    $stmt = $conn->prepare("SELECT a.*, c.name FROM admission_data a JOIN college_data c ON a.collegeId = c.collegeId WHERE a.email = :username");
+                    $stmt->bindParam(':username', $_SESSION['username']);
+                    $stmt->execute();
+    
+                    $count = 1;
+                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                ?>
                 <tr>
-                    <td class="table-SN">SN</td>
-                    <td class="table-body">College Name</td>
-                    <td class="table-body">Course</td>
+                    <td class="table-SN"><?= $count++; ?></td>
+                    <td class="table-body"><?= $row['name']; ?></td>
+                    <td class="table-body"><?= $row['title']; ?></td>
                 </tr>
-                <tr>
-                    <td class="table-SN">SN</td>
-                    <td class="table-body">College Name</td>
-                    <td class="table-body">Course</td>
-                </tr>
-                <tr>
-                    <td class="table-SN">SN</td>
-                    <td class="table-body">College Name</td>
-                    <td class="table-body">Course</td>
-                </tr>
-                <tr>
-                    <td class="table-SN">SN</td>
-                    <td class="table-body">College Name</td>
-                    <td class="table-body">Course</td>
-                </tr>
+
+                <?php } ?>
             </table>
         </div>
     </div>
     </div>
-    
 
     <script src="../JS/userscript.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
