@@ -30,12 +30,12 @@
     background-color: #e6e9ef;
 }
 
-.college-container, .course-container, .admission-container, .about-container{
+.college-container, .course-container, .admission-container, .about-container, .search-container{
     margin: 7vh 0 5vh 7vw;
     padding-bottom: 1.5vh;
 }
 
-.college-details-table{
+.college-details-table, .course-details-table{
     margin-bottom: 0;
 }
 
@@ -44,7 +44,7 @@
     font-weight: 500;
 }
 
-.college-title, .course-title, .admission-title, .about-title{
+.college-title, .course-title, .admission-title, .about-title, .search-title{
     font-size: 1.7rem;
     font-weight: 500;
     color: #082465;

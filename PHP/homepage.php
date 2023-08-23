@@ -2,13 +2,13 @@
     session_start();
     include 'connect.php';
 
-        if(isset($_SESSION['username'])){
-            header("location: userpage.php");
-            exit;
-        }elseif(isset($_SESSION['institutionemail'])){
-            header("location: institution.php");
-            exit;
-        }
+    if(isset($_SESSION['username'])){
+        header("location: userpage.php");
+        exit;
+    }elseif(isset($_SESSION['institutionemail'])){
+        header("location: institution.php");
+        exit;
+    }
 
     if(isset($_POST['login-submit'])){
         $email = $_POST['email'];
@@ -45,8 +45,6 @@
                 header("location: userpage.php");
                 exit;
             }
-        }else{
-            echo "<div class='usererror' id='userError'>Incorrect email or password.<div>";
         }
     }
 ?>
@@ -58,20 +56,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hamro College</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/Favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/Favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/Favicon/favicon-16x16.png">
-    <link rel="manifest" href="/Favicon/site.webmanifest">
-    <link rel="stylesheet" href="/CSS/homepage.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../Favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Favicon/favicon-16x16.png">
+    <link rel="manifest" href="../Favicon/site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="../CSS/homepage.css">
 </head>
 <body>
+
     <!-- Navbar -->
     
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="homepage.php">
-                <img src="/Images/logo.png" alt="hamrocollege" width="200" height="50">
+                <img src="../Images/logo.png" alt="hamrocollege" width="200" height="50">
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,24 +87,24 @@
                     </li>
                 </ul>
             </div>
-    </div>
+        </div>
     </nav>
     
     <div class="container explore">
         <div class="row">
             <div class="col">
                 <div class="display-5 fw-medium">Explore. Enroll.</div>
-            <div class="my-1 search">Searching for colleges to expand your study? Explore some of the best colleges around you.</div>
-        </div>
-        <div class="col text-center">
-            <img src="/Images/icon.png" class="img-fluid icon-one" alt="Illustration">
+                <div class="my-1 search">Searching for colleges to expand your study? Explore some of the best colleges around you.</div>
+            </div>
+            <div class="col text-center">
+                <img src="../Images/icon.png" class="img-fluid icon-one" alt="Illustration">
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Modal -->
+    <!-- Modal -->
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -117,7 +116,7 @@
                     <form action="" method="POST" class="form">
                         <div>
                             <input type="email" class="form-control mb-3" name="email" id="email" placeholder="Email address" required>
-                            <input type="password" class="form-control mb-2" name="password" id="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z]).{7,}" title="Must contain at least one number and one lowercase letter, and at least 7 or more characters" required>
+                            <input type="password" class="form-control mb-2" name="password" id="password" placeholder="Password" required>
                         </div>
                         
                         <div class="form-check mb-4">
@@ -133,61 +132,72 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 
-<div class="background-color">
+    <!-- Error Message -->
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="userErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Login Error</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="errorToastBody"></div>
+    </div>
+    </div>
+
+    <div class="background-color">
     
     <!-- Colleges -->
     
     <div class="container college-container">
         <p class="college-title">COLLEGES</p>
         <div class="container text-center college-card">
+        <div class="row row-gap-4">
             <?php
-                $sql = "SELECT * FROM college_data LIMIT 7";
+                $sql = "SELECT * FROM college_data";
                 $stmt = $conn->query($sql);
                 if($stmt->rowCount() > 0){
                     while($row = $stmt->fetch()){
-                        echo '<div class="row row-gap-4">
-                        <div class="col">
-                        <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                        <img src="/Images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
-                        <div class="card-body">
-                        <p class="college-name">' . $row['name'] . '</p>
-                        <p class="address">' . $row['address'] . '</p>
-                        </div>
-                        </div>
-                            </a>
-                            </div>
-                            </div>';
-                        }
+                        echo '<div class="col">
+                                <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
+                                <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                                    <img src="../Images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
+                                    <div class="card-body">
+                                        <p class="college-name">' . $row['name'] . '</p>
+                                        <p class="address">' . $row['address'] . '</p>
+                                    </div>
+                                </div>
+                                </a>
+                        </div>';
+                    }
                 }else{
                     echo "No colleges found.";
                 }
-                ?>
+            ?>
+        </div>
         </div>
     </div>
 
-    
+    <!-- Courses -->
     
     <div class="container course-container">
         <p class="course-title">COURSES</p>
         <div class="container text-center course-card">
+        <div class="row row-gap-3">
             <?php
-                $sql = "SELECT * FROM course_data LIMIT 7";
+                $sql = "SELECT * FROM course_data";
                 $stmt = $conn->query($sql);
                 if($stmt->rowCount() > 0){
                     while($row = $stmt->fetch()){
-                        echo '<div class="row row-gap-3">
-                        <div class="col-md-3">
-                        <a href="coursedetails.php?courseId=' . $row['courseId'] . '" class="card-link">
-                        <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
-                        <div class="card-body">
-                        <p class="course-name">'.$row['title'].'</p>
-                        </div>
-                        </div>
-                        </a>
-                        </div>
+                        echo '<div class="col-md-3">
+                                <a href="coursedetails.php?courseId=' . $row['courseId'] . '" class="card-link">
+                                <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
+                                    <div class="card-body">
+                                        <p class="course-name">'.$row['title'].'</p>
+                                    </div>
+                                </div>
+                                </a>
                         </div>';
                     }
                 }else{
@@ -195,10 +205,9 @@
                 }
             ?>
         </div>
+        </div>
     </div>
     </div>
-    
-    
     
     <!-- Footer -->
     
@@ -215,37 +224,57 @@
                 
                 <div class="col ms-5 lh-lg">
                     <h5 class="text-uppercase">Contact</h5>
-                <ul class="list-unstyled">
-                    <li><i class="fa-solid fa-building" style="color: black; font-size: 0.87rem; padding-left: 0.1vw; padding-right: 0.60vw;"></i> Hamro College Pvt. Ltd.</li>
-                    <li><i class="fa-solid fa-location-dot" style="color: black; font-size: 0.87rem; padding-left: 0.1vw; padding-right: 0.60vw;"></i> Gwarko, Lalitpur</li>
-                    <li><i class="fa-solid fa-phone" style="color: black; font-size: 0.87rem; padding-right: 0.75vw;"></i>+977 98XXXXXXXX</li>
-                    <li><i class="fa-solid fa-envelope" style="color: black; font-size: 0.87rem; padding-right: 0.75vw;"></i>info@hamrocollege.com</li>
-                </ul>
+                    <ul class="list-unstyled">
+                        <li><i class="fa-solid fa-building" style="color: black; font-size: 0.87rem; padding-left: 0.1vw; padding-right: 0.60vw;"></i> Hamro College Pvt. Ltd.</li>
+                        <li><i class="fa-solid fa-location-dot" style="color: black; font-size: 0.87rem; padding-left: 0.1vw; padding-right: 0.60vw;"></i> Gwarko, Lalitpur</li>
+                        <li><i class="fa-solid fa-phone" style="color: black; font-size: 0.87rem; padding-right: 0.75vw;"></i>+977 98XXXXXXXX</li>
+                        <li><i class="fa-solid fa-envelope" style="color: black; font-size: 0.87rem; padding-right: 0.75vw;"></i>info@hamrocollege.com</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-      
-    <div class="p-1" style="margin-left: 1.25vw ; font-size: 0.87rem;">© Hamro College, All rights reserved 2023.</div>
+        <div class="p-1" style="margin-left: 1.25vw ; font-size: 0.87rem;">© Hamro College, All rights reserved 2023.</div>
     </footer>
     
-    <div class="top hidden">
+    <div class="top hidden" id="backToTop">
         <a href="#top" class="top"><i class="fa-solid fa-arrow-right fa-rotate-270 fa-lg" style="color: black;"></i></a>
     </div>
 
     <script>
+        window.onscroll = function(){
+            var backToTopDiv = document.getElementById("backToTop");
+            if(document.body.scrollTop > 750 || document.documentElement.scrollTop > 750){
+                backToTopDiv.style.display = "block";
+            }else{
+                backToTopDiv.style.display = "none";
+            }
+        };
+
         function showPassword(){
             var x = document.getElementById("password");
             if(x.type == "password"){
                 x.type = "text";
             }else{
-            x.type = "password";
+                x.type = "password";
+            }
         }
-    }
     </script>
     
-    <script src="script.js"></script>
+    <script src="../JS/script.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+    <script>
+    <?php
+        if(!$userauth || !password_verify($password, $userauth['password'])){
+            echo 'document.addEventListener("DOMContentLoaded", function() {
+                var errorToast = new bootstrap.Toast(document.getElementById("userErrorToast"));
+                document.getElementById("errorToastBody").innerText = "Incorrect email or password.";
+                errorToast.show();
+            });';
+        }
+    ?>
+    </script>
     
 </body>
 </html>

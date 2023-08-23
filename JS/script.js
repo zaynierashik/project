@@ -1,14 +1,3 @@
-    // Back to Top
-
-    const arrowLink = document.querySelector('.top');
-    window.addEventListener('scroll', () => {
-        if(window.scrollY > 750){
-            arrowLink.classList.remove('hidden');
-        }else{
-            arrowLink.classList.add('hidden');
-        }
-    });
-
     // Show Password
 
     function showPassword(){

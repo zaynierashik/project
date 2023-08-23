@@ -1,3 +1,40 @@
+<?php
+    session_start();
+    include 'connect.php';
+
+    if(!isset($_SESSION['username'])){
+        header('location: homepage.php');
+    }
+
+    $courseId;
+    $i = 0;
+    $searchValue;
+    @$count = $_GET['count'];
+    @$status = $_GET['status'];
+
+    do{
+        @$courseId = $_GET[$i];
+        @$collegeId = $_GET[$i];
+
+        if($courseId != null){
+            if($status == 1){
+                $stmt = $conn->prepare("SELECT * FROM course_data WHERE courseId = :courseId");
+                $stmt ->bindParam(':courseId', $courseId);
+            }else{
+                $stmt = $conn->prepare("SELECT * FROM college_data WHERE collegeId = :collegeId");
+                $stmt ->bindParam(':collegeId', $collegeId);
+            }
+
+            $stmt ->execute();
+            $value[$i] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $searchValue = true;
+        }else{
+            $searchValue = false;
+        }
+        $i++;
+    }while($i<$count);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,21 +42,101 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hamro College</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/Favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/Favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/Favicon/favicon-16x16.png">
-    <link rel="manifest" href="/Favicon/site.webmanifest">
-    <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="../Favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Favicon/favicon-16x16.png">
+    <link rel="manifest" href="../Favicon/site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/CSS/user.css">
+    <link rel="stylesheet" href="../CSS/user.css">
 </head>
 <body>
+    
+    <!-- Search Result -->
+
+    <?php
+    if($searchValue){?>
+        <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="userpage.php">
+                <img src="../Images/logo.png" alt="hamrocollege" width="200" height="50">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="usernavbar navbar-nav ms-auto">
+                <li class="nav-item">
+                    <form action="datasearch.php" method="POST" id="search" class="d-flex" role="search">
+                        <input type="search" name="search" class="form-control d-flex rounded-pill search-bar" placeholder="Search colleges, courses . . ." aria-label="Search">
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <a href="account.php" class="nav-link" aria-current="page"><i class="fa-solid fa-user" style="color: #000000;"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page">user@gmail.com</a>
+                </li>
+                <li class="nav-item">
+                    <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </nav>
+
+        <div class="background-color" style="min-height: 82.95vh;">
+        <div class="container search-title search-container">Found results:</div>
+        <div class="container">
+        <?php
+            foreach($value as $item){
+            if($status == 1){
+                echo '<div class="container text-center course-card">
+                    <div class="row row-gap-4">
+                    <div class="col">
+                        <a href="coursedetails.php?courseId=' . $item[0]['courseId'] . '" class="card-link">
+                        <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
+                        <div class="card-body">
+                            <p class="course-name">'.$item[0]['title'].'</p>
+                        </div>
+                        </div>
+                        </a>
+                    </div>
+                    </div>
+                </div>';
+            }
+            else{
+                echo '<div class="container text-center college-card">
+                    <div class="row row-gap-4">
+                    <div class="col">
+                        <a href="collegedetails.php?collegeId=' .$item[0]['collegeId'] . '" class="card-link">
+                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                            <img src="../Images/' . $item[0]['logo'] . '" class="card-img-top college-logo" alt="...">
+                            <div class="card-body">
+                                <p class="college-name">' . $item[0]['name'] . '</p>
+                                <p class="address">' . $item[0]['address'] . '</p>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    </div>
+                </div>';
+            }
+            }
+        ?>
+        </div>
+        </div>
+        <?php 
+    }else{ 
+    ?>
+
     <!-- Navbar -->
 
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="userpage.html">
-                <img src="/Images/logo.png" alt="hamrocollege" width="200" height="50">
+            <a class="navbar-brand" href="userpage.php">
+                <img src="../Images/logo.png" alt="hamrocollege" width="200" height="50">
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,18 +146,18 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="usernavbar navbar-nav ms-auto">
                     <li class="nav-item">
-                        <form class="d-flex" role="search">
-                            <input type="search" class="form-control d-flex rounded-pill search-bar" placeholder="Search colleges, courses . . ." aria-label="Search">
+                        <form action="datasearch.php" method="POST" id="search" class="d-flex" role="search">
+                            <input type="search" name="search" class="form-control d-flex rounded-pill search-bar" placeholder="Search colleges, courses . . ." aria-label="Search">
                         </form>
                     </li>
                     <li class="nav-item">
-                        <a href="account.html" class="nav-link" aria-current="page"><i class="fa-solid fa-user" style="color: #000000;"></i></a>
+                        <a href="account.php" class="nav-link" aria-current="page"><i class="fa-solid fa-user" style="color: #000000;"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page">user@gmail.com</a>
                     </li>
                     <li class="nav-item">
-                        <a href="logout.html" class="nav-link logout-nav" aria-current="page">logout</a>
+                        <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>
                     </li>
                 </ul>
             </div>
@@ -50,16 +167,16 @@
     <div class="link-container navbar navbar-expand-lg" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="userpage.html" class="nav-link" aria-current="page">Home</a>
+                <a href="userpage.php" class="nav-link" aria-current="page">Home</a>
             </li>
             <li class="nav-item ps-1">
-                <a href="college.html" class="nav-link" aria-current="page">Colleges</a>
+                <a href="college.php" class="nav-link" aria-current="page">Colleges</a>
             </li>
             <li class="nav-item ps-1">
-                <a href="course.html" class="nav-link active" aria-current="page">Courses</a>
+                <a href="course.php" class="nav-link active" aria-current="page">Courses</a>
             </li>
             <li class="nav-item ps-1">
-                <a href="admission.html" class="nav-link" aria-current="page">Admissions</a>
+                <a href="admission.php" class="nav-link" aria-current="page">Admissions</a>
             </li>
         </ul>
     </div>
@@ -72,7 +189,7 @@
         <div class="container text-center course-card">
             <div class="row row-gap-3">
                 <div class="col-md-3">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 19.15rem; height: 11vh; border-radius: 15px;">
                             <div class="card-body">
                                 <p class="course-name">Bachelor of Computer Application</p>
@@ -81,7 +198,7 @@
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 19.15rem; height: 11vh; border-radius: 15px;">
                             <div class="card-body">
                                 <p class="course-name">Bachelor of Business Administration</p>
@@ -90,7 +207,7 @@
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 19.15rem; height: 11vh; border-radius: 15px;">
                             <div class="card-body">
                                 <p class="course-name">Bachelor of Computer Application</p>
@@ -99,7 +216,7 @@
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 19.15rem; height: 11vh; border-radius: 15px;">
                             <div class="card-body">
                                 <p class="course-name">Bachelor of Computer Application</p>
@@ -108,7 +225,7 @@
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 19.15rem; height: 11vh; border-radius: 15px;">
                             <div class="card-body">
                                 <p class="course-name">Bachelor of Computer Application</p>
@@ -117,7 +234,7 @@
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 19.15rem; height: 11vh; border-radius: 15px;">
                             <div class="card-body">
                                 <p class="course-name">Bachelor of Computer Application</p>
@@ -126,7 +243,7 @@
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 19.15rem; height: 11vh; border-radius: 15px;">
                             <div class="card-body">
                                 <p class="course-name">Bachelor of Computer Application</p>
@@ -146,9 +263,9 @@
         <div class="container text-center course-card">
             <div class="row row-gap-4">
                 <div class="col-md-2">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 12.25rem; border-radius: 15px;">
-                            <img src="/Images/kathford.png" class="card-img-top college-logo" alt="...">
+                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
                             <div class="card-body">
                                 <p class="course-name">Management</p>
                             </div>
@@ -156,9 +273,9 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 12.25rem; border-radius: 15px;">
-                            <img src="/Images/kathford.png" class="card-img-top college-logo" alt="...">
+                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
                             <div class="card-body">
                                 <p class="course-name">Management</p>
                             </div>
@@ -166,9 +283,9 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 12.25rem; border-radius: 15px;">
-                            <img src="/Images/kathford.png" class="card-img-top college-logo" alt="...">
+                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
                             <div class="card-body">
                                 <p class="course-name">Management</p>
                             </div>
@@ -176,9 +293,9 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 12.25rem; border-radius: 15px;">
-                            <img src="/Images/kathford.png" class="card-img-top college-logo" alt="...">
+                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
                             <div class="card-body">
                                 <p class="course-name">Management</p>
                             </div>
@@ -186,9 +303,9 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 12.25rem; border-radius: 15px;">
-                            <img src="/Images/kathford.png" class="card-img-top college-logo" alt="...">
+                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
                             <div class="card-body">
                                 <p class="course-name">Management</p>
                             </div>
@@ -196,9 +313,9 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a href="coursedetails.html" class="card-link">
+                    <a href="coursedetails.php" class="card-link">
                         <div class="card" style="width: 12.25rem; border-radius: 15px;">
-                            <img src="/Images/kathford.png" class="card-img-top college-logo" alt="...">
+                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
                             <div class="card-body">
                                 <p class="course-name">Management</p>
                             </div>
@@ -226,6 +343,8 @@
     </div>
     </div>
     </div>
+
+    <?php } ?>
 
     <script>
         function toggleChatBot(){
@@ -275,7 +394,8 @@
         });
     </script>
 
-    <script src="/JS/userscript.js"></script>
+    <script src="../JS/userscript.js"></script>
+    <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
 </body>
