@@ -30,8 +30,8 @@
     background-color: #e6e9ef;
 }
 
-.college-container, .course-container, .admission-container, .about-container, .search-container{
-    margin: 7vh 0 5vh 7vw;
+.college-container, .course-container, .admission-container, .about-container, .search-container, .university-container, .discipline-container{
+    margin: 7vh 0 0 7vw;
     padding-bottom: 1.5vh;
 }
 

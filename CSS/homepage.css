@@ -12,7 +12,7 @@ html{
 }
 
 body{
-    background-image: url(/Images/background.jpg);
+    background-image: url(../Images/background.jpg);
 }
 
 .navbar-brand{

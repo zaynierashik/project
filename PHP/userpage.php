@@ -206,23 +206,18 @@
 
     <!-- Footer -->
 
-    <footer class="footer">
-        <div class="container">
-            <div class="container row">
-                <div class="col-md-5">
-                    <p>© Hamro College, All rights reserved 2023.</p>
-                </div>
-                <div class="col">
-                    <p>
-                        <i class="fa-solid fa-building" style="color: black; margin-left: 3vw;"></i> Hamro College Pvt. Ltd.
-                        <i class="fa-solid fa-location-dot" style="color: black; margin-left: 11px;"></i> Gwarko, Lalitpur
-                        <i class="fa-solid fa-phone" style="color: black; margin-left: 11px;"></i> +977 9876543210
-                        <i class="fa-solid fa-envelope" style="color: black; margin-left: 11px;"></i> info@hamrocollege.com
-                    </p>
-                </div>
-            </div>
+    <footer class="container footer pb-3">
+    <div class="row">
+        <div class="col" style="margin-left: 0.55vw;">© Hamro College, All rights reserved 2023.</div>
+        <div class="col">
+            <i class="fa-solid fa-building" style="color: black; margin-left: -2.32vw;"></i> Hamro College Pvt. Ltd.
+            <i class="fa-solid fa-location-dot" style="color: black; margin-left: 11px;"></i> Gwarko, Lalitpur
+            <i class="fa-solid fa-phone" style="color: black; margin-left: 11px;"></i> +977 9876543210
+            <i class="fa-solid fa-envelope" style="color: black; margin-left: 11px;"></i> info@hamrocollege.com
+        </div>
         </div>
     </footer>
+
     </div>
 
     <?php } ?>

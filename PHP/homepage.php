@@ -152,16 +152,16 @@
     
     <div class="container college-container">
         <p class="college-title">COLLEGES</p>
-        <div class="container text-center college-card">
+        <div class="text-center college-card">
         <div class="row row-gap-4">
             <?php
-                $sql = "SELECT * FROM college_data";
+                $sql = "SELECT * FROM college_data LIMIT 7";
                 $stmt = $conn->query($sql);
                 if($stmt->rowCount() > 0){
                     while($row = $stmt->fetch()){
                         echo '<div class="col">
                                 <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
-                                <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                                <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 34vh">
                                     <img src="../Images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
                                     <div class="card-body">
                                         <p class="college-name">' . $row['name'] . '</p>
@@ -171,6 +171,15 @@
                                 </a>
                         </div>';
                     }
+                    echo '<div class="col">
+                        <a class="card-link">
+                        <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 12vh; padding-bottom: 12vh">
+                            <div class="card-body">
+                                <p class="college-name">Explore more colleges ></p>
+                            </div>
+                        </div>
+                        </a>
+                    </div>';
                 }else{
                     echo "No colleges found.";
                 }
@@ -183,10 +192,10 @@
     
     <div class="container course-container">
         <p class="course-title">COURSES</p>
-        <div class="container text-center course-card">
+        <div class="text-center course-card">
         <div class="row row-gap-3">
             <?php
-                $sql = "SELECT * FROM course_data";
+                $sql = "SELECT * FROM course_data LIMIT 7";
                 $stmt = $conn->query($sql);
                 if($stmt->rowCount() > 0){
                     while($row = $stmt->fetch()){
@@ -200,6 +209,15 @@
                                 </a>
                         </div>';
                     }
+                    echo '<div class="col-md-3">
+                        <a class="card-link">
+                        <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px; padding-top: 1.7vh">
+                            <div class="card-body">
+                                <p class="course-name">Explore more courses ></p>
+                            </div>
+                        </div>
+                         </a>
+                    </div>';
                 }else{
                     echo "No courses found.";
                 }
@@ -207,15 +225,42 @@
         </div>
         </div>
     </div>
+
+    <!-- Carousel -->
+
+    <!-- <div class="container" style="margin-left: 6.7vw;">
+    <div id="carouselExample" class="container carousel slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../Images/tu.png" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="../Images/ku.png" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="../Images/pu.jpeg" class="d-block w-100" alt="...">
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    </div> -->
     </div>
     
     <!-- Footer -->
     
-    <footer class="container mt-5 footer">
+    <footer class=" mt-5 footer">
         <div class="container">
             <div class="row container">
                 <div class="col-lg-9">
-                    <h5 class="text-uppercase">About Us</h5>
+                    <h5 class="text-uppercase about-title">About Us</h5>
                     <p class="lh-lg" style="text-align: justify;">
                         Hamrocollege is an extensive search engine for the students, parents, and education industry players who are seeking information on higher education sector in Nepal. 
                         One can rely on Hamrocollege for getting most brief and relevant data on colleges and universities.
@@ -223,7 +268,7 @@
                 </div>
                 
                 <div class="col ms-5 lh-lg">
-                    <h5 class="text-uppercase">Contact</h5>
+                    <h5 class="text-uppercase about-title">Contact</h5>
                     <ul class="list-unstyled">
                         <li><i class="fa-solid fa-building" style="color: black; font-size: 0.87rem; padding-left: 0.1vw; padding-right: 0.60vw;"></i> Hamro College Pvt. Ltd.</li>
                         <li><i class="fa-solid fa-location-dot" style="color: black; font-size: 0.87rem; padding-left: 0.1vw; padding-right: 0.60vw;"></i> Gwarko, Lalitpur</li>
@@ -233,7 +278,7 @@
                 </div>
             </div>
         </div>
-        <div class="p-1" style="margin-left: 1.25vw ; font-size: 0.87rem;">© Hamro College, All rights reserved 2023.</div>
+        <div class="container ps-4" style="font-size: 0.87rem;">© Hamro College, All rights reserved 2023.</div>
     </footer>
     
     <div class="top hidden" id="backToTop">

@@ -50,7 +50,6 @@
     <link rel="stylesheet" href="../CSS/user.css">
 </head>
 <body>
-        
     <!-- Search Result -->
 
     <?php
@@ -186,108 +185,82 @@
     <div class="background-color">
     <div class="container college-container">
         <p class="college-title">COLLEGES</p>
-        <div class="container text-center college-card">
-            <div class="row row-gap-4">
-                <div class="col">
-                    <a href="collegedetails.php" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Kathford International College of Engineering and Management</p>
-                                <p class="address">Balkumari, Lalitpur</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="collegedetails.php" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Kathford International College of Engineering and Management</p>
-                                <p class="address">Balkumari, Lalitpur</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="collegedetails.php" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Kathford International College of Engineering and Management</p>
-                                <p class="address">Balkumari, Lalitpur</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="collegedetails.php" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Kathford International College of Engineering and Management</p>
-                                <p class="address">Balkumari, Lalitpur</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+        <div class="text-center college-card">
+        <div class="row row-gap-4">
+            <?php
+                $sql = "SELECT * FROM college_data";
+                $stmt = $conn->query($sql);
+                if($stmt->rowCount() > 0){
+                    while($row = $stmt->fetch()){
+                        echo '<div class="col">
+                                <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
+                                <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 34vh">
+                                    <img src="../Images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
+                                    <div class="card-body">
+                                        <p class="college-name">' . $row['name'] . '</p>
+                                        <p class="address">' . $row['address'] . '</p>
+                                    </div>
+                                </div>
+                                </a>
+                        </div>';
+                    }
+                }else{
+                    echo "No colleges found.";
+                }
+            ?>
+        </div>
         </div>
     </div>
 
     <!-- Universities -->
 
-    <div class="container college-container">
+    <div class="container university-container">
         <p class="college-title">UNIVERSITIES</p>
-        <div class="container text-center college-card">
+        <div class="text-center college-card">
             <div class="row row-gap-4">
-                <div class="col">
-                    <a href="gadgetdetails.php" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../Images/tu-logo.png" class="card-img-top university-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Tribhuvan University</p>
-                            </div>
+            <div class="col">
+                <a href="category.php?affiliation=TU" class="card-link">
+                    <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                        <img src="../Images/tu-logo.png" class="card-img-top university-logo" alt="...">
+                        <div class="card-body">
+                            <p class="college-name">Tribhuvan University</p>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
+            </div>
 
-                <div class="col">
-                    <a href="gadgetdetails.php" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../Images/ku-logo.png" class="card-img-top university-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Kathmandu University</p>
-                            </div>
+            <div class="col">
+                <a href="category.php?affiliation=KU" class="card-link">
+                    <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                        <img src="../Images/ku-logo.png" class="card-img-top university-logo" alt="...">
+                        <div class="card-body">
+                            <p class="college-name">Kathmandu University</p>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
+            </div>
 
-                <div class="col">
-                    <a href="gadgetdetails.php" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../Images/pu-logo.png" class="card-img-top university-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Pokhara University</p>
-                            </div>
+            <div class="col">
+                <a href="category.php?affiliation=PU" class="card-link">
+                    <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                        <img src="../Images/pu-logo.png" class="card-img-top university-logo" alt="...">
+                        <div class="card-body">
+                            <p class="college-name">Pokhara University</p>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
+            </div>
 
-                <div class="col">
-                    <a href="gadgetdetails.php" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../Images/international-logo.jpg" class="card-img-top intl-university-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">International</p>
-                            </div>
+            <div class="col">
+                <a href="category.php?affiliation=International" class="card-link">
+                    <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                        <img src="../Images/international-logo.jpg" class="card-img-top intl-university-logo" alt="...">
+                        <div class="card-body">
+                            <p class="college-name">International</p>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
+            </div>
             </div>
         </div>
     </div>
@@ -304,9 +277,8 @@
         <div class="form">
             <p class="msg-header"><i class="fa-solid fa-robot" style="color: #121212; padding-right: 0.5vw;"></i>Hello there, how can I help you?</p>
         </div>
-        <input type="text" class="form-control bot-input"  id="bot-input" placeholder="Type something here.." required>
+        <input type="text" class="form-control bot-input" id="bot-input" placeholder="Type something here.." required>
         <button class="bot-send" id="bot-send" style="display: none;"><i class="fa-solid fa-paper-plane"></i></button>
-    </div>
     </div>
     </div>
 

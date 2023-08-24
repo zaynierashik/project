@@ -1,3 +1,12 @@
+<?php
+    session_start();
+    include 'connect.php';
+
+    if(!isset($_SESSION['username'])){
+        header('location: homepage.php');
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,42 +70,33 @@
 
     <!-- Admission -->
 
-    <div class="background-color" style="min-height: 73.5vh;">
+    <div class="background-color" style="min-height: 73.5vh; ">
     <div class="container admission-container">
         <p class="admission-title">FEATURED ADMISSION</p>
-        <div class="container text-center admission-card">
+        <div class="text-center admission-card">
             <div class="row row-gap-4">
-                <div class="col-md-3">
-                    <a href="coursedetails.php" class="card-link">
-                        <div class="card" style="width: 15.7rem; border-radius: 15px;">
-                            <img src="../Images/kathford.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="course-name">Kathford International College of Engineering and Management</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="coursedetails.php" class="card-link">
-                        <div class="card" style="width: 15.7rem; border-radius: 15px;">
-                            <img src="../Images/saim.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="course-name">South Asian Institute of Management (SAIM)</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="coursedetails.php" class="card-link">
-                        <div class="card" style="width: 15.7rem; border-radius: 15px;">
-                            <img src="../Images/herald.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="course-name">Herald College</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                
+                <?php
+                    $collegeIds = array(15, 5, 7, 10, 3);
+                    foreach ($collegeIds as $collegeId){
+                        $sql = "SELECT * FROM college_data WHERE collegeId = $collegeId";
+                        $stmt = $conn->query($sql);
+                    
+                        if($stmt->rowCount() > 0){
+                            $row = $stmt->fetch();
+                            echo '<div class="col">
+                                <a href="coursedetails.php?collegeId=' . $row['collegeId'] . '" class="card-link">
+                                    <div class="card" style="border-radius: 15px;">
+                                        <img src="../Images/' . $row['logo'] . '" class="card-img-top college-logo" alt="' . $row['name'] . '">
+                                        <div class="card-body">
+                                            <p class="course-name">' . $row['name'] . '</p>
+                                            <p class="address">' . $row['address'] . '</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>';
+                        }
+                    }
+                ?>
             </div>
         </div>
     </div>
