@@ -35,6 +35,15 @@
     padding-bottom: 1.5vh;
 }
 
+.manage-container .form-control{
+    font-size: 0.87rem;
+    height: 5.5vh;
+}
+
+.manage-container .form-check-label{
+    font-size: 0.87rem;
+}
+
 .college-details-table, .course-details-table{
     margin-bottom: 0;
 }
@@ -44,7 +53,7 @@
     font-weight: 500;
 }
 
-.college-title, .course-title, .admission-title, .about-title, .search-title{
+.college-title, .course-title, .admission-title, .about-title, .search-title, .manage-title{
     font-size: 1.7rem;
     font-weight: 500;
     color: #082465;
@@ -84,9 +93,9 @@
     width: 32.5vw;
 }
 
-.admission-table{
+/* .admission-table{
     width: 67%;
-}
+} */
 
 .hamrobot{
     background-color: #082465;

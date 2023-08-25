@@ -99,6 +99,8 @@
     <div class="background-color">
     <div id="admission">
         <div class="container admission-container">
+        <div class="row">
+            <div class="col">
             <p class="admission-title">APPLIED COLLEGE & COURSE</p>
             <table class="table table-striped admission-table">
                 <tr class="table-dark">
@@ -123,6 +125,39 @@
 
                 <?php } ?>
             </table>
+            </div>
+
+            <div class="col-4">
+                <p class="manage-title">MANAGE ACCOUNT</p>
+                <div class="manage-container" id="register">
+            <form action="" method="POST">
+                <div>
+                    <input type="text" class="form-control mb-3" name="name" id="name" placeholder="Name" readonly>
+                    <input type="phone" class="form-control mb-3" name="phone" id="phone" placeholder="Phone number" required>
+                    <input type="email" class="form-control mb-3" name="email" id="email" placeholder="Email address" required>
+                    <input type="password" class="form-control mb-2" name="password" id="password" placeholder="New Password" pattern="(?=.*\d)(?=.*[a-z]).{7,}" title="Must contain at least one number and one lowercase letter, and at least 7 or more characters" required>
+                </div>
+                
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" value="" id="showpassword" onclick="showPassword()">
+                    <label class="form-check-label" for="showpassword">Show Password</label>
+                </div>
+                
+                <div class="d-grid">
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary w-75" name="register-submit" id="register-submit" value="Register" style="background-color: #082465;">Save</button>
+                        </div>
+                        <div class="col">
+                            <i class="fa-solid fa-trash" style="color: black;"></i>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+            </div>
+        </div>
         </div>
     </div>
     </div>
