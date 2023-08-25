@@ -2,7 +2,7 @@
     session_start();
     include 'connect.php';
 
-    // $i_id = $_GET['userId'];
+    $i_id = $_GET['userId'];
 
     if(!isset($_SESSION['username'])){
         header('location: homepage.php');
@@ -128,13 +128,20 @@
             </div>
 
             <div class="col-4">
-                <p class="manage-title">MANAGE ACCOUNT</p>
-                <div class="manage-container" id="register">
-            <form action="" method="POST">
+            <p class="manage-title">MANAGE ACCOUNT</p>
+            <div class="manage-container">
+                <form action="" method="POST">
+                <?php
+                    $stmt = $conn->prepare("SELECT * FROM user_data WHERE userId = :userId");
+                    $stmt ->bindParam(':userId', $i_id);
+                    $stmt ->execute();
+                    $value = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    foreach($value as $row){?>
+
                 <div>
-                    <input type="text" class="form-control mb-3" name="name" id="name" placeholder="Name" readonly>
-                    <input type="phone" class="form-control mb-3" name="phone" id="phone" placeholder="Phone number" required>
-                    <input type="email" class="form-control mb-3" name="email" id="email" placeholder="Email address" required>
+                    <input type="text" class="form-control mb-3" name="name" id="name" placeholder="Name" value="<?php echo $row['name']; ?>" readonly>
+                    <input type="phone" class="form-control mb-3" name="phone" id="phone" placeholder="Phone number" value="<?php echo $row['phone']; ?>" required>
+                    <input type="email" class="form-control mb-3" name="email" id="email" placeholder="Email address" value="<?php echo $row['email']; ?>" required>
                     <input type="password" class="form-control mb-2" name="password" id="password" placeholder="New Password" pattern="(?=.*\d)(?=.*[a-z]).{7,}" title="Must contain at least one number and one lowercase letter, and at least 7 or more characters" required>
                 </div>
                 
@@ -144,18 +151,18 @@
                 </div>
                 
                 <div class="d-grid">
-                    <div class="row">
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary w-75" name="register-submit" id="register-submit" value="Register" style="background-color: #082465;">Save</button>
-                        </div>
-                        <div class="col">
-                            <i class="fa-solid fa-trash" style="color: black;"></i>
-                        </div>
-
-                    </div>
+                    <button type="submit" class="btn btn-primary w-100" name="update-submit" id="register-submit" value="Register" style="background-color: #082465;">Save</button>
                 </div>
-            </form>
-        </div>
+
+                <?php } ?>
+                </form>
+
+                <form action="" method="POST">
+                <div class="text-center mt-1">
+                    <button type="submit" class="btn" name="delete" id="delete" value="Register" style="color: black;">Delete account <i class="fa-solid fa-trash"></i></button>
+                </div>
+                </form>
+            </div>
             </div>
         </div>
         </div>
