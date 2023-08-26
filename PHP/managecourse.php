@@ -1,3 +1,80 @@
+<?php
+    session_start();
+    include 'connect.php';
+
+    if(!isset($_SESSION['institutionemail'])){
+        header('location: homepage.php');
+    }
+
+    if(isset($_POST['submit'])){
+        $affiliation = $_POST['affiliation'];
+        $field = $_POST['field'];
+        $title = $_POST['title'];
+        $abbreviation = $_POST['abbreviation'];
+        $content = nl2br($_POST['content']);
+        $eligibility = nl2br($_POST['eligibility']);
+        $job = nl2br($_POST['job']);
+
+        $sql = "SELECT * FROM course_data WHERE affiliation = ? && title = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt ->execute([$affiliation, $title]);
+        $result = $stmt->fetch();
+
+        if($result){
+            echo '<script> alert("Course already exists in database.") </script>';
+        }else{
+            if(empty($_POST['affiliation']) || empty($_POST['field']) || empty($_POST['title']) || empty($_POST['abbreviation']) || empty($_POST['content']) || empty($_POST['eligibility']) || empty($_POST['job'])){
+                echo '<script> alert("Please fill all the fields."); window.location.href = "managecourse.php"; </script>';
+            }else{
+                $sql = "INSERT INTO course_data (affiliation, field, title, abbreviation, content, eligibility, job) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt ->execute([$affiliation, $field, $title, $abbreviation, $content, $eligibility, $job]);
+                echo '<script> alert("Course added successfully."); window.location.href = "managecourse.php"; </script>';
+            }
+        }
+    }
+
+    if(isset($_POST['courseId'])){
+        $courseId = $_POST['courseId'];
+    }
+
+    $stmt = $conn->prepare("SELECT * FROM course_data WHERE courseId = :courseId");
+    $stmt ->bindParam(":courseId",$courseId);
+    $stmt ->execute();
+    $value = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $courseId = isset($value['courseId']) ? $value['courseId'] : '';
+    $title = isset($value['title']) ? $value['title'] : '';
+    $abbreviation = isset($value['abbreviation']) ? $value['abbreviation'] : '';
+    $content = isset($value['content']) ? $value['content'] : '';
+    $eligibility = isset($value['eligibility']) ? $value['eligibility'] : '';
+    $job = isset($value['job']) ? $value['job'] : '';
+
+    if(isset($_POST['update-submit'])){
+        $courseId = $_POST['courseId'];
+        $title = $_POST['title'];
+        $abbreviation = $_POST['abbreviation'];
+        $content = nl2br($_POST['content']);
+        $eligibility = nl2br($_POST['eligibility']);
+        $job = nl2br($_POST['job']);
+
+        if(empty($_POST['courseId']) || empty($_POST['title']) || empty($_POST['abbreviation']) || empty($_POST['content']) || empty($_POST['eligibility']) || empty($_POST['job'])){
+            echo '<script> alert("Please fill all the fields."); window.location.href = "managecourse.php"; </script>';
+        }else{
+            $stmt = $conn->prepare("UPDATE course_data SET courseId = :courseId, title = :title, abbreviation = :abbreviation, content = :content, eligibility = :eligibility, job = :job WHERE courseId = :courseId");
+            $stmt ->bindParam(":courseId", $courseId);
+            $stmt ->bindParam(":title", $title);
+            $stmt ->bindParam(":abbreviation", $abbreviation);
+            $stmt ->bindParam(":content", $content);
+            $stmt ->bindParam(":eligibility", $eligibility);
+            $stmt ->bindParam(":job", $job);
+            $stmt ->execute();
+    
+            echo '<script> alert("Course updated successfully."); window.location.href = "managecourse.php"; </script>';
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +105,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="usernavbar navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page">college@gmail.com</a>
+                        <a class="nav-link" aria-current="page"><?php echo $_SESSION['institutionemail'] ?></a>
                     </li>
                     <li class="nav-item">
                         <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>
@@ -44,7 +121,7 @@
                 <a href="institution.php" class="nav-link" aria-current="page">Dashboard</a>
             </li>
             <li class="nav-item ps-1">
-                <a href="managecollege.php" class="nav-link" aria-current="page">Manage College</a>
+                <a href="managecollege.php?institutionId=<?php echo $_SESSION['institutionId'] ?>" class="nav-link" aria-current="page">Manage College</a>
             </li>
             <li class="nav-item ps-1">
                 <a href="managecourse.php" class="nav-link active" aria-current="page">Manage Courses</a>
@@ -57,7 +134,7 @@
     <div class="background-color">
         <div class="container update-container">
         <p class="update-title">COURSE DETAILS <span class="add-course fs-6">Add Course</span></p>
-        <form action="" method="POST" class="form">
+        <form action="" method="POST">
             <div class="row mb-3">
                 <div class="col-2">
                     <select class="form-select" name="courseId" id="courseId" onchange="this.form.submit()">

@@ -1,3 +1,19 @@
+<?php
+    session_start();
+    include 'connect.php';
+
+    if (!isset($_SESSION['institutionemail'])) {
+        header('location: homepage.php');
+        exit();
+    }
+
+    $institutionId = $_SESSION['institutionId'];
+    $stmt = $conn->prepare("SELECT * FROM admission_data WHERE collegeId = :institutionId");
+    $stmt ->bindParam(':institutionId', $institutionId);
+    $stmt ->execute();
+    $admissionData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +29,7 @@
     <link rel="stylesheet" href="../CSS/institution.css">
 </head>
 <body>
+
     <!-- Navbar -->
 
     <nav class="navbar navbar-expand-lg">
@@ -28,7 +45,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="usernavbar navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page">college@gmail.com</a>
+                        <a class="nav-link" aria-current="page"><?php echo $_SESSION['institutionemail'] ?></a>
                     </li>
                     <li class="nav-item">
                         <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>
@@ -44,7 +61,7 @@
                 <a href="userpage.php" class="nav-link active" aria-current="page">Dashboard</a>
             </li>
             <li class="nav-item ps-1">
-                <a href="managecollege.php" class="nav-link" aria-current="page">Manage College</a>
+                <a href="managecollege.php?institutionId=<?php echo $_SESSION['institutionId'] ?>" class="nav-link" aria-current="page">Manage College</a>
             </li>
             <li class="nav-item ps-1">
                 <a href="managecourse.php" class="nav-link" aria-current="page">Manage Courses</a>
@@ -54,7 +71,7 @@
 
     <!-- Admission Table -->
 
-    <div class="background-color">
+    <div class="background-color" style="min-height: 73.5vh;">
         <div id="admission">
             <div class="container admission-container">
                 <p class="admission-title">ADMISSION LIST</p>
@@ -66,30 +83,25 @@
                         <td class="table-body">Phone Number</td>
                         <td class="table-body">Interested Course</td>
                     </tr>
+
+                    <?php
+                        $count = 1;
+                        foreach ($admissionData as $row){
+                    ?>
                     <tr>
-                        <td class="table-SN">S.N.</td>
-                        <td class="table-body">Rashik Chauhan</td>
-                        <td class="table-body">rashikchauhan@gmail.com</td>
-                        <td class="table-body">9800000000</td>
-                        <td class="table-body">BCA</td>
+                        <td class="table-SN"><?php echo $count++ ?></td>
+                        <td class="table-body"><?php echo $row['username'] ?></td>
+                        <td class="table-body"><?php echo $row['email'] ?></td>
+                        <td class="table-body"><?php echo $row['phone'] ?></td>
+                        <td class="table-body"><?php echo $row['title'] ?></td>
                     </tr>
-                    <tr>
-                        <td class="table-SN">S.N.</td>
-                        <td class="table-body">Rashik Chauhan</td>
-                        <td class="table-body">rashikchauhan@gmail.com</td>
-                        <td class="table-body">9800000000</td>
-                        <td class="table-body">BCA</td>
-                    </tr>
-                    <tr>
-                        <td class="table-SN">S.N.</td>
-                        <td class="table-body">Rashik Chauhan</td>
-                        <td class="table-body">rashikchauhan@gmail.com</td>
-                        <td class="table-body">9800000000</td>
-                        <td class="table-body">BCA</td>
-                    </tr>
+                    <?php 
+                        } 
+                    ?>
                 </table>
             </div>
         </div>
+    </div>
 
     <script src="../JS/institutionscript.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>

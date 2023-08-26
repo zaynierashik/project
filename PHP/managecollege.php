@@ -1,3 +1,71 @@
+<?php
+    session_start();
+    include 'connect.php';
+
+    $i_id = $_GET['institutionId'];
+
+    if(!isset($_SESSION['institutionemail'])){
+        header('location: homepage.php');
+    }
+
+    $stmt = $conn->prepare("SELECT * FROM college_data WHERE collegeId = :collegeId");
+    $stmt ->bindParam(":collegeId", $collegeId);
+    $stmt ->execute();
+    $value = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $collegeId = isset($value['collegeId']) ? $value['collegeId'] : '';
+    $affiliation = isset($value['affiliation']) ? $value['affiliation'] : '';
+    $name = isset($value['name']) ? $value['name'] : '';
+    $overview = isset($value['overview']) ? $value['overview'] : '';
+    $message = isset($value['message']) ? $value['message'] : '';
+    $reason = isset($value['reason']) ? $value['reason'] : '';
+    $program = isset($value['program']) ? $value['program'] : '';
+    $phone = isset($value['phone']) ? $value['phone'] : '';
+    $email = isset($value['email']) ? $value['email'] : '';
+    $website = isset($value['website']) ? $value['website'] : '';
+    $address = isset($value['address']) ? $value['address'] : '';
+    $location = isset($value['location']) ? $value['location'] : '';
+    $logo = isset($value['logo']) ? $value['logo'] : '';
+
+    if(isset($_POST['update-college-submit'])){
+        $collegeId = $_POST['collegeId'];
+        $affiliation = $_POST['affiliation'];
+        $name = $_POST['name'];
+        $overview = nl2br($_POST['overview']);
+        $message = nl2br($_POST['message']);
+        $reason = nl2br($_POST['reason']);
+        $program = nl2br($_POST['program']);
+        $phone = nl2br($_POST['phone']);
+        $email = nl2br($_POST['email']);
+        $website = nl2br($_POST['website']);
+        $address = nl2br($_POST['address']);
+        $location = nl2br($_POST['location']);
+        $logo = nl2br($_POST['logo']);
+
+        if(empty($_POST['collegeId']) || empty($_POST['affiliation']) || empty($_POST['name']) || empty($_POST['overview']) || empty($_POST['message']) || empty($_POST['reason']) || empty($_POST['program']) || empty($_POST['phone']) || empty($_POST['email']) || empty($_POST['website']) || empty($_POST['address']) || empty($_POST['location']) || empty($_POST['logo'])){
+            echo '<script> alert("Please fill all the fields."); window.location.href = "managecollege.php?institutionId="<?php echo $i_id; ?>""; </script>';
+        }else{
+            $stmt = $conn->prepare("UPDATE college_data SET collegeId = :collegeId, affiliation =:affiliation, name = :name, overview = :overview, message = :message, reason = :reason, program = :program, phone =:phone, email =:email, website =:website, address =:address, location =:location, logo = :logo WHERE collegeId = :collegeId");
+            $stmt ->bindParam(":collegeId", $i_id);
+            $stmt ->bindParam(":affiliation", $affiliation);
+            $stmt ->bindParam(":name", $name);
+            $stmt ->bindParam(":overview", $overview);
+            $stmt ->bindParam(":message", $message);
+            $stmt ->bindParam(":reason", $reason);
+            $stmt ->bindParam(":program", $program);
+            $stmt ->bindParam(":phone", $phone);
+            $stmt ->bindParam(":email", $email);
+            $stmt ->bindParam(":website", $website);
+            $stmt ->bindParam(":address", $address);
+            $stmt ->bindParam(":location", $location);
+            $stmt ->bindParam(":logo", $logo);
+            $stmt ->execute();
+    
+            echo '<script> alert("College updated successfully."); window.location.href = "managecollege.php?institutionId="<?php echo $i_id; ?>""; </script>';
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +97,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="usernavbar navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page">college@gmail.com</a>
+                        <a class="nav-link" aria-current="page"><?php echo $_SESSION['institutionemail'] ?></a>
                     </li>
                     <li class="nav-item">
                         <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>
@@ -45,7 +113,7 @@
                 <a href="institution.php" class="nav-link" aria-current="page">Dashboard</a>
             </li>
             <li class="nav-item ps-1">
-                <a href="managecollege.php" class="nav-link active" aria-current="page">Manage College</a>
+                <a href="managecollege.php?institutionId=<?php echo $_SESSION['institutionId'] ?>" class="nav-link active" aria-current="page">Manage College</a>
             </li>
             <li class="nav-item ps-1">
                 <a href="managecourse.php" class="nav-link" aria-current="page">Manage Courses</a>
@@ -62,13 +130,21 @@
     <div class="background-color">
     <div class="container update-container">
     <p class="update-title">COLLEGE DETAILS</p>
-    <form action="" method="POST" class="form">
+    <form action="" method="POST">
         <div class="row mb-3">
+        <?php
+            $stmt = $conn->prepare("SELECT * FROM college_data WHERE collegeId = :instiutionId");
+            $stmt -> bindParam(":instiutionId", $i_id);
+            $stmt -> execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    
+            foreach ($result as $value){
+        ?>
             <div class="col-2">
-                <input type="text" class="form-control" name="collegeId" id="collegeId" placeholder="College ID" value="College ID: ID" readonly>
+                <input type="text" class="form-control" name="collegeId" id="collegeId" placeholder="College ID" value="College ID: <?php echo $value['collegeId'] ?>" readonly>
             </div>
             <div class="col-2">
-                <select class="form-select" name="affiliation" id="affiliation">
+                <select class="form-select" name="affiliation" id="affiliation" style="font-size: 0.87rem;">
                     <option value="">Affiliation</option>
                     <option value="TU">TU</option>
                     <option value="KU">KU</option>
@@ -77,42 +153,43 @@
                 </select>
             </div>
             <div class="col">
-                <input type="text" class="form-control" name="name" id="name" placeholder="College Name" value="College Name" readonly>
+                <input type="text" class="form-control" name="name" id="name" placeholder="College Name" value="<?php echo $value['name'] ?>" readonly>
             </div>
         </div>
     
         <div>
-            <textarea class="form-control mb-2" name="overview" id="overview" rows="10" placeholder="About College"></textarea>
-            <textarea class="form-control mb-2" name="reason" id="reason" rows="10" placeholder="Reason to Enroll"></textarea>
-            <textarea class="form-control mb-2" name="message" id="message" rows="10" placeholder="Principal Message"></textarea>
-            <textarea class="form-control mb-3" name="program" id="program" rows="10" placeholder="Academic Programs"></textarea>
+            <textarea class="form-control mb-2" name="overview" id="overview" rows="11" placeholder="About College"><?php echo $value['overview'] ?></textarea>
+            <textarea class="form-control mb-2" name="reason" id="reason" rows="10" placeholder="Reason to Enroll"><?php echo $value['reason'] ?></textarea>
+            <textarea class="form-control mb-2" name="message" id="message" rows="10" placeholder="Principal Message"><?php echo $value['message'] ?></textarea>
+            <textarea class="form-control mb-3" name="program" id="program" rows="10" placeholder="Academic Programs"><?php echo $value['program'] ?></textarea>
         </div>
     
         <div class="row mb-2">
             <div class="col-3">
-                <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number" value="Phone Number">
+                <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number" value="<?php echo $value['phone'] ?>">
             </div>
             <div class="col">
-                <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="Email Address">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="<?php echo $value['email'] ?>">
             </div>
             <div class="col">
-                <input type="text" class="form-control" name="website" id="website" placeholder="Website" value="Website">
+                <input type="text" class="form-control" name="website" id="website" placeholder="Website" value="<?php echo $value['website'] ?>">
             </div>
         </div>
 
         <div class="row mb-2">
             <div class="col-3">
-                <input type="text" class="form-control" name="address" id="address" placeholder="Address" value="Address">
+                <input type="text" class="form-control" name="address" id="address" placeholder="Address" value="<?php echo $value['address'] ?>">
             </div>
             <div class="col">
-                <input type="file" class="form-control" name="logo" id="logo">
+                <input type="file" class="form-control" name="logo" id="logo" accept="logo/*">
             </div>
         </div>
     
-        <textarea class="form-control mb-4" name="program" id="program" rows="3" placeholder="Location"></textarea>
+        <textarea class="form-control mb-4" name="location" id="location" rows="3" placeholder="Location"><?php echo $value['location'] ?></textarea>
         <div class="d-grid">
             <button type="submit" class="btn btn-primary" name="update-college-submit" id="update-submit" value="Update" style="background-color: #082465;">Update</button>
         </div>
+        <?php } ?>
     </form>
     </div>
     </div>
