@@ -7,7 +7,7 @@
 
 .update-container, .add-container{
     margin: 7vh 0 0 7vw;
-    padding-bottom: 1vh;
+    padding-bottom: 1.5vh;
 }
 
 .update-title, .add-title{
@@ -16,7 +16,7 @@
     color: #082465;
 }
 
-.update-container .form-control{
+.update-container .form-control, .add-container .form-control{
     font-size: 0.87rem;
 }
 

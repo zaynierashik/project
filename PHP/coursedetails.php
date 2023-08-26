@@ -72,19 +72,10 @@
                 </td>
             </tr>
             <tr>
-                <td class="table-title">Job Prospect</td>
+                <td class="table-title">Job Prospects</td>
             </tr>
             <tr>
-                <td class="lh-lg">
-                <?php
-                    $job = explode("\n", $row['job']);
-                    echo "<ul class='job-list'>";
-                    foreach($job as $point){
-                        echo "<li>$point</li>";
-                    }
-                    echo "</ul>";
-                ?>
-                </td>
+                <td class="lh-lg"><?php echo $row['job']; ?></td>
             </tr>
             <tr>
                 <td class="table-title">Prospect Careers</td>
@@ -92,9 +83,9 @@
             <tr>
                 <td class="lh-lg">
                 <?php
-                    $job = explode("\n", $row['job']);
-                    echo "<ul class='job-list'>";
-                    foreach($job as $point){
+                    $career = explode("\n", $row['career']);
+                    echo "<ul>";
+                    foreach($career as $point){
                         echo "<li>$point</li>";
                     }
                     echo "</ul>";
