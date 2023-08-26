@@ -1,3 +1,17 @@
+<?php
+    session_start();
+    include 'connect.php';
+
+    if(!isset($_SESSION['adminname'])){
+        header('location: homepage.php');
+    }
+
+    $adminCount = $conn->query("SELECT COUNT(adminId) FROM admin_data") -> fetchColumn();
+    $courseCount = $conn->query("SELECT COUNT(courseId) FROM course_data") -> fetchColumn();
+    $userCount = $conn->query("SELECT COUNT(userId) FROM user_data") -> fetchColumn();
+    $collegeCount = $conn->query("SELECT COUNT(collegeId) FROM college_data") -> fetchColumn();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +27,7 @@
     <link rel="stylesheet" href="../CSS/admin.css">
 </head>
 <body>
+
     <!-- Navbar -->
 
     <nav class="navbar navbar-expand-lg">
@@ -28,7 +43,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="usernavbar navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page">admin@gmail.com</a>
+                        <a class="nav-link" aria-current="page"><?php echo $_SESSION['adminname'] ?></a>
                     </li>
                     <li class="nav-item">
                         <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>
@@ -49,7 +64,7 @@
         </ul>
     </div>
 
-    <div class="background-color">
+    <div class="background-color" style="min-height: 73.5vh;">
         <div class="container admin-container">
             <p class="admin-title">DASHBOARD</p>
             <div class="container text-center admin-card">
@@ -58,7 +73,7 @@
                         <div class="card" style="width: 14.7rem; height: auto; border-radius: 15px;">
                             <div class="card-body">
                                 <i class="fa-solid fa-user-tie fa-lg mb-5 mt-5" style="color: #000000; font-size: 2.5rem;"></i>
-                                <p class="total-count">Admin Count: 100</p>
+                                <p class="total-count">Admin Count: <?php echo $adminCount ?></p>
                             </div>
                         </div>
                     </div>
@@ -66,7 +81,7 @@
                         <div class="card" style="width: 14.7rem; height: auto; border-radius: 15px;">
                             <div class="card-body">
                                 <i class="fa-solid fa-user fa-lg mb-5 mt-5" style="color: #000000; font-size: 2.5rem;"></i>
-                                <p class="total-count" id="usercount">User Count: 100</p>
+                                <p class="total-count" id="usercount">User Count: <?php echo $userCount ?></p>
                             </div>
                         </div>
                     </div>
@@ -74,7 +89,7 @@
                         <div class="card" style="width: 14.7rem; height: auto; border-radius: 15px;">
                             <div class="card-body">
                                 <i class="fa-solid fa-building-columns fa-lg mb-5 mt-5" style="color: #000000; font-size: 2.5rem;"></i>
-                                <p class="total-count" id="collegecount">College Count: 100</p>
+                                <p class="total-count" id="collegecount">College Count: <?php echo $collegeCount ?></p>
                             </div>
                         </div>
                     </div>
@@ -82,7 +97,7 @@
                         <div class="card" style="width: 14.7rem; height: auto; border-radius: 15px;">
                             <div class="card-body">
                                 <i class="fa-sharp fa-solid fa-graduation-cap fa-lg mb-5 mt-5" style="color: #000000; font-size: 2.5rem;"></i>
-                                <p class="total-count" id="coursecount">Course Count: 100</p>
+                                <p class="total-count" id="coursecount">Course Count: <?php echo $courseCount ?></p>
                             </div>
                         </div>
                     </div>
@@ -100,7 +115,7 @@
 
         <!-- User -->
 
-        <div class="container admin-container" id="user-count-table" style="display: none;">
+        <div class="container display-container" id="user-count-table" style="display: none;">
             <p class="admin-title">USER</p>
             <table class="table table-striped user-table">
                 <tr class="table-dark">
@@ -109,58 +124,54 @@
                     <td class="table-body">Email Address</td>
                     <td class="table-body">Phone Number</td>
                 </tr>
+
+                <?php
+                    $stmt = $conn->prepare("SELECT * FROM user_data");
+                    $stmt ->execute();
+                    $count = 1;
+                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                ?>
                 <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
+                    <td class="table-SN"><?php echo $count++ ?></td>
+                    <td class="table-body"><?php echo $row['name'] ?></td>
+                    <td class="table-body"><?php echo $row['email'] ?></td>
+                    <td class="table-body"><?php echo $row['phone'] ?></td>
                 </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                </tr>
+                <?php } ?>
             </table>
         </div>
 
-        <!-- COLLEGE -->
+        <!-- College -->
 
-        <div class="container admin-container" id="college-count-table" style="display: none;">
+        <div class="container display-container" id="college-count-table" style="display: none;">
             <p class="admin-title">COLLEGE</p>
             <table class="table table-striped college-table">
                 <tr class="table-dark">
                     <td class="table-SN">S.N.</td>
                     <td class="table-body">College Name</td>
                     <td class="table-body">Email Address</td>
+                    <td class="table-body">Phone Number</td>
                 </tr>
+                
+                <?php
+                    $stmt = $conn->prepare("SELECT * FROM college_data");
+                    $stmt ->execute();
+                    $count = 1;
+                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                ?>
                 <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
+                    <td class="table-SN"><?php echo $count++ ?></td>
+                    <td class="table-body"><?php echo $row['name'] ?></td>
+                    <td class="table-body"><?php echo $row['email'] ?></td>
+                    <td class="table-body"><?php echo $row['phone'] ?></td>
                 </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                </tr>
+                <?php } ?>
             </table>
         </div>
 
-        <!-- COURSE -->
+        <!-- Course -->
 
-        <div class="container admin-container" id="course-count-table" style="display: none;">
+        <div class="container display-container" id="course-count-table" style="display: none;">
             <p class="admin-title">COURSE</p>
             <table class="table table-striped course-table">
                 <tr class="table-dark">
@@ -168,27 +179,25 @@
                     <td class="table-body">Course Name</td>
                     <td class="table-body">Abbreviation</td>
                 </tr>
+                
+                <?php
+                    $stmt = $conn->prepare("SELECT * FROM course_data");
+                    $stmt ->execute();
+                    $count = 1;
+                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                ?>
                 <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">BCA</td>
+                    <td class="table-SN"><?php echo $count++ ?></td>
+                    <td class="table-body"><?php echo $row['title'] ?></td>
+                    <td class="table-body"><?php echo $row['abbreviation'] ?></td>
                 </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">BCA</td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">BCA</td>
-                </tr>
+                <?php } ?>
             </table>
         </div>
 
         <!-- Feedback -->
 
-        <div class="container admin-container" id="feedback-count-table">
+        <div class="container display-container" id="feedback-count-table">
             <p class="admin-title">FEEDBACK</p>
             <table class="table table-striped feedback-table">
                 <tr class="table-dark">
@@ -197,24 +206,20 @@
                     <td class="table-body">Email Address</td>
                     <td class="table-body">Feedback</td>
                 </tr>
+                
+                <?php
+                    $stmt = $conn->prepare("SELECT * FROM feedback_data");
+                    $stmt ->execute();
+                    $count = 1;
+                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                ?>
                 <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
+                    <td class="table-SN"><?php echo $count++ ?></td>
+                    <td class="table-body"><?php echo $row['username'] ?></td>
+                    <td class="table-body"><?php echo $row['email'] ?></td>
+                    <td class="table-body"><?php echo $row['feedback'] ?></td>
                 </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                </tr>
+                <?php } ?>
             </table>
         </div>
     </div>

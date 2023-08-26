@@ -9,9 +9,15 @@
     margin: 11vh 0 0 5vw;
 }
 
-.admin-container{
-    margin: 7vh 0 5vh 7vw;
+.admin-container, .display-container{
+    margin: 7vh 0 0 7vw;
+    padding-top: 5vh;
     padding-bottom: 5vh;
+}
+
+.display-container{
+    margin-top: 0;
+    padding-top: 0;
 }
 
 .admin-container .card-link{

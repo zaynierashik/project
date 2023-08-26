@@ -1,3 +1,22 @@
+<?php
+    session_start();
+    include 'connect.php';
+
+    if(!isset($_SESSION['adminname'])){
+        header('location: homepage.php');
+    }
+
+    if (isset($_POST['delete'])) {
+        $adminId = $_POST['adminId'];
+        $stmt = $conn->prepare("DELETE FROM admin_data WHERE adminId = :adminId");
+        $stmt->bindParam(':adminId', $adminId);
+        $stmt->execute();
+    
+        header('Location: manageadmin.php');
+        exit();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +32,7 @@
     <link rel="stylesheet" href="../CSS/admin.css">
 </head>
 <body>
+
     <!-- Navbar -->
 
     <nav class="navbar navbar-expand-lg">
@@ -28,7 +48,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="usernavbar navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page">admin@gmail.com</a>
+                        <a class="nav-link" aria-current="page"><?php echo $_SESSION['adminname'] ?></a>
                     </li>
                     <li class="nav-item">
                         <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>
@@ -49,7 +69,7 @@
         </ul>
     </div>
 
-    <div class="background-color">
+    <div class="background-color" style="min-height: 73.5vh;">
         <div class="container admin-container">
             <p class="admin-title">ADMIN</p>
             <table class="table table-striped user-table">
@@ -60,79 +80,61 @@
                     <td class="table-body">Phone Number</td>
                     <td class="table-body"></td>
                 </tr>
+                
+                <?php
+                    $stmt = $conn->prepare("SELECT * FROM admin_data");
+                    $stmt ->execute();
+                    $count = 1;
+                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                ?>
                 <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                    <td class="table-body" style="text-align: center;"><i class="fa-solid fa-trash" style="color: black;"></i></td>
+                    <td class="table-SN"><?php echo $count++ ?></td>
+                    <td class="table-body"><?php echo $row['name'] ?></td>
+                    <td class="table-body"><?php echo $row['email'] ?></td>
+                    <td class="table-body"><?php echo $row['phone'] ?></td>
+                    <td class="table-body">
+                        <button type="button" class="btn delete" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-adminid="<?php echo $row['adminId']; ?>" style="color: black; font-size: 0.87rem; padding: 0;">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
                 </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                    <td class="table-body" style="text-align: center;"><i class="fa-solid fa-trash" style="color: black;"></i></td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                    <td class="table-body" style="text-align: center;"><i class="fa-solid fa-trash" style="color: black;"></i></td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                    <td class="table-body" style="text-align: center;"><i class="fa-solid fa-trash" style="color: black;"></i></td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                    <td class="table-body" style="text-align: center;"><i class="fa-solid fa-trash" style="color: black;"></i></td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                    <td class="table-body" style="text-align: center;"><i class="fa-solid fa-trash" style="color: black;"></i></td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                    <td class="table-body" style="text-align: center;"><i class="fa-solid fa-trash" style="color: black;"></i></td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                    <td class="table-body" style="text-align: center;"><i class="fa-solid fa-trash" style="color: black;"></i></td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                    <td class="table-body" style="text-align: center;"><i class="fa-solid fa-trash" style="color: black;"></i></td>
-                </tr>
-                <tr>
-                    <td class="table-SN">S.N.</td>
-                    <td class="table-body">Rashik Chauhan</td>
-                    <td class="table-body">rashikchauhan@gmail.com</td>
-                    <td class="table-body">9800000000</td>
-                    <td class="table-body" style="text-align: center;"><i class="fa-solid fa-trash" style="color: black;"></i></td>
-                </tr>
+                <?php } ?>
             </table>
         </div>
     </div>
+
+    <!-- Delete Confirmation -->
+
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                Are you sure you want to delete this account?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                    <input type="hidden" name="adminId" id="adminIdToDelete" value="">
+                    <button type="submit" class="btn btn-primary" name="delete" id="delete">Delete account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteButtons = document.querySelectorAll('.delete');
+            var adminIdInput = document.getElementById('adminIdToDelete');
+
+            deleteButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var adminId = button.getAttribute('data-adminid');
+                    adminIdInput.value = adminId;
+                });
+            });
+        });
+    </script>
 
     <script src="../JS/adminscript.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
