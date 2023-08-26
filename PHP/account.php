@@ -29,11 +29,11 @@
         $stmt = $conn->prepare("DELETE FROM user_data WHERE userId = :userId");
         $stmt->bindParam(':userId', $i_id);
         $stmt->execute();
-
+    
         session_destroy();
-        echo '<script>alert("Account deleted successfully."); window.location.href = "homepage.php";</script>';
+        echo '<script>window.location.href = "homepage.php";</script>';
         exit();
-    }
+    }    
 ?>
 
 <!DOCTYPE html>
@@ -151,21 +151,39 @@
                 </div>
                 
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary w-100" name="update-submit" id="register-submit" value="Register" style="background-color: #082465;">Save</button>
+                    <button type="submit" class="btn btn-primary w-100" name="update-submit" id="update-submit" value="Save" style="background-color: #082465;">Save</button>
                 </div>
 
                 <?php } ?>
                 </form>
 
-                <form action="" method="POST">
                 <div class="text-center mt-1">
-                    <button type="submit" class="btn" name="delete" id="delete" value="Register" style="color: black;">Delete account <i class="fa-solid fa-trash"></i></button>
+                    <button type="button" class="btn" name="showDeleteConfirmation" id="showDeleteConfirmation" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" style="color: black; font-size: 0.87rem;">
+                        Delete account <i class="fa-solid fa-trash"></i>
+                    </button>
                 </div>
-                </form>
             </div>
             </div>
         </div>
         </div>
+    </div>
+    </div>
+
+    <!-- Delete Confirmation -->
+
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            Are you sure you want to delete your account?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                <button type="submit" class="btn btn-primary" name="delete" id="delete">Delete account</button>
+            </form>
+        </div>
+    </div>
     </div>
     </div>
 
