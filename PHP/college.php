@@ -48,6 +48,7 @@
     <link rel="manifest" href="../Favicon/site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="../CSS/user.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <!-- Search Result -->
@@ -275,7 +276,7 @@
     <div class="bot" style="display: none;">
     <div class="hamrobot">Hamro Bot</div>
         <div class="form">
-            <p class="msg-header"><i class="fa-solid fa-robot" style="color: #121212; padding-right: 0.5vw;"></i>Hello there, how can I help you?</p>
+            <p class="msg-header"><i class="fa-solid fa-robot" style="color: #121212; padding-right: 0.5vw;"></i>Hello there, how can I help you? Maybe searching these keywords might help: colleges, courses.</p>
         </div>
         <input type="text" class="form-control bot-input" id="bot-input" placeholder="Type something here.." required>
         <button class="bot-send" id="bot-send" style="display: none;"><i class="fa-solid fa-paper-plane"></i></button>

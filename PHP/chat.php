@@ -17,9 +17,9 @@
             $collegeStmt = $conn->query($collegeQuery);
         
             while ($collegeRow = $collegeStmt->fetch(PDO::FETCH_ASSOC)) {
-                $collegeNames .= $collegeRow['name'] . ", ";
+                $collegeNames .= "- " . $collegeRow['name'] . "\n";
             }
-            $reply .= "\n\nHere are some colleges: " . rtrim($collegeNames, ', ');
+            $reply .= "Here are some colleges:\n" . $collegeNames;
         }
 
         if (strpos(strtolower($getMesg), 'courses') !== false) {
@@ -28,13 +28,13 @@
             $courseStmt = $conn->query($courseQuery);
         
             while ($courseRow = $courseStmt->fetch(PDO::FETCH_ASSOC)) {
-                $courseTitles .= $courseRow['title'] . ", ";
+                $courseTitles .= "- " . $courseRow['title'] . "\n";
             }
-            $reply .= "\n\nHere are some courses: " . rtrim($courseTitles, ', ');
+            $reply .= "Here are some courses:\n" . $courseTitles;
         }
 
-        echo $reply;
-    }else{
-        echo "Sorry, I can't understand you! Maybe try these keywords: colleges, courses.";
+        echo nl2br($reply);
+    } else {
+        echo "Sorry, I can't understand you. Maybe try searching these keywords: colleges, courses.";
     }
 ?>
