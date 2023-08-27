@@ -5,6 +5,21 @@
     if(!isset($_SESSION['username'])){
         header('location: homepage.php');
     }
+
+    if(isset($_POST['application-submit'])){
+        $username = $_POST['username'];
+        $phone = $_POST['phone'];
+        $email = $_POST['email'];
+        $collegeId = $_POST['collegeId'];
+        $title = $_POST['title'];
+        $message = $_POST['message'];
+    
+        $sql = "INSERT INTO admission_data (username, phone, email, collegeId, title, message) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        if($stmt->execute([$username, $phone, $email, $collegeId, $title, $message])){
+            header("location: admission.php");
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -70,34 +85,109 @@
 
     <!-- Admission -->
 
-    <div class="background-color" style="min-height: 73.5vh; ">
-    <div class="container admission-container">
-        <p class="admission-title">FEATURED ADMISSION</p>
+    <div class="background-color" style="min-height: 73.5vh;">
+    <div class="container application-container">
+        <div class="row">
+            <div class="col">
+            <p class="application-title">ADMISSION APPLICATION</p>
+            <form action="" method="POST">
+                <div>
+                    <label for="username" class="form-label">Full name</label>
+                    <input type="text" class="form-control mb-3" name="username" id="username" required>
+                    
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control mb-3" name="email" id="email" required>
+
+                    <label for="phone" class="form-label">Phone number</label>
+                    <input type="number" class="form-control mb-3" name="phone" id="phone" required>
+
+                    <label for="name" class="form-label">Apply to</label>
+                    <select class="form-select mb-3" name="collegeId" id="name" required>
+                        <option value=""></option>
+                        <?php
+                            $stmt = $conn->prepare("SELECT * FROM college_data");
+                            $stmt->execute();
+                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+                            foreach($result as $row){
+                                $selected = ($row['name'] == $_POST['name']) ? "selected" : "";
+                                echo "<option value='".$row['collegeId']."' ".$selected.">".$row['name']."</option>";
+                            }
+                        ?>
+                    </select>
+
+                    <label for="title" class="form-label">Program interested in</label>
+                    <select class="form-select mb-3" name="title" id="title" required>
+                        <option value=""></option>
+                        <?php
+                            $stmt = $conn->prepare("SELECT * FROM course_data");
+                            $stmt->execute();
+                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+                            foreach($result as $row){
+                                $selected = ($row['title'] == $_POST['title']) ? "selected" : "";
+                                echo "<option value='".$row['abbreviation']."' ".$selected.">".$row['title']."</option>";
+                            }
+                        ?>
+                    </select>
+
+                    <label for="message" class="form-label">Queries (Optional)</label>
+                    <textarea class="form-control mb-4" name="message" id="message" rows="3"></textarea>
+                </div>
+                
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary" name="application-submit" id="application-submit" value="Register" style="background-color: #082465;">Submit Application</button>
+                </div>
+            </form>
+            </div>
+
+            <div class="col-4">
+                <p class="admission-title mb-5" style="color: #e6e9ef;">BANNER</p>
+                <div class="mb-2">
+                    <img src="../images/kathfordImg.jpg" class="d-block w-100" alt="Kathford International College of Engineering and Management">
+                </div>
+                
+                <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="../images/softwaricaImg.jpg" class="d-block w-100" alt="Softwarica College of IT & E-commerce">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../images/islingtonImg.png" class="d-block w-100" alt="Islington College">
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+        <p class="admission-application-title">FEATURED ADMISSION</p>
         <div class="text-center admission-card">
             <div class="row row-gap-4">
-                <?php
-                    $collegeIds = array(15, 5, 7, 10, 3);
-                    foreach ($collegeIds as $collegeId){
-                        $sql = "SELECT * FROM college_data WHERE collegeId = $collegeId";
-                        $stmt = $conn->query($sql);
+            <?php
+                $collegeIds = array(15, 5, 7, 10, 3);
+                foreach ($collegeIds as $collegeId){
+                    $sql = "SELECT * FROM college_data WHERE collegeId = $collegeId";
+                    $stmt = $conn->query($sql);
                     
-                        if($stmt->rowCount() > 0){
-                            $row = $stmt->fetch();
-                            echo '<div class="col">
-                                <a href="coursedetails.php?collegeId=' . $row['collegeId'] . '" class="card-link">
-                                    <div class="card" style="border-radius: 15px;">
-                                        <img src="../images/' . $row['logo'] . '" class="card-img-top college-logo" alt="' . $row['name'] . '">
-                                        <div class="card-body">
-                                            <p class="course-name">' . $row['name'] . '</p>
-                                            <p class="address">' . $row['address'] . '</p>
-                                        </div>
+                    if($stmt->rowCount() > 0){
+                        $row = $stmt->fetch();
+                        echo '<div class="col">
+                            <a href="coursedetails.php?collegeId=' . $row['collegeId'] . '" class="card-link">
+                                <div class="card" style="border-radius: 15px;">
+                                    <img src="../images/' . $row['logo'] . '" class="card-img-top college-logo" alt="' . $row['name'] . '">
+                                    <div class="card-body">
+                                        <p class="course-name">' . $row['name'] . '</p>
+                                        <p class="address">' . $row['address'] . '</p>
                                     </div>
-                                </a>
-                            </div>';
-                        }
+                                </div>
+                            </a>
+                        </div>';
                     }
-                ?>
+                }
+            ?>
             </div>
+        </div>
         </div>
     </div>
     </div>

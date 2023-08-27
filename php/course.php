@@ -5,34 +5,6 @@
     if(!isset($_SESSION['username'])){
         header('location: homepage.php');
     }
-
-    $courseId;
-    $i = 0;
-    $searchValue;
-    @$count = $_GET['count'];
-    @$status = $_GET['status'];
-
-    do{
-        @$courseId = $_GET[$i];
-        @$collegeId = $_GET[$i];
-
-        if($courseId != null){
-            if($status == 1){
-                $stmt = $conn->prepare("SELECT * FROM course_data WHERE courseId = :courseId");
-                $stmt ->bindParam(':courseId', $courseId);
-            }else{
-                $stmt = $conn->prepare("SELECT * FROM college_data WHERE collegeId = :collegeId");
-                $stmt ->bindParam(':collegeId', $collegeId);
-            }
-
-            $stmt ->execute();
-            $value[$i] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $searchValue = true;
-        }else{
-            $searchValue = false;
-        }
-        $i++;
-    }while($i<$count);
 ?>
 
 <!DOCTYPE html>
@@ -51,86 +23,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <!-- Search Result -->
-
-    <?php
-    if($searchValue){?>
-        <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="userpage.php">
-                <img src="../images/logo.png" alt="hamrocollege" width="200" height="50">
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="usernavbar navbar-nav ms-auto">
-                <li class="nav-item">
-                    <form action="datasearch.php" method="POST" id="search" class="d-flex" role="search">
-                        <input type="search" name="search" class="form-control d-flex rounded-pill search-bar" placeholder="Search colleges, courses . . ." aria-label="Search">
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <a href="account.php?userId=<?php echo $_SESSION['userId']; ?>" class="nav-link" aria-current="page"><i class="fa-solid fa-user" style="color: #000000;"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page">user@gmail.com</a>
-                </li>
-                <li class="nav-item">
-                    <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>
-                </li>
-            </ul>
-            </div>
-        </div>
-        </nav>
-
-        <div class="background-color" style="min-height: 82.95vh;">
-        <div class="container search-title search-container">Found results:</div>
-        <div class="container">
-        <?php
-            foreach($value as $item){
-            if($status == 1){
-                echo '<div class="container text-center course-card">
-                    <div class="row row-gap-4">
-                    <div class="col">
-                        <a href="coursedetails.php?courseId=' . $item[0]['courseId'] . '" class="card-link">
-                        <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
-                        <div class="card-body">
-                            <p class="course-name">'.$item[0]['title'].'</p>
-                        </div>
-                        </div>
-                        </a>
-                    </div>
-                    </div>
-                </div>';
-            }
-            else{
-                echo '<div class="container text-center college-card">
-                    <div class="row row-gap-4">
-                    <div class="col">
-                        <a href="collegedetails.php?collegeId=' .$item[0]['collegeId'] . '" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../images/' . $item[0]['logo'] . '" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">' . $item[0]['name'] . '</p>
-                                <p class="address">' . $item[0]['address'] . '</p>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    </div>
-                </div>';
-            }
-            }
-        ?>
-        </div>
-        </div>
-        <?php 
-    }else{ 
-    ?>
-
     <!-- Navbar -->
 
     <nav class="navbar navbar-expand-lg">
@@ -193,7 +85,7 @@
                 $stmt = $conn->query($sql);
                 if($stmt->rowCount() > 0){
                     while($row = $stmt->fetch()){
-                        echo '<div class="col-md-3">
+                        echo '<div class="col">
                                 <a href="coursedetails.php?courseId=' . $row['courseId'] . '" class="card-link">
                                 <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
                                     <div class="card-body">
@@ -217,8 +109,8 @@
         <p class="course-title">DISCIPLINES</p>
         <p style="color: #082465;">Field of Studies</p>
         <div class="text-center course-card">
-            <div class="row row-gap-4">
-                <div class="col-2" style="width: 17.10vw;">
+            <div class="row row-gap-3">
+                <div class="col">
                     <a href="category.php?field=Computer and Information Technology" class="card-link">
                         <div class="card" style=" border-radius: 15px; padding-top: 5vh;">
                             <i class="fa-solid fa-microchip" style="color: #2b2b2b; font-size: 2.5rem;"></i>
@@ -228,7 +120,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-2" style="width: 17.10vw;">
+                <div class="col">
                     <a href="category.php?field=Engineering" class="card-link">
                         <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
                             <i class="fa-solid fa-helmet-safety" style="color: #2b2b2b; font-size: 2.5rem;"></i>
@@ -238,7 +130,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-2" style="width: 17.10vw;">
+                <div class="col">
                     <a href="category.php?field=Management" class="card-link">
                         <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
                             <i class="fa-solid fa-people-group" style="color: #2b2b2b; font-size: 2.5rem;"></i>
@@ -248,7 +140,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-2" style="width: 17.10vw;">
+                <div class="col">
                     <a href="category.php?field=Agriculture, Forestry and Animal Sciences" class="card-link">
                         <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
                             <i class="fa-solid fa-tree" style="color: #2b2b2b; font-size: 2.5rem;"></i>
@@ -258,7 +150,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-2" style="width: 17.10vw;">
+                <div class="col">
                     <a href="category.php?field=Science and Technology" class="card-link">
                         <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
                             <i class="fa-solid fa-microscope" style="color: #2b2b2b; font-size: 2.5rem;"></i>
@@ -268,7 +160,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-2" style="width: 17.10vw;">
+                <div class="col">
                     <a href="category.php?field=Humanities and Social Sciences" class="card-link">
                         <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
                             <i class="fa-solid fa-people-roof" style="color: #2b2b2b; font-size: 2.5rem;"></i>
@@ -278,7 +170,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-2" style="width: 17.10vw;">
+                <div class="col">
                     <a href="category.php?field=Health Professional Education" class="card-link">
                         <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
                             <i class="fa-solid fa-suitcase-medical" style="color: #2b2b2b; font-size: 2.5rem;"></i>
@@ -288,7 +180,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-2" style="width: 17.10vw;">
+                <div class="col">
                     <a href="category.php?field=Law" class="card-link">
                         <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
                             <i class="fa-solid fa-scale-balanced" style="color: #2b2b2b; font-size: 2.5rem;"></i>
@@ -318,8 +210,6 @@
         <button class="bot-send" id="bot-send" style="display: none;"><i class="fa-solid fa-paper-plane"></i></button>
     </div>
     </div>
-
-    <?php } ?>
 
     <script>
         function toggleChatBot(){

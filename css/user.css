@@ -30,14 +30,28 @@
     background-color: #e6e9ef;
 }
 
-.college-container, .course-container, .admission-container, .about-container, .search-container, .university-container, .discipline-container{
+.college-container, .course-container, .admission-container, .about-container, .search-container, .university-container, .discipline-container, .application-container, .feedback-container{
     margin: 7vh 0 0 7vw;
     padding-bottom: 1.5vh;
 }
 
-.manage-container .form-control{
+.feedback-container{
+    margin-top: 2vh;
+    padding-bottom: 5vh;
+}
+
+.application-container{
+    padding-top: 5vh;
+}
+
+.application-container input, .application-container .form-select, .application-container button, .admission-container button,
+.feedback-container input, .feedback-container button, .manage-container .form-control{
     font-size: 0.87rem;
     height: 5.5vh;
+}
+
+.feedback-container textarea, .application-container textarea{
+    font-size: 0.87rem;
 }
 
 .manage-container .form-check-label{
@@ -53,10 +67,18 @@
     font-weight: 500;
 }
 
-.college-title, .course-title, .admission-title, .about-title, .search-title, .manage-title{
+.college-title, .course-title, .admission-title, .about-title, .search-title, .manage-title, .application-title, .admission-application-title, .feedback-title{
     font-size: 1.7rem;
     font-weight: 500;
     color: #082465;
+}
+
+.admission-application-title{
+    padding-top: 9vh;
+}
+
+.search-title{
+    padding-top: 5vh;
 }
 
 .offering-college{
@@ -169,7 +191,7 @@
     position: relative;
     width: 93.5%;
     padding: 1.25vh 2vw 1.25vh 0.7vw;
-    margin: 0 0 0 0.7vw;
+    margin: 0.7vh 0 0 0.7vw;
     border: none;
     border-radius: 12px;
     background-color: #e6e9ef;
@@ -203,6 +225,12 @@
 
 .footer{
     font-size: 0.87rem;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 @media screen and (max-width: 992px){

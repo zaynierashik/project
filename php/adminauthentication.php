@@ -66,7 +66,7 @@
 
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="adminauthentication.html">
+            <a class="navbar-brand" href="adminauthentication.php">
                 <img src="../images/logo.png" alt="hamrocollege" width="200" height="50">
             </a>
         </div>
@@ -79,7 +79,7 @@
             <form action="" method="POST" class="form py-4">
                 <div>
                     <input type="text" class="form-control mb-3" name="name" id="name" placeholder="Name" required>
-                    <input type="phone" class="form-control mb-3" name="phone" id="phone" placeholder="Phone number" required>
+                    <input type="number" class="form-control mb-3" name="phone" id="phone" placeholder="Phone number" required>
                     <input type="email" class="form-control mb-3" name="email" id="email" placeholder="Email address" required>
                     <input type="password" class="form-control mb-2" name="password" id="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z]).{7,}" title="Must contain at least one number and one lowercase letter, and at least 7 or more characters" required>
                 </div>

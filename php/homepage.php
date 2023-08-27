@@ -172,9 +172,9 @@
                         </div>';
                     }
                     echo '<div class="col">
-                        <a class="card-link">
+                        <a id="exploreCollegesLink" class="card-link">
                         <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 12vh; padding-bottom: 12vh">
-                            <div class="card-body">
+                            <div class="card-body" style="cursor: pointer;">
                                 <p class="college-name">Explore more colleges ></p>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                 $stmt = $conn->query($sql);
                 if($stmt->rowCount() > 0){
                     while($row = $stmt->fetch()){
-                        echo '<div class="col-md-3">
+                        echo '<div class="col">
                                 <a href="coursedetails.php?courseId=' . $row['courseId'] . '" class="card-link">
                                 <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
                                     <div class="card-body">
@@ -210,13 +210,13 @@
                         </div>';
                     }
                     echo '<div class="col-md-3">
-                        <a class="card-link">
+                        <a id="exploreCoursesLink" class="card-link">
                         <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px; padding-top: 1.7vh">
-                            <div class="card-body">
+                            <div class="card-body" style="cursor: pointer;">
                                 <p class="course-name">Explore more courses ></p>
                             </div>
                         </div>
-                         </a>
+                        </a>
                     </div>';
                 }else{
                     echo "No courses found.";
@@ -224,6 +224,18 @@
             ?>
         </div>
         </div>
+    </div>
+
+    <!-- Login Message -->
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="userSuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Message</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">You need to login first.</div>
+    </div>
     </div>
 
     <!-- Carousel -->
@@ -280,21 +292,8 @@
         </div>
         <div class="container ps-4" style="font-size: 0.87rem;">© Hamro College, All rights reserved 2023.</div>
     </footer>
-    
-    <div class="top hidden" id="backToTop">
-        <a href="#top" class="top"><i class="fa-solid fa-arrow-right fa-rotate-270 fa-lg" style="color: black;"></i></a>
-    </div>
 
     <script>
-        window.onscroll = function(){
-            var backToTopDiv = document.getElementById("backToTop");
-            if(document.body.scrollTop > 750 || document.documentElement.scrollTop > 750){
-                backToTopDiv.style.display = "block";
-            }else{
-                backToTopDiv.style.display = "none";
-            }
-        };
-
         function showPassword(){
             var x = document.getElementById("password");
             if(x.type == "password"){
@@ -315,6 +314,24 @@
             });';
         }
     ?>
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            const exploreCollegesLink = document.querySelector("#exploreCollegesLink");
+            const exploreCoursesLink = document.querySelector("#exploreCoursesLink");
+            const successToast = new bootstrap.Toast(document.getElementById("userSuccessToast"));
+
+            exploreCollegesLink.addEventListener("click", function(event){
+                event.preventDefault();
+                successToast.show();
+            });
+
+            exploreCoursesLink.addEventListener("click", function(event){
+                event.preventDefault();
+                successToast.show();
+            });
+        });
     </script>
     
     <script src="../js/script.js"></script>

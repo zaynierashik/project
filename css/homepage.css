@@ -126,51 +126,8 @@ body{
     z-index: 999;
 }
 
-/* Extra Small Devices (portrait phones) */
-@media only screen and (max-width: 576px) {
-    .explore{
-        margin: 5vh 0 2.5vh 0.7vw;
-
-    }
-
-    .icon-one{
-        margin: 1vh 0 0 5vw;
-        width: 77%;
-    }
-
-    .college-container, .course-container{
-        margin: 0 0 0 0;
-    }
-
-    .footer{
-        margin: 0 0 0 0;
-        width: auto;
-    }
-
-    .top{
-        position: fixed;
-        bottom: 1.77vh;
-        right: 5vw;
-        z-index: 999;
-    }
-}
-
-/* Small Devices (landscape phones) */
-@media only screen and (min-width: 577px) and (max-width: 767px) {
-    /* Adjust styles for landscape phones here */
-}
-
-/* Medium Devices (tablets) */
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    /* Adjust styles for tablets here */
-}
-
-/* Large Devices (desktops) */
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-    /* Adjust styles for larger desktop screens here */
-}
-
-/* Extra Large Devices (large desktops) */
-@media only screen and (min-width: 1200px) {
-    /* Adjust styles for extra large desktop screens here */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

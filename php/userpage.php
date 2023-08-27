@@ -6,6 +6,22 @@
         header('location: homepage.php');
     }
 
+    if(isset($_POST['submit'])){
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $feedback = $_POST['feedback'];
+        
+        $sql = "INSERT INTO feedback_data (username, email, feedback) VALUES (:username, :email, :feedback)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':feedback', $feedback);
+
+        if($stmt->execute()){
+            $success = 1;
+        }
+    }
+
     $courseId;
     $i = 0;
     $searchValue;
@@ -87,44 +103,39 @@
         </nav>
 
         <div class="background-color" style="min-height: 82.95vh;">
-        <div class="container search-title search-container">Found results:</div>
-        <div class="container">
-        <?php
+        <div class="container search-container">
+        <p class="search-title">Found results:</p>
+        <div class="text-center course-card">
+            <div class="row row-gap-3">
+            <?php
             foreach($value as $item){
             if($status == 1){
-                echo '<div class="container text-center course-card">
-                    <div class="row row-gap-4">
-                    <div class="col">
-                        <a href="coursedetails.php?courseId=' . $item[0]['courseId'] . '" class="card-link">
-                        <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
+                echo '<div class="col">
+                    <a href="coursedetails.php?courseId=' . $item[0]['courseId'] . '" class="card-link">
+                    <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
                         <div class="card-body">
                             <p class="course-name">'.$item[0]['title'].'</p>
                         </div>
-                        </div>
-                        </a>
                     </div>
-                    </div>
+                    </a>
                 </div>';
             }
             else{
-                echo '<div class="container text-center college-card">
-                    <div class="row row-gap-4">
-                    <div class="col">
-                        <a href="collegedetails.php?collegeId=' .$item[0]['collegeId'] . '" class="card-link">
-                        <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../images/' . $item[0]['logo'] . '" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">' . $item[0]['name'] . '</p>
-                                <p class="address">' . $item[0]['address'] . '</p>
-                            </div>
+                echo '<div class="col">
+                    <a href="collegedetails.php?collegeId=' .$item[0]['collegeId'] . '" class="card-link">
+                    <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 34vh">
+                        <img src="../images/' . $item[0]['logo'] . '" class="card-img-top college-logo" alt="...">
+                        <div class="card-body">
+                            <p class="college-name">' . $item[0]['name'] . '</p>
+                            <p class="address">' . $item[0]['address'] . '</p>
                         </div>
-                        </a>
-                    </div>
-                    </div>
+                     </div>
+                    </a>
                 </div>';
             }
             }
         ?>
+        </div>
         </div>
         </div>
         <?php 
@@ -184,7 +195,7 @@
     <!-- About Us -->
 
     <div class="background-color">
-    <div id="aboutus">
+    <div>
         <div class="container about-container">
             <p class="about-title">ABOUT US</p>
             <p class="lh-lg" style="text-align: justify;">
@@ -202,6 +213,38 @@
                 Apart from that Hamrocollege also collaborates with colleges and organizations for the promotion of education through campaigns and events.
             </p>
         </div>
+
+        <div class="container feedback-container">
+            <p class="feedback-title">FEEDBACK</p>
+            <form action="" method="POST">
+                <div>
+                    <label for="username" class="form-label">Name</label>
+                    <input type="text" class="form-control mb-3" name="username" id="username" required>
+                    
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control mb-3" name="email" id="email" required>
+
+                    <label for="feedback" class="form-label">Feedback</label>
+                    <textarea class="form-control mb-4" name="feedback" id="feedback" rows="3"></textarea>
+                </div>
+                
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary" name="submit" id="submit" style="background-color: #082465;">Submit Feedback</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Successful Message -->
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="userSuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Successful</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">Your feedback has been submitted.</div>
+    </div>
     </div>
 
     <!-- Footer -->
@@ -215,12 +258,23 @@
             <i class="fa-solid fa-phone" style="color: black; margin-left: 11px;"></i> +977 9876543210
             <i class="fa-solid fa-envelope" style="color: black; margin-left: 11px;"></i> info@hamrocollege.com
         </div>
-        </div>
+    </div>
     </footer>
 
     </div>
 
     <?php } ?>
+
+    <script>
+    <?php
+        if(isset($success) && $success === 1){
+            echo 'document.addEventListener("DOMContentLoaded", function() {
+                var successToast = new bootstrap.Toast(document.getElementById("userSuccessToast"));
+                successToast.show();
+            });';
+        }
+    ?>
+    </script>
 
     <script src="../js/userscript.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
