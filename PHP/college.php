@@ -47,7 +47,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../Favicon/favicon-16x16.png">
     <link rel="manifest" href="../Favicon/site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="../CSS/user.css">
+    <link rel="stylesheet" href="../css/user.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -58,7 +58,7 @@
         <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="userpage.php">
-                <img src="../Images/logo.png" alt="hamrocollege" width="200" height="50">
+                <img src="../images/logo.png" alt="hamrocollege" width="200" height="50">
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,7 +112,7 @@
                     <div class="col">
                         <a href="collegedetails.php?collegeId=' .$item[0]['collegeId'] . '" class="card-link">
                         <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                            <img src="../Images/' . $item[0]['logo'] . '" class="card-img-top college-logo" alt="...">
+                            <img src="../images/' . $item[0]['logo'] . '" class="card-img-top college-logo" alt="...">
                             <div class="card-body">
                                 <p class="college-name">' . $item[0]['name'] . '</p>
                                 <p class="address">' . $item[0]['address'] . '</p>
@@ -136,7 +136,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="userpage.php">
-                <img src="../Images/logo.png" alt="hamrocollege" width="200" height="50">
+                <img src="../images/logo.png" alt="hamrocollege" width="200" height="50">
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -196,7 +196,7 @@
                         echo '<div class="col">
                                 <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
                                 <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 34vh">
-                                    <img src="../Images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
+                                    <img src="../images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
                                     <div class="card-body">
                                         <p class="college-name">' . $row['name'] . '</p>
                                         <p class="address">' . $row['address'] . '</p>
@@ -222,7 +222,7 @@
             <div class="col">
                 <a href="category.php?affiliation=TU" class="card-link">
                     <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                        <img src="../Images/tu-logo.png" class="card-img-top university-logo" alt="...">
+                        <img src="../images/tu-logo.png" class="card-img-top university-logo" alt="...">
                         <div class="card-body">
                             <p class="college-name">Tribhuvan University</p>
                         </div>
@@ -233,7 +233,7 @@
             <div class="col">
                 <a href="category.php?affiliation=KU" class="card-link">
                     <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                        <img src="../Images/ku-logo.png" class="card-img-top university-logo" alt="...">
+                        <img src="../images/ku-logo.png" class="card-img-top university-logo" alt="...">
                         <div class="card-body">
                             <p class="college-name">Kathmandu University</p>
                         </div>
@@ -244,7 +244,7 @@
             <div class="col">
                 <a href="category.php?affiliation=PU" class="card-link">
                     <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                        <img src="../Images/pu-logo.png" class="card-img-top university-logo" alt="...">
+                        <img src="../images/pu-logo.png" class="card-img-top university-logo" alt="...">
                         <div class="card-body">
                             <p class="college-name">Pokhara University</p>
                         </div>
@@ -255,7 +255,7 @@
             <div class="col">
                 <a href="category.php?affiliation=International" class="card-link">
                     <div class="card" style="width: 18.75rem; border-radius: 15px;">
-                        <img src="../Images/international-logo.jpg" class="card-img-top intl-university-logo" alt="...">
+                        <img src="../images/international-logo.jpg" class="card-img-top intl-university-logo" alt="...">
                         <div class="card-body">
                             <p class="college-name">International</p>
                         </div>
@@ -333,7 +333,7 @@
         });
     </script>
     
-    <script src="../JS/userscript.js"></script>
+    <script src="../js/userscript.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 

@@ -15,7 +15,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../Favicon/favicon-16x16.png">
     <link rel="manifest" href="../Favicon/site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="../CSS/user.css">
+    <link rel="stylesheet" href="../css/user.css">
 </head>
 <body>
     
@@ -24,7 +24,7 @@
     <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="homepage.php">
-            <img src="../Images/logo.png" alt="hamrocollege" width="200" height="50">
+            <img src="../images/logo.png" alt="hamrocollege" width="200" height="50">
         </a>
     </div>
     </nav>
@@ -49,7 +49,7 @@
                 foreach($result as $row){
             ?>
             <tr>
-                <th scope="col" class="text-center h4" colspan="2"><img src="../Images/<?php echo $row['logo']; ?>" class="img-fluid" alt="College Logo"> <?php echo $row['name']; ?></th>
+                <th scope="col" class="text-center h4" colspan="2"><img src="../images/<?php echo $row['logo']; ?>" class="img-fluid" alt="College Logo"> <?php echo $row['name']; ?></th>
             </tr>
         </thead>
         <tbody>
@@ -127,7 +127,7 @@
         }
     ?>
     
-    <script src="../JS/script.js"></script>
+    <script src="../js/script.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 

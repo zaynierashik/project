@@ -35,14 +35,14 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../Favicon/favicon-16x16.png">
     <link rel="manifest" href="../Favicon/site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="../CSS/user.css">
+    <link rel="stylesheet" href="../css/user.css">
 </head>
 <body>
 
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="userpage.php">
-                <img src="../Images/logo.png" alt="hamrocollege" width="200" height="50">
+                <img src="../images/logo.png" alt="hamrocollege" width="200" height="50">
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,7 +80,7 @@
                 <div class="col">
                     <a href="collegedetails.php?collegeId=<?php echo $college['collegeId']; ?>" class="card-link">
                         <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 34vh">
-                            <img src="../Images/<?php echo $college['logo']; ?>" class="card-img-top college-logo" alt="<?php echo $college['name']; ?>">
+                            <img src="../images/<?php echo $college['logo']; ?>" class="card-img-top college-logo" alt="<?php echo $college['name']; ?>">
                             <div class="card-body">
                                 <p class="college-name"><?php echo $college['name']; ?></p>
                                 <p class="address"><?php echo $college['address']; ?></p>

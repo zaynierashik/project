@@ -61,7 +61,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../Favicon/favicon-16x16.png">
     <link rel="manifest" href="../Favicon/site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="../CSS/homepage.css">
+    <link rel="stylesheet" href="../css/homepage.css">
 </head>
 <body>
 
@@ -70,7 +70,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="homepage.php">
-                <img src="../Images/logo.png" alt="hamrocollege" width="200" height="50">
+                <img src="../images/logo.png" alt="hamrocollege" width="200" height="50">
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,7 +97,7 @@
                 <div class="my-1 search">Searching for colleges to expand your study? Explore some of the best colleges around you.</div>
             </div>
             <div class="col text-center">
-                <img src="../Images/icon.png" class="img-fluid icon-one" alt="Illustration">
+                <img src="../images/icon.png" class="img-fluid icon-one" alt="Illustration">
             </div>
         </div>
     </div>
@@ -162,7 +162,7 @@
                         echo '<div class="col">
                                 <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
                                 <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 34vh">
-                                    <img src="../Images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
+                                    <img src="../images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
                                     <div class="card-body">
                                         <p class="college-name">' . $row['name'] . '</p>
                                         <p class="address">' . $row['address'] . '</p>
@@ -232,13 +232,13 @@
     <div id="carouselExample" class="container carousel slide">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="../Images/tu.png" class="d-block w-100" alt="...">
+                <img src="../images/tu.png" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="../Images/ku.png" class="d-block w-100" alt="...">
+                <img src="../images/ku.png" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="../Images/pu.jpeg" class="d-block w-100" alt="...">
+                <img src="../images/pu.jpeg" class="d-block w-100" alt="...">
             </div>
         </div>
 
@@ -317,7 +317,7 @@
     ?>
     </script>
     
-    <script src="../JS/script.js"></script>
+    <script src="../js/script.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
