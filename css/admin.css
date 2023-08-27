@@ -1,0 +1,60 @@
+@import url(user.css);
+
+.register-container{
+    margin: 5vh 0 2.5vh 2.2vw;
+    padding-bottom: 2.7vh;
+}
+
+.login-container{
+    margin: 11vh 0 0 5vw;
+}
+
+.admin-container, .display-container{
+    margin: 7vh 0 0 7vw;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+}
+
+.display-container{
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.admin-container .card-link{
+    cursor: pointer;
+}
+
+.register-container .form-control, .login-container .form-control,
+.register-container button, .login-container button{
+    font-size: 0.87rem;
+    height: 5.5vh;
+}
+
+.register-container .form-check-label, .login-container .form-check-label{
+    font-size: 0.87rem;
+}
+
+.admin-title, .register-title{
+    font-size: 1.7rem;
+    font-weight: 500;
+}
+
+.feedback-table, .user-table, .college-table, .course-table{
+    margin: 0 0 0 0.8vw;
+    width: 98.07%
+}
+
+@media screen and (max-width: 992px){
+    .register-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .login-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 5vh 0 0 2.2vw;
+    }
+}
