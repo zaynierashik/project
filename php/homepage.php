@@ -21,17 +21,22 @@
     
         if($userauth){
             if($userauth['role'] == 'institution' && password_verify($password, $userauth['password'])){
-                $_SESSION['institutionemail'] = $userauth['email'];
-                $_SESSION['institutionName'] = $userauth['name'];
-    
                 $stmt2 = $conn->prepare("SELECT * FROM institution_data WHERE email=:email");
                 $stmt2 ->bindParam(':email', $userauth['email']);
                 $stmt2 ->execute();
                 $userauthentication = $stmt2->fetch();
-    
-                $_SESSION['institutionId'] = $userauthentication['institutionId'];
-                header("location: institution.php");
-                exit;
+
+                if($userauthentication['status'] == 'Approved'){
+                    $_SESSION['institutionemail'] = $userauth['email'];
+                    $_SESSION['institutionName'] = $userauth['name'];
+                    $_SESSION['institutionId'] = $userauthentication['institutionId'];
+                    header("location: institution.php");
+                    exit;
+                }elseif($userauthentication['status'] == 'Pending'){
+
+                }else{
+                    
+                }
             }
             elseif($userauth['role'] == 'user' && password_verify($password, $userauth['password'])){
                 $_SESSION['username'] = $userauth['email'];

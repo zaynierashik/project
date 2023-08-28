@@ -61,6 +61,9 @@
             <li class="nav-item ps-1">
                 <a href="manageadmin.php" class="nav-link" aria-current="page">Manage Admin</a>
             </li>
+            <li class="nav-item ps-1">
+                <a href="managecolleges.php" class="nav-link" aria-current="page">Manage Colleges</a>
+            </li>
         </ul>
     </div>
 

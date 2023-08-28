@@ -5,16 +5,6 @@
     if(!isset($_SESSION['adminname'])){
         header('location: homepage.php');
     }
-
-    if (isset($_POST['delete'])) {
-        $adminId = $_POST['adminId'];
-        $stmt = $conn->prepare("DELETE FROM admin_data WHERE adminId = :adminId");
-        $stmt->bindParam(':adminId', $adminId);
-        $stmt->execute();
-    
-        header('Location: manageadmin.php');
-        exit();
-    }
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +20,7 @@
     <link rel="manifest" href="../favicon/site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/admin.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <!-- Navbar -->
@@ -63,28 +54,29 @@
                 <a href="adminpage.php" class="nav-link" aria-current="page">Dashboard</a>
             </li>
             <li class="nav-item ps-1">
-                <a href="manageadmin.php" class="nav-link active" aria-current="page">Manage Admin</a>
+                <a href="manageadmin.php" class="nav-link" aria-current="page">Manage Admin</a>
             </li>
             <li class="nav-item ps-1">
-                <a href="managecolleges.php" class="nav-link" aria-current="page">Manage Colleges</a>
+                <a href="managecolleges.php" class="nav-link active" aria-current="page">Manage Colleges</a>
             </li>
         </ul>
     </div>
 
     <div class="background-color" style="min-height: 73.5vh;">
         <div class="container admin-container">
-            <p class="admin-title">ADMIN</p>
-            <table class="table table-striped user-table">
+            <p class="admin-title">COLLEGE</p>
+            <table class="table table-striped college-table">
                 <tr class="table-dark">
                     <td class="table-SN">S.N.</td>
-                    <td class="table-body">Name</td>
+                    <td class="table-body">College Name</td>
                     <td class="table-body">Email Address</td>
                     <td class="table-body">Phone Number</td>
-                    <td class="table-body"></td>
+                    <td class="table-body">Update Status</td>
+                    <td class="table-body">Status</td>
                 </tr>
                 
                 <?php
-                    $stmt = $conn->prepare("SELECT * FROM admin_data");
+                    $stmt = $conn->prepare("SELECT * FROM institution_data");
                     $stmt ->execute();
                     $count = 1;
                     while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -94,49 +86,37 @@
                     <td class="table-body"><?php echo $row['name'] ?></td>
                     <td class="table-body"><?php echo $row['email'] ?></td>
                     <td class="table-body"><?php echo $row['phone'] ?></td>
-                    <td class="table-body">
-                        <button type="button" class="btn delete" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-adminid="<?php echo $row['adminId']; ?>" style="color: black; font-size: 0.87rem; padding: 0;">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                    <td>
+                        <select class="form-select" name="status" onchange="updateStatus(this, <?= $row['institutionId']; ?>)">
+                            <option value="" disabled selected>Update</option>
+                            <option value="Approved">Approve</option>
+                            <option value="Rejected">Reject</option>
+                        </select>
                     </td>
+                    <td id="status-<?= $row['institutionId']; ?>"><?= $row['status']; ?></td>
                 </tr>
                 <?php } ?>
-                
             </table>
         </div>
     </div>
 
-    <!-- Delete Confirmation -->
-
-    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                Are you sure you want to delete this account?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-                    <input type="hidden" name="adminId" id="adminIdToDelete" value="">
-                    <button type="submit" class="btn btn-primary" name="delete" id="delete">Delete account</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    </div>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var deleteButtons = document.querySelectorAll('.delete');
-            var adminIdInput = document.getElementById('adminIdToDelete');
+    function updateStatus(selectElement, institutionId){
+        var status = selectElement.value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'updatestatus.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-            deleteButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var adminId = button.getAttribute('data-adminid');
-                    adminIdInput.value = adminId;
-                });
-            });
-        });
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+                var statusCell = document.getElementById('status-' + institutionId);
+                statusCell.textContent = status;
+            }
+        };
+
+        var data = 'institutionId=' + encodeURIComponent(institutionId) + '&status=' + encodeURIComponent(status);
+        xhr.send(data);
+    }
     </script>
 
     <script src="../js/adminscript.js"></script>
