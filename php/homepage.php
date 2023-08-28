@@ -32,10 +32,10 @@
                     $_SESSION['institutionId'] = $userauthentication['institutionId'];
                     header("location: institution.php");
                     exit;
-                }elseif($userauthentication['status'] == 'Pending'){
+                }elseif($userauthentication['status'] == 'Rejected'){
 
                 }else{
-                    
+
                 }
             }
             elseif($userauth['role'] == 'user' && password_verify($password, $userauth['password'])){
@@ -45,7 +45,6 @@
                 $stmt3 ->bindParam(':email', $userauth['email']);
                 $stmt3 ->execute();
                 $userauthentication = $stmt3->fetch();
-    
                 $_SESSION['userId'] = $userauthentication['userId'];
                 header("location: userpage.php");
                 exit;
@@ -69,7 +68,6 @@
     <link rel="stylesheet" href="../css/homepage.css">
 </head>
 <body>
-
     <!-- Navbar -->
     
     <nav class="navbar navbar-expand-lg">
@@ -136,18 +134,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    </div>
-
-    <!-- Error Message -->
-
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="userErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">Login Error</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body" id="errorToastBody"></div>
     </div>
     </div>
 
@@ -242,33 +228,32 @@
         <div class="toast-body">You need to login first.</div>
     </div>
     </div>
+    
+    <!-- Error Message -->
 
-    <!-- Carousel -->
-
-    <!-- <div class="container" style="margin-left: 6.7vw;">
-    <div id="carouselExample" class="container carousel slide">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="../images/tu.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="../images/ku.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="../images/pu.jpeg" class="d-block w-100" alt="...">
-            </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="userErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Login Error</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+        <div class="toast-body" id="errorToastBody"></div>
     </div>
-    </div> -->
+    </div>
+
+    
+    <!-- Status Message -->
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="statusToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Status Message</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="statusBody"></div>
+    </div>
+    </div>
+
     </div>
     
     <!-- Footer -->
@@ -315,6 +300,24 @@
             echo 'document.addEventListener("DOMContentLoaded", function() {
                 var errorToast = new bootstrap.Toast(document.getElementById("userErrorToast"));
                 document.getElementById("errorToastBody").innerText = "Incorrect email or password.";
+                errorToast.show();
+            });';
+        }
+    ?>
+    </script>
+
+    <script>
+    <?php
+        if($userauthentication['status'] == 'Rejected'){
+            echo 'document.addEventListener("DOMContentLoaded", function() {
+                var errorToast = new bootstrap.Toast(document.getElementById("statusToast"));
+                document.getElementById("statusBody").innerText = "Your account has been rejected.";
+                errorToast.show();
+            });';
+        }elseif($userauthentication['status'] == 'Pending'){
+            echo 'document.addEventListener("DOMContentLoaded", function() {
+                var errorToast = new bootstrap.Toast(document.getElementById("statusToast"));
+                document.getElementById("statusBody").innerText = "Your account is pending for approval.";
                 errorToast.show();
             });';
         }

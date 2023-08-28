@@ -42,14 +42,14 @@
         if($result){
             
         }else{
-            $sql = "INSERT INTO institution_data (name, phone, email, password) VALUES (?, ?, ?, ?)";
+            $sql = "INSERT INTO institution_data (name, phone, email, password, status) VALUES (?, ?, ?, ?, 'Pending')";
             $stmt = $conn->prepare($sql);
 
-            if ($stmt->execute([$name, $phone, $email, $hashed_password])) {
+            if($stmt->execute([$name, $phone, $email, $hashed_password])){
                 $sql = "INSERT INTO college_data (name) VALUES (?)";
                 $stmt = $conn->prepare($sql);
 
-                if ($stmt->execute([$name])) {
+                if($stmt->execute([$name])){
                     $success = 1;
                     header("Refresh: 3; url=homepage.php");
                 }
