@@ -157,7 +157,7 @@
                 </tr>
                 
                 <?php
-                    $stmt = $conn->prepare("SELECT * FROM college_data");
+                    $stmt = $conn->prepare("SELECT * FROM institution_data WHERE status = 'Approved'");
                     $stmt ->execute();
                     $count = 1;
                     while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
