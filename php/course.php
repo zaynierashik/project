@@ -43,10 +43,10 @@
                         </form>
                     </li>
                     <li class="nav-item">
-                        <a href="account.php" class="nav-link" aria-current="page"><i class="fa-solid fa-user" style="color: #000000;"></i></a>
+                        <a href="account.php?userId=<?php echo $_SESSION['userId']; ?>" class="nav-link" aria-current="page"><i class="fa-solid fa-user" style="color: #000000;"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page">user@gmail.com</a>
+                        <a class="nav-link" aria-current="page"><?php echo $_SESSION['username']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>

@@ -56,7 +56,7 @@
                         <a href="account.php?userId=<?php echo $_SESSION['userId']; ?>" class="nav-link" aria-current="page"><i class="fa-solid fa-user" style="color: #000000;"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page">user@gmail.com</a>
+                        <a class="nav-link" aria-current="page"><?php echo $_SESSION['username']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a href="logout.php" class="nav-link logout-nav" aria-current="page">logout</a>
@@ -144,16 +144,16 @@
             <div class="col-4">
                 <p class="admission-title mb-5" style="color: #e6e9ef;">BANNER</p>
                 <div class="mb-2">
-                    <img src="../images/kathfordImg.jpg" class="d-block w-100" alt="Kathford International College of Engineering and Management">
+                    <a href="https://kathford.edu.np/" target="_blank"><img src="../images/kathfordImg.jpg" class="d-block w-100" alt="Kathford International College of Engineering and Management"></a>
                 </div>
                 
                 <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="../images/softwaricaImg.jpg" class="d-block w-100" alt="Softwarica College of IT & E-commerce">
+                        <a href="https://softwarica.edu.np/" target="_blank"><img src="../images/softwaricaImg.jpg" class="d-block w-100" alt="Softwarica College of IT & E-commerce"></a>
                     </div>
                     <div class="carousel-item">
-                        <img src="../images/islingtonImg.png" class="d-block w-100" alt="Islington College">
+                        <a href="https://islington.edu.np/" target="_blank"><img src="../images/islingtonImg.png" class="d-block w-100" alt="Islington College"></a>
                     </div>
                 </div>
                 </div>
