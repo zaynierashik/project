@@ -40,6 +40,8 @@
         $courseId = $_POST['courseId'];
     }
 
+    $collegeId = $_SESSION['institutionId'];
+
     $stmt = $conn->prepare("SELECT * FROM course_data WHERE courseId = :courseId");
     $stmt ->bindParam(":courseId", $courseId);
     $stmt ->execute();
@@ -146,13 +148,14 @@
                 <select class="form-select" name="courseId" id="courseId" style="font-size: 0.87rem;" onchange="this.form.submit()">
                     <option value="">Course ID</option>
                     <?php
-                        $stmt = $conn->prepare("SELECT courseId FROM course_data");
-                        $stmt ->execute();
+                        $stmt = $conn->prepare("SELECT c.courseId, c.title FROM course_data c INNER JOIN college_course cc ON c.courseId = cc.courseId WHERE cc.collegeId = :collegeId");
+                        $stmt->bindParam(":collegeId", $collegeId);
+                        $stmt->execute();
                         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                
+
                         foreach ($result as $row) {
                             $selected = ($row['courseId'] == $courseId) ? "selected" : "";
-                            echo "<option value='".$row['courseId']."' ".$selected.">".$row['courseId']."</option>";
+                            echo "<option value='".$row['courseId']."' ".$selected.">".$row['title']."</option>";
                         }
                     ?>
                 </select>
