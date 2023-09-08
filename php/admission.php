@@ -35,6 +35,8 @@
     <link rel="manifest" href="../favicon/site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/user.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
     
@@ -101,17 +103,17 @@
                     <label for="phone" class="form-label">Phone number</label>
                     <input type="number" class="form-control mb-3" name="phone" id="phone" required>
 
-                    <label for="name" class="form-label">Apply to</label>
-                    <select class="form-select mb-3" name="collegeId" id="name" required>
+                    <label for="collegeId" class="form-label">Apply to</label>
+                    <select class="form-select mb-3" name="collegeId" id="collegeId" required>
                         <option value=""></option>
                         <?php
                             $stmt = $conn->prepare("SELECT * FROM college_data");
                             $stmt->execute();
                             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-                            foreach($result as $row){
-                                $selected = ($row['name'] == $_POST['name']) ? "selected" : "";
-                                echo "<option value='".$row['collegeId']."' ".$selected.">".$row['name']."</option>";
+
+                            foreach ($result as $row) {
+                                $selected = ($row['collegeId'] == $_POST['collegeId']) ? "selected" : "";
+                                echo "<option value='" . $row['collegeId'] . "' " . $selected . ">" . $row['name'] . "</option>";
                             }
                         ?>
                     </select>
@@ -119,16 +121,6 @@
                     <label for="title" class="form-label">Program interested in</label>
                     <select class="form-select mb-3" name="title" id="title" required>
                         <option value=""></option>
-                        <?php
-                            $stmt = $conn->prepare("SELECT * FROM course_data");
-                            $stmt->execute();
-                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-                            foreach($result as $row){
-                                $selected = ($row['title'] == $_POST['title']) ? "selected" : "";
-                                echo "<option value='".$row['abbreviation']."' ".$selected.">".$row['title']."</option>";
-                            }
-                        ?>
                     </select>
 
                     <label for="message" class="form-label">Queries (Optional)</label>
@@ -191,6 +183,34 @@
         </div>
     </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            const collegeSelect = document.getElementById("collegeId");
+            const courseSelect = document.getElementById("title");
+
+            collegeSelect.addEventListener("change", function(){
+                const selectedCollegeId = collegeSelect.value;
+
+                if(!selectedCollegeId){
+                    courseSelect.innerHTML = "<option value=''></option>";
+                    return;
+                }
+
+                fetch("getcourse.php?collegeId=" + selectedCollegeId)
+                    .then(response => response.json())
+                    .then(data => {
+                        courseSelect.innerHTML = "<option value=''></option>";
+                        data.forEach(course => {
+                            courseSelect.innerHTML += `<option value='${course.abbreviation}'>${course.title}</option>`;
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching courses: " + error);
+                    });
+            });
+        });
+    </script>
 
     <script src="../js/userscript.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>

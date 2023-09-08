@@ -97,7 +97,6 @@
     <link rel="stylesheet" href="../css/institution.css">
 </head>
 <body>
-
     <!-- Navbar -->
 
     <nav class="navbar navbar-expand-lg">
