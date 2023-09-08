@@ -169,10 +169,10 @@
             </div>
         
             <div>
-                <textarea class="form-control mb-2" name="content" id="content" rows="7" placeholder="Course Details"><?php echo $content ?></textarea>
-                <textarea class="form-control mb-2" name="eligibility" id="eligibility" rows="7" placeholder="Course Eligibility"><?php echo $eligibility ?></textarea>
-                <textarea class="form-control mb-2" name="job" id="job" rows="7" placeholder="Job Prospects"><?php echo $job ?></textarea>
-                <textarea class="form-control mb-4" name="career" id="career" rows="7" placeholder="Prospect Careers"><?php echo $career ?></textarea>
+                <textarea class="form-control mb-2" name="content" id="content" rows="10" placeholder="Course Details"><?php echo $content ?></textarea>
+                <textarea class="form-control mb-2" name="eligibility" id="eligibility" rows="5" placeholder="Course Eligibility"><?php echo $eligibility ?></textarea>
+                <textarea class="form-control mb-2" name="job" id="job" rows="5" placeholder="Job Prospects"><?php echo $job ?></textarea>
+                <textarea class="form-control mb-4" name="career" id="career" rows="10" placeholder="Prospect Careers"><?php echo $career ?></textarea>
             </div>
         
             <div class="d-grid">
