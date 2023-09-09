@@ -43,7 +43,7 @@
         $logo = nl2br($_POST['logo']);
 
         if(empty($_POST['collegeId']) || empty($_POST['affiliation']) || empty($_POST['name']) || empty($_POST['overview']) || empty($_POST['message']) || empty($_POST['reason']) || empty($_POST['program']) || empty($_POST['phone']) || empty($_POST['email']) || empty($_POST['website']) || empty($_POST['address']) || empty($_POST['location']) || empty($_POST['logo'])){
-            echo '<script> alert("Please fill all the fields."); window.location.href = "managecollege.php?institutionId="<?php echo $i_id; ?>""; </script>';
+            $success = 0;
         }else{
             $stmt = $conn->prepare("UPDATE college_data SET collegeId = :collegeId, affiliation =:affiliation, name = :name, overview = :overview, message = :message, reason = :reason, program = :program, phone =:phone, email =:email, website =:website, address =:address, location =:location, logo = :logo WHERE collegeId = :collegeId");
             $stmt ->bindParam(":collegeId", $i_id);
@@ -208,12 +208,35 @@
     </div>
     </div>
 
+    <!-- Error Message -->
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="userErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Update Error</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="errorToastBody">The college data could not be updated.</div>
+    </div>
+    </div>
+
     <script>
     <?php
         if(isset($success) && $success === 1){
-            echo 'document.addEventListener("DOMContentLoaded", function() {
+            echo 'document.addEventListener("DOMContentLoaded", function(){
                 var successToast = new bootstrap.Toast(document.getElementById("userSuccessToast"));
                 successToast.show();
+            });';
+        }
+    ?>
+    </script>
+
+    <script>
+    <?php
+        if(isset($success) && $success === 0){
+            echo 'document.addEventListener("DOMContentLoaded", function(){
+                var errorToast = new bootstrap.Toast(document.getElementById("userErrorToast"));
+                errorToast.show();
             });';
         }
     ?>

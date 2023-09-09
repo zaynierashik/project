@@ -164,7 +164,7 @@
     <script>
     <?php
         if(isset($success) && $success === 1){
-            echo 'document.addEventListener("DOMContentLoaded", function() {
+            echo 'document.addEventListener("DOMContentLoaded", function(){
                 var successToast = new bootstrap.Toast(document.getElementById("userSuccessToast"));
                 successToast.show();
             });';
@@ -175,7 +175,7 @@
     <script>
     <?php
         if(isset($result) && $result){
-            echo 'document.addEventListener("DOMContentLoaded", function() {
+            echo 'document.addEventListener("DOMContentLoaded", function(){
                 var errorToast = new bootstrap.Toast(document.getElementById("userErrorToast"));
                 errorToast.show();
             });';
