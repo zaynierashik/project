@@ -22,16 +22,17 @@
         $result = $stmt->fetch();
 
         if($result){
-            echo '<script> alert("Course already exists in database.") </script>';
+            
         }else{
             if(empty($_POST['affiliation']) || empty($_POST['field']) || empty($_POST['title']) || empty($_POST['abbreviation']) || empty($_POST['content']) || empty($_POST['eligibility']) || empty($_POST['job']) || empty($_POST['career'])){
-                echo '<script> alert("Please fill all the fields."); window.location.href = "managecourse.php"; </script>';
+                $error = 0;
             }else{
                 $sql = "INSERT INTO course_data (affiliation, field, title, abbreviation, content, eligibility, job, career) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt ->execute([$affiliation, $field, $title, $abbreviation, $content, $eligibility, $job, $career]);
                 
-                echo '<script> alert("Course added successfully."); window.location.href = "managecourse.php"; </script>';
+                if($stmt ->execute([$affiliation, $field, $title, $abbreviation, $content, $eligibility, $job, $career])){
+                    $error = 1;
+                }
             }
         }
     }
@@ -65,7 +66,7 @@
         $career = nl2br($_POST['career']);
 
         if(empty($_POST['courseId']) || empty($_POST['title']) || empty($_POST['abbreviation']) || empty($_POST['content']) || empty($_POST['eligibility']) || empty($_POST['job']) || empty($_POST['career'])){
-            echo '<script> alert("Please fill all the fields."); window.location.href = "managecourse.php"; </script>';
+            $success = 0;
         }else{
             $stmt = $conn->prepare("UPDATE course_data SET courseId = :courseId, title = :title, abbreviation = :abbreviation, content = :content, eligibility = :eligibility, job = :job, career = :career WHERE courseId = :courseId");
             $stmt ->bindParam(":courseId", $courseId);
@@ -75,9 +76,10 @@
             $stmt ->bindParam(":eligibility", $eligibility);
             $stmt ->bindParam(":job", $job);
             $stmt ->bindParam(":career", $career);
-            $stmt ->execute();
     
-            echo '<script> alert("Course updated successfully."); window.location.href = "managecourse.php"; </script>';
+            if($stmt->execute()){
+                $success = 1;
+            }
         }
     }
 ?>
@@ -232,6 +234,95 @@
             </form>
         </div>
     </div>
+
+    <!-- Success Message -->
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="userSuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto" id="successToastHead"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="successToastBody"></div>
+    </div>
+    </div>
+
+    <!-- Error Message -->
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="userErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto" id="errorToastHead"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="errorToastBody"></div>
+    </div>
+    </div>
+
+    <script>
+    <?php
+        if(isset($success) && $success === 0){
+            echo 'document.addEventListener("DOMContentLoaded", function(){
+                var errorToast = new bootstrap.Toast(document.getElementById("userErrorToast"));
+                document.getElementById("errorToastHead").innerHTML = "Update Error";
+                document.getElementById("errorToastBody").innerHTML = "Fill up all the fields.";
+                errorToast.show();
+            });';
+        }
+    ?>
+    </script>
+
+    <script>
+    <?php
+        if(isset($success) && $success === 1){
+            echo 'document.addEventListener("DOMContentLoaded", function(){
+                var successToast = new bootstrap.Toast(document.getElementById("userSuccessToast"));
+                document.getElementById("successToastHead").innerHTML = "Update Successful";
+                document.getElementById("successToastBody").innerHTML = "Course data has been updated.";
+                successToast.show();
+            });';
+        }
+    ?>
+    </script>
+
+    <!-- <script>
+    <?php
+        if(isset($result) && $result){
+            echo 'document.addEventListener("DOMContentLoaded", function(){
+                var errorToast = new bootstrap.Toast(document.getElementById("userErrorToast"));
+                document.getElementById("errorToastHead").innerHTML = "Course Insertion Error";
+                document.getElementById("errorToastBody").innerHTML = "Course already exists.";
+                errorToast.show();
+            });';
+        }
+    ?>
+    </script> -->
+
+    <script>
+    <?php
+        if(isset($error) && $error === 0){
+            echo 'document.addEventListener("DOMContentLoaded", function(){
+                var errorToast = new bootstrap.Toast(document.getElementById("userErrorToast"));
+                document.getElementById("errorToastHead").innerHTML = "Course Insertion Error";
+                document.getElementById("errorToastBody").innerHTML = "Fill up all the fields.";
+                errorToast.show();
+            });';
+        }
+    ?>
+    </script>
+
+    <script>
+    <?php
+        if(isset($error) && $error === 1){
+            echo 'document.addEventListener("DOMContentLoaded", function(){
+                var successToast = new bootstrap.Toast(document.getElementById("userSuccessToast"));
+                document.getElementById("successToastHead").innerHTML = "Course Insertion Successful";
+                document.getElementById("successToastBody").innerHTML = "Course added successfully.";
+                successToast.show();
+            });';
+        }
+    ?>
+    </script>
     
     <script>
         document.addEventListener("DOMContentLoaded", function(){

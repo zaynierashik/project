@@ -62,7 +62,6 @@
             
             if($stmt ->execute()){
                 $success = 1;
-                header("url=managecollege.php?institutionId=<?php echo $i_id; ?>");
             }
         }
     }
@@ -204,7 +203,7 @@
             <strong class="me-auto">Update Successful</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body">The college data has been updated.</div>
+        <div class="toast-body">College data has been updated.</div>
     </div>
     </div>
 
@@ -216,7 +215,7 @@
             <strong class="me-auto">Update Error</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body" id="errorToastBody">The college data could not be updated.</div>
+        <div class="toast-body" id="errorToastBody">College data could not be updated.</div>
     </div>
     </div>
 
