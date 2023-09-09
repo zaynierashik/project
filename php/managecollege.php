@@ -59,9 +59,11 @@
             $stmt ->bindParam(":address", $address);
             $stmt ->bindParam(":location", $location);
             $stmt ->bindParam(":logo", $logo);
-            $stmt ->execute();
-    
-            echo '<script> alert("College updated successfully."); window.location.href = "managecollege.php?institutionId="<?php echo $i_id; ?>""; </script>';
+            
+            if($stmt ->execute()){
+                $success = 1;
+                header("url=managecollege.php?institutionId=<?php echo $i_id; ?>");
+            }
         }
     }
 ?>
@@ -193,6 +195,29 @@
     </form>
     </div>
     </div>
+
+    <!-- Success Message -->
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="userSuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Update Successful</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">The college data has been updated.</div>
+    </div>
+    </div>
+
+    <script>
+    <?php
+        if(isset($success) && $success === 1){
+            echo 'document.addEventListener("DOMContentLoaded", function() {
+                var successToast = new bootstrap.Toast(document.getElementById("userSuccessToast"));
+                successToast.show();
+            });';
+        }
+    ?>
+    </script>
    
     <script src="../js/institutionscript.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
