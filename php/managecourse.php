@@ -22,7 +22,7 @@
         $result = $stmt->fetch();
 
         if($result){
-            
+            $error = 2;
         }else{
             if(empty($_POST['affiliation']) || empty($_POST['field']) || empty($_POST['title']) || empty($_POST['abbreviation']) || empty($_POST['content']) || empty($_POST['eligibility']) || empty($_POST['job']) || empty($_POST['career'])){
                 $error = 0;
@@ -285,9 +285,9 @@
     ?>
     </script>
 
-    <!-- <script>
+    <script>
     <?php
-        if(isset($result) && $result){
+        if(isset($error) && $error === 2){
             echo 'document.addEventListener("DOMContentLoaded", function(){
                 var errorToast = new bootstrap.Toast(document.getElementById("userErrorToast"));
                 document.getElementById("errorToastHead").innerHTML = "Course Insertion Error";
@@ -296,7 +296,7 @@
             });';
         }
     ?>
-    </script> -->
+    </script>
 
     <script>
     <?php

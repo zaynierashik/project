@@ -215,7 +215,7 @@
             <strong class="me-auto">Update Error</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body" id="errorToastBody">College data could not be updated.</div>
+        <div class="toast-body" id="errorToastBody">Fill up all the fields.</div>
     </div>
     </div>
 
