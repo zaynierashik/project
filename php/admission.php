@@ -17,7 +17,7 @@
         $sql = "INSERT INTO admission_data (username, phone, email, collegeId, title, message) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         if($stmt->execute([$username, $phone, $email, $collegeId, $title, $message])){
-            header("location: admission.php");
+            $success = 1;
         }
     }
 ?>
@@ -183,6 +183,31 @@
         </div>
     </div>
     </div>
+
+    <!-- Success Message -->
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="userSuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto" id="successToastHead"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="successToastBody"></div>
+    </div>
+    </div>
+
+    <script>
+    <?php
+        if(isset($success) && $success === 1){
+            echo 'document.addEventListener("DOMContentLoaded", function(){
+                var successToast = new bootstrap.Toast(document.getElementById("userSuccessToast"));
+                document.getElementById("successToastHead").innerHTML = "Form Submission Successful";
+                document.getElementById("successToastBody").innerHTML = "Your application form has been submitted.";
+                successToast.show();
+            });';
+        }
+    ?>
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function(){
