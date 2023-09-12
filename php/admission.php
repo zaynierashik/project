@@ -157,7 +157,7 @@
         <div class="text-center admission-card">
             <div class="row row-gap-4">
             <?php
-                $collegeIds = array(15, 5, 7, 10, 3);
+                $collegeIds = array(15, 5, 7, 1, 3);
                 foreach ($collegeIds as $collegeId){
                     $sql = "SELECT * FROM college_data WHERE collegeId = $collegeId";
                     $stmt = $conn->query($sql);
@@ -165,14 +165,14 @@
                     if($stmt->rowCount() > 0){
                         $row = $stmt->fetch();
                         echo '<div class="col">
-                            <a href="coursedetails.php?collegeId=' . $row['collegeId'] . '" class="card-link">
-                                <div class="card" style="border-radius: 15px;">
-                                    <img src="../images/' . $row['logo'] . '" class="card-img-top college-logo" alt="' . $row['name'] . '">
-                                    <div class="card-body">
-                                        <p class="course-name">' . $row['name'] . '</p>
-                                        <p class="address">' . $row['address'] . '</p>
-                                    </div>
+                            <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
+                            <div class="card" style="width: 15rem; border-radius: 15px; min-height: 34vh">
+                                <img src="../images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
+                                <div class="card-body">
+                                    <p class="college-name">' . $row['name'] . '</p>
+                                    <p class="address">' . $row['address'] . '</p>
                                 </div>
+                            </div>
                             </a>
                         </div>';
                     }
