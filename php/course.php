@@ -87,7 +87,7 @@
                     while($row = $stmt->fetch()){
                         echo '<div class="col">
                                 <a href="coursedetails.php?courseId=' . $row['courseId'] . '" class="card-link">
-                                <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
+                                <div class="card" style="width: 18.75rem; height: 11vh; border-radius: 15px;">
                                     <div class="card-body">
                                         <p class="course-name">'.$row['title'].'</p>
                                     </div>
@@ -112,9 +112,9 @@
             <div class="row row-gap-3">
                 <div class="col">
                     <a href="category.php?field=Computer and Information Technology" class="card-link">
-                        <div class="card" style=" border-radius: 15px; padding-top: 5vh;">
+                        <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 3vh; padding-bottom: 0vh; min-height: 20.5vh;">
                             <i class="fa-solid fa-microchip" style="color: #2b2b2b; font-size: 2.5rem;"></i>
-                            <div class="card-body">
+                            <div class="card-body pb-0">
                                 <p class="course-name">Computer and Information Technology</p>
                             </div>
                         </div>
@@ -122,9 +122,9 @@
                 </div>
                 <div class="col">
                     <a href="category.php?field=Engineering" class="card-link">
-                        <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
+                        <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 3vh; padding-bottom: 0vh; min-height: 20.5vh;">
                             <i class="fa-solid fa-helmet-safety" style="color: #2b2b2b; font-size: 2.5rem;"></i>
-                            <div class="card-body">
+                            <div class="card-body pb-0">
                                 <p class="course-name">Engineering</p>
                             </div>
                         </div>
@@ -132,9 +132,9 @@
                 </div>
                 <div class="col">
                     <a href="category.php?field=Management" class="card-link">
-                        <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
+                        <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 3vh; padding-bottom: 0vh; min-height: 20.5vh;">
                             <i class="fa-solid fa-people-group" style="color: #2b2b2b; font-size: 2.5rem;"></i>
-                            <div class="card-body">
+                            <div class="card-body pb-0">
                                 <p class="course-name">Management</p>
                             </div>
                         </div>
@@ -142,9 +142,9 @@
                 </div>
                 <div class="col">
                     <a href="category.php?field=Agriculture, Forestry and Animal Sciences" class="card-link">
-                        <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
+                        <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 3vh; padding-bottom: 0vh; min-height: 20.5vh;">
                             <i class="fa-solid fa-tree" style="color: #2b2b2b; font-size: 2.5rem;"></i>
-                            <div class="card-body">
+                            <div class="card-body pb-0">
                                 <p class="course-name">Agriculture, Forestry and Animal Sciences</p>
                             </div>
                         </div>
@@ -152,9 +152,9 @@
                 </div>
                 <div class="col">
                     <a href="category.php?field=Science and Technology" class="card-link">
-                        <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
+                        <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 3vh; padding-bottom: 0vh; min-height: 20.5vh;">
                             <i class="fa-solid fa-microscope" style="color: #2b2b2b; font-size: 2.5rem;"></i>
-                            <div class="card-body">
+                            <div class="card-body pb-0">
                                 <p class="course-name">Science and Technology</p>
                             </div>
                         </div>
@@ -162,9 +162,9 @@
                 </div>
                 <div class="col">
                     <a href="category.php?field=Humanities and Social Sciences" class="card-link">
-                        <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
+                        <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 3vh; padding-bottom: 0vh; min-height: 20.5vh;">
                             <i class="fa-solid fa-people-roof" style="color: #2b2b2b; font-size: 2.5rem;"></i>
-                            <div class="card-body">
+                            <div class="card-body pb-0">
                                 <p class="course-name">Humanities and Social Sciences</p>
                             </div>
                         </div>
@@ -172,9 +172,9 @@
                 </div>
                 <div class="col">
                     <a href="category.php?field=Health Professional Education" class="card-link">
-                        <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
+                        <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 3vh; padding-bottom: 0vh; min-height: 20.5vh;">
                             <i class="fa-solid fa-suitcase-medical" style="color: #2b2b2b; font-size: 2.5rem;"></i>
-                            <div class="card-body">
+                            <div class="card-body pb-0">
                                 <p class="course-name">Health Professional Education</p>
                             </div>
                         </div>
@@ -182,9 +182,9 @@
                 </div>
                 <div class="col">
                     <a href="category.php?field=Law" class="card-link">
-                        <div class="card" style="border-radius: 15px; padding-top: 5vh; min-height: 23.5vh;">
+                        <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 3vh; padding-bottom: 0vh; min-height: 20.5vh;">
                             <i class="fa-solid fa-scale-balanced" style="color: #2b2b2b; font-size: 2.5rem;"></i>
-                            <div class="card-body">
+                            <div class="card-body pb-0">
                                 <p class="course-name">Law</p>
                             </div>
                         </div>
