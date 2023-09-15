@@ -100,7 +100,7 @@
                 }
             ?>
             <tr>
-                <td class="table-title">Location</td>
+                <td class="table-title w-75">Location</td>
                 <td class="table-title">Contact</td>
             </tr>
             <tr>
@@ -108,8 +108,8 @@
                     <?php echo $row['location']; ?>
                 </td>
                 <td>
-                    <ul class="list-unstyled lh-lg" style="font-size: 0.85rem;">
-                        <li><i class="fa-solid fa-building" style="color: black; padding-right: 0.60vw; padding-left: 0.15vw;"></i> <?php echo $row['name']; ?></li>
+                    <ul class="list-unstyled lh-lg" style="font-size: 0.95rem;">
+                        <li><i class="fa-solid fa-building" style="color: black; padding-right: 0.27vw; padding-left: 0.15vw;"></i> <?php echo $row['name']; ?></li>
                         <li><i class="fa-solid fa-location-dot" style="color: black; padding-right: 0.60vw; padding-left: 0.15vw;"></i> <?php echo $row['address']; ?></li>
                         <li><i class="fa-solid fa-phone" style="color: black; padding-right: 0.5vw;"></i> <?php echo $row['phone']; ?></li>
                         <li><i class="fa-solid fa-envelope" style="color: black; padding-right: 0.5vw;"></i> <?php echo $row['email']; ?></li>
