@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="../css/user.css">
 </head>
 <body>
-    
     <!-- Navbar -->
 
     <nav class="navbar navbar-expand-lg">
@@ -30,7 +29,7 @@
     </nav>
 
     <div class="background-color container mt-5" style="width: 82.5%;">
-    <table class="table course-details-table" style="text-align: justify;">
+        <table class="table course-details-table" style="text-align: justify;">
         <?php
             if(isset($_GET['courseId'])){
                 $courseId = $_GET['courseId'];
@@ -101,62 +100,47 @@
     </div>
 
     <!-- Offering Colleges  -->
-
-    <div class="container college-container offering-college">
-        <p class="container table-title">OFFERING COLLEGES</p>
+    <div class="container college-container">
+        <p class="container college-title">OFFERING COLLEGES</p>
         <div class="container text-center college-card">
-            <div class="row row-gap-4">
-                <div class="col">
-                    <a href="collegedetails.php" class="card-link">
-                        <div class="card" style="width: 13.7rem; border-radius: 15px;">
-                            <img src="../images/kathford.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Kathford International College of Engineering and Management</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="collegedetails.php" class="card-link">
-                        <div class="card" style="width: 13.7rem; border-radius: 15px;">
-                            <img src="../images/kathford.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Kathford International College of Engineering and Management</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="collegedetails.php" class="card-link">
-                        <div class="card" style="width: 13.7rem; border-radius: 15px;">
-                            <img src="../images/kathford.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Kathford International College of Engineering and Management</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="collegedetails.php" class="card-link">
-                        <div class="card" style="width: 13.7rem; border-radius: 15px;">
-                            <img src="../images/kathford.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Kathford International College of Engineering and Management</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="collegedetails.php" class="card-link">
-                        <div class="card" style="width: 13.7rem; border-radius: 15px;">
-                            <img src="../images/kathford.png" class="card-img-top college-logo" alt="...">
-                            <div class="card-body">
-                                <p class="college-name">Kathford International College of Engineering and Management</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+        <div class="row row-gap-4">
+            <?php
+            if(isset($_GET['courseId'])){
+                $courseId = $_GET['courseId'];
+
+                $sql = "SELECT collegeId FROM college_course WHERE courseId = :courseId";
+                $stmt = $conn->prepare($sql);
+                $stmt ->bindParam(':courseId', $courseId);
+                $stmt ->execute();
+                $collegeIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+                if(count($collegeIds) > 0){
+                    foreach ($collegeIds as $collegeId){
+                        $sql = "SELECT * FROM college_data WHERE collegeId = :collegeId";
+                        $stmt = $conn->prepare($sql);
+                        $stmt ->bindParam(':collegeId', $collegeId);
+                        $stmt ->execute();
+                        $collegeInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                        if($collegeInfo){
+                            echo '<div class="col">
+                                <a href="collegedetails.php?collegeId=' .$collegeInfo['collegeId'] . '" class="card-link">
+                                <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 30.7vh">
+                                    <img src="../images/' . $collegeInfo['logo'] . '" class="card-img-top college-logo" alt="...">
+                                    <div class="card-body">
+                                        <p class="college-name">' . $collegeInfo['name'] . '</p>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>';
+                        }
+                    }
+                }else{
+                    echo '<p>No colleges offer this course.</p>';
+                }
+            }
+            ?>
+        </div>
         </div>
     </div>
 
@@ -169,6 +153,5 @@
     <script src="../js/script.js"></script>
     <script src="https://kit.fontawesome.com/296ff2fa8f.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-
 </body>
 </html>
