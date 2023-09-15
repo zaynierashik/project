@@ -109,7 +109,7 @@
                 </td>
                 <td>
                     <ul class="list-unstyled lh-lg" style="font-size: 0.95rem;">
-                        <li><i class="fa-solid fa-building" style="color: black; padding-right: 0.27vw; padding-left: 0.15vw;"></i> <?php echo $row['name']; ?></li>
+                        <li><i class="fa-solid fa-building" style="color: black; padding-right: 0.60vw; padding-left: 0.15vw;"></i> <?php echo $row['name']; ?></li>
                         <li><i class="fa-solid fa-location-dot" style="color: black; padding-right: 0.60vw; padding-left: 0.15vw;"></i> <?php echo $row['address']; ?></li>
                         <li><i class="fa-solid fa-phone" style="color: black; padding-right: 0.5vw;"></i> <?php echo $row['phone']; ?></li>
                         <li><i class="fa-solid fa-envelope" style="color: black; padding-right: 0.5vw;"></i> <?php echo $row['email']; ?></li>
