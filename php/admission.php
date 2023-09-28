@@ -165,15 +165,15 @@
                     if($stmt->rowCount() > 0){
                         $row = $stmt->fetch();
                         echo '<div class="col">
-                            <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
                             <div class="card" style="width: 15rem; border-radius: 15px; min-height: 34vh">
+                            <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
                                 <img src="../images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
                                 <div class="card-body">
                                     <p class="college-name">' . $row['name'] . '</p>
                                     <p class="address">' . $row['address'] . '</p>
                                 </div>
-                            </div>
                             </a>
+                            </div>
                         </div>';
                     }
                 }

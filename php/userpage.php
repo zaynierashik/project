@@ -111,26 +111,26 @@
             foreach($value as $item){
             if($status == 1){
                 echo '<div class="col">
-                    <a href="coursedetails.php?courseId=' . $item[0]['courseId'] . '" class="card-link">
                     <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
+                    <a href="coursedetails.php?courseId=' . $item[0]['courseId'] . '" class="card-link">
                         <div class="card-body">
                             <p class="course-name">'.$item[0]['title'].'</p>
                         </div>
-                    </div>
                     </a>
+                    </div>
                 </div>';
             }
             else{
                 echo '<div class="col">
-                    <a href="collegedetails.php?collegeId=' .$item[0]['collegeId'] . '" class="card-link">
                     <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 34vh">
+                    <a href="collegedetails.php?collegeId=' .$item[0]['collegeId'] . '" class="card-link">
                         <img src="../images/' . $item[0]['logo'] . '" class="card-img-top college-logo" alt="...">
                         <div class="card-body">
                             <p class="college-name">' . $item[0]['name'] . '</p>
                             <p class="address">' . $item[0]['address'] . '</p>
                         </div>
-                     </div>
                     </a>
+                    </div>
                 </div>';
             }
             }
@@ -138,6 +138,7 @@
         </div>
         </div>
         </div>
+        
         <?php 
     }else{ 
     ?>

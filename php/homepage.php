@@ -151,25 +151,25 @@
                 if($stmt->rowCount() > 0){
                     while($row = $stmt->fetch()){
                         echo '<div class="col">
+                            <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 34vh">
                                 <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
-                                <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 34vh">
                                     <img src="../images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
                                     <div class="card-body">
                                         <p class="college-name">' . $row['name'] . '</p>
                                         <p class="address">' . $row['address'] . '</p>
                                     </div>
-                                </div>
                                 </a>
+                            </div>
                         </div>';
                     }
                     echo '<div class="col">
-                        <a id="exploreCollegesLink" class="card-link">
                         <div class="card" style="width: 18.75rem; border-radius: 15px; padding-top: 12vh; padding-bottom: 12vh">
+                        <a id="exploreCollegesLink" class="card-link">
                             <div class="card-body" style="cursor: pointer;">
                                 <p class="college-name">Explore more colleges ></p>
                             </div>
-                        </div>
                         </a>
+                        </div>
                     </div>';
                 }else{
                     echo "No colleges found.";
@@ -191,23 +191,23 @@
                 if($stmt->rowCount() > 0){
                     while($row = $stmt->fetch()){
                         echo '<div class="col">
+                            <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
                                 <a href="coursedetails.php?courseId=' . $row['courseId'] . '" class="card-link">
-                                <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px;">
                                     <div class="card-body">
                                         <p class="course-name">'.$row['title'].'</p>
                                     </div>
-                                </div>
                                 </a>
+                            </div>
                         </div>';
                     }
                     echo '<div class="col-md-3">
-                        <a id="exploreCoursesLink" class="card-link">
                         <div class="card" style="width: 18.7rem; height: 11vh; border-radius: 15px; padding-top: 1.7vh">
+                        <a id="exploreCoursesLink" class="card-link">
                             <div class="card-body" style="cursor: pointer;">
                                 <p class="course-name">Explore more courses ></p>
                             </div>
-                        </div>
                         </a>
+                        </div>
                     </div>';
                 }else{
                     echo "No courses found.";

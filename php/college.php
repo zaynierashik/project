@@ -87,15 +87,15 @@
                 if($stmt->rowCount() > 0){
                     while($row = $stmt->fetch()){
                         echo '<div class="col">
-                            <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
                             <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 34vh">
-                                <img src="../images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
-                                <div class="card-body">
-                                    <p class="college-name">' . $row['name'] . '</p>
-                                    <p class="address">' . $row['address'] . '</p>
-                                </div>
+                                <a href="collegedetails.php?collegeId=' .$row['collegeId'] . '" class="card-link">
+                                    <img src="../images/' . $row['logo'] . '" class="card-img-top college-logo" alt="...">
+                                    <div class="card-body">
+                                        <p class="college-name">' . $row['name'] . '</p>
+                                        <p class="address">' . $row['address'] . '</p>
+                                    </div>
+                                </a>
                             </div>
-                            </a>
                         </div>';
                     }
                 }else{
@@ -113,47 +113,47 @@
         <div class="text-center college-card">
             <div class="row row-gap-4">
             <div class="col">
-                <a href="category.php?affiliation=TU" class="card-link">
-                    <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                    <a href="category.php?affiliation=TU" class="card-link">
                         <img src="../images/tu-logo.png" class="card-img-top university-logo" alt="...">
                         <div class="card-body">
                             <p class="college-name">Tribhuvan University</p>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
 
             <div class="col">
-                <a href="category.php?affiliation=KU" class="card-link">
-                    <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                    <a href="category.php?affiliation=KU" class="card-link">
                         <img src="../images/ku-logo.png" class="card-img-top university-logo" alt="...">
                         <div class="card-body">
                             <p class="college-name">Kathmandu University</p>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
 
             <div class="col">
-                <a href="category.php?affiliation=PU" class="card-link">
-                    <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                    <a href="category.php?affiliation=PU" class="card-link">
                         <img src="../images/pu-logo.png" class="card-img-top university-logo" alt="...">
                         <div class="card-body">
                             <p class="college-name">Pokhara University</p>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
 
             <div class="col">
-                <a href="category.php?affiliation=International" class="card-link">
-                    <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                <div class="card" style="width: 18.75rem; border-radius: 15px;">
+                    <a href="category.php?affiliation=International" class="card-link">
                         <img src="../images/international-logo.jpg" class="card-img-top intl-university-logo" alt="...">
                         <div class="card-body">
                             <p class="college-name">International</p>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
             </div>
         </div>
