@@ -6,6 +6,8 @@
         header('location: homepage.php');
     }
 
+    $i_id = $_SESSION['userId'];
+
     if(isset($_POST['submit'])){
         $username = $_POST['username'];
         $email = $_POST['email'];
@@ -219,19 +221,27 @@
             <p class="feedback-title">FEEDBACK</p>
             <form action="" method="POST">
                 <div>
+                <?php
+                    $stmt = $conn->prepare("SELECT * FROM user_data WHERE userId = :userId");
+                    $stmt ->bindParam(':userId', $i_id);
+                    $stmt ->execute();
+                    $value = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    foreach($value as $row){
+                ?>
                     <label for="username" class="form-label">Name</label>
-                    <input type="text" class="form-control mb-3" name="username" id="username" required>
+                    <input type="text" class="form-control mb-3" name="username" id="username" value="<?php echo $row['name'] ?>" readonly>
                     
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control mb-3" name="email" id="email" required>
+                    <input type="email" class="form-control mb-3" name="email" id="email" value="<?php echo $row['email'] ?>" readonly>
 
                     <label for="feedback" class="form-label">Feedback</label>
-                    <textarea class="form-control mb-4" name="feedback" id="feedback" rows="3"></textarea>
+                    <textarea class="form-control mb-4" name="feedback" id="feedback" rows="3" required></textarea>
                 </div>
                 
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary" name="submit" id="submit" style="background-color: #082465;">Submit Feedback</button>
                 </div>
+                <?php } ?>
             </form>
         </div>
     </div>

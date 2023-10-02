@@ -136,10 +136,10 @@
                     $stmt ->bindParam(':userId', $i_id);
                     $stmt ->execute();
                     $value = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($value as $row){?>
-
+                    foreach($value as $row){
+                ?>
                 <div>
-                    <input type="text" class="form-control mb-3" name="name" id="name" placeholder="Name" value="<?php echo $row['name']; ?>" readonly>
+                    <input type="text" class="form-control mb-3" name="name" id="name" placeholder="Name" value="<?php echo $row['name']; ?>" required>
                     <input type="number" class="form-control mb-3" name="phone" id="phone" placeholder="Phone number" value="<?php echo $row['phone']; ?>" required>
                     <input type="email" class="form-control mb-3" name="email" id="email" placeholder="Email address" value="<?php echo $row['email']; ?>" required>
                     <input type="password" class="form-control mb-2" name="password" id="password" placeholder="New Password" pattern="(?=.*\d)(?=.*[a-z]).{7,}" title="Must contain at least one number and one lowercase letter, and at least 7 or more characters" required>
