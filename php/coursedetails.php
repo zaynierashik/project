@@ -100,7 +100,7 @@
     </div>
 
     <!-- Offering Colleges  -->
-    <div class="container college-container">
+    <div class="container college-container mt-0">
         <p class="container college-title">OFFERING COLLEGES</p>
         <div class="container text-center college-card">
         <div class="row row-gap-4">
