@@ -123,14 +123,14 @@
 
                         if($collegeInfo){
                             echo '<div class="col">
-                                <a href="collegedetails.php?collegeId=' .$collegeInfo['collegeId'] . '" class="card-link">
                                 <div class="card" style="width: 18.75rem; border-radius: 15px; min-height: 30.7vh">
+                                <a href="collegedetails.php?collegeId=' .$collegeInfo['collegeId'] . '" class="card-link">
                                     <img src="../images/' . $collegeInfo['logo'] . '" class="card-img-top college-logo" alt="...">
                                     <div class="card-body">
                                         <p class="college-name">' . $collegeInfo['name'] . '</p>
                                     </div>
-                                </div>
                                 </a>
+                                </div>
                             </div>';
                         }
                     }
