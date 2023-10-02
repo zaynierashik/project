@@ -18,6 +18,7 @@
         $stmt = $conn->prepare($sql);
         if($stmt->execute([$username, $phone, $email, $collegeId, $title, $message])){
             $success = 1;
+            header("Refresh: 3; url=admission.php");
         }
     }
 ?>
@@ -36,7 +37,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/user.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </head>
 <body>
     
@@ -101,7 +101,7 @@
                     <input type="email" class="form-control mb-3" name="email" id="email" required>
 
                     <label for="phone" class="form-label">Phone number</label>
-                    <input type="number" class="form-control mb-3" name="phone" id="phone" required>
+                    <input type="text" class="form-control mb-3" name="phone" id="phone" pattern="[0-9]{10}" title="Please enter 10 digits for the phone number" required>
 
                     <label for="collegeId" class="form-label">Apply to</label>
                     <select class="form-select mb-3" name="collegeId" id="collegeId" required>
