@@ -227,7 +227,7 @@
                     .then(data => {
                         courseSelect.innerHTML = "<option value=''></option>";
                         data.forEach(course => {
-                            courseSelect.innerHTML += `<option value='${course.abbreviation}'>${course.title}</option>`;
+                            courseSelect.innerHTML += `<option value='${course.title}'>${course.title}</option>`;
                         });
                     })
                     .catch(error => {
