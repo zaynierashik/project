@@ -1,1 +1,1 @@
-# Hamrocollege: College Information System
+Hamrocollege: College Information System
