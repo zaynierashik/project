@@ -1,1 +1,0 @@
-Hamrocollege: College Information System

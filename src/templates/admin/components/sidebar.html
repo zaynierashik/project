@@ -1,0 +1,92 @@
+{% load static %}
+
+<aside id="application-sidebar-brand" class="bg-[#FAFAFA] dark:bg-[#121212] hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transform hidden xl:block xl:translate-x-0 xl:end-auto xl:bottom-0 fixed top-0 with-vertical h-screen z-[999] flex-shrink-0 border-r-[1px] w-[270px] border-gray-400 left-sidebar transition-all duration-300" >
+    <div class="px-6">
+        <a href="{% url 'dashboard' %}">
+            <img src="{% static 'images/logos/logo-light.png' %}" class="block dark:hidden" alt="Gurkha Cyber Force Light Logo" />
+        </a>
+        
+        <a href="{% url 'dashboard' %}">
+            <img src="{% static 'images/logos/logo-dark.png' %}" class="hidden dark:block" alt="Gurkha Cyber Force Dark Logo" />
+        </a>
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="scroll-sidebar scrollbar-dark" data-simplebar="">
+        <div class="px-6 mt-8">
+            <nav class="w-full flex flex-col sidebar-nav">
+                <ul id="sidebarnav" class="text-gray-600 text-sm dark:text-white">
+                    <li class="text-xs font-semibold pb-4">
+                        <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
+                        <span>HOME</span>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link gap-3 py-3 px-3 rounded-md w-full flex items-center dark:text-gray-400 hover:text-blue-600 hover:bg-blue-500" href="{% url 'dashboard' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                            </svg>
+                            </i><span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="text-xs font-semibold mb-4 mt-8">
+                        <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
+                        <span>SECTIONS</span>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="../components/alerts.html" class="sidebar-link gap-3 mb-1 py-3 px-3 rounded-md w-full flex items-center dark:text-gray-400 hover:text-blue-600 hover:bg-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                            <span>Admin</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="{% url 'user' %}" class="sidebar-link gap-3 mb-1 py-3 px-3 rounded-md w-full flex items-center dark:text-gray-400 hover:text-blue-600 hover:bg-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                            </svg>
+                            <span>User</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="{% url 'institution' %}" class="sidebar-link gap-3 mb-1 py-3 px-3 rounded-md w-full flex items-center dark:text-gray-400 hover:text-blue-600 hover:bg-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
+                            </svg>
+                            <span>Institutions</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link gap-3 mb-1 py-3 px-3 rounded-md w-full flex items-center dark:text-gray-400 hover:text-blue-600 hover:bg-blue-500" href="../components/cards.html">
+                            <i class="ti ti-cards text-xl"></i><span>Courses</span>
+                        </a>
+                    </li>   
+
+                    <li class="sidebar-item">
+                        <a href="{% url 'feedback' %}" class="sidebar-link gap-3 mb-1 py-3 px-3 rounded-md w-full flex items-center dark:text-gray-400 hover:text-blue-600 hover:bg-blue-500">
+                            <i class="ti ti-file-description text-xl"></i><span>Feedback</span>
+                        </a>
+                    </li> 
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="mx-6 mt-8 relative">
+        <div class="bg-blue-500 p-5 rounded-md flex items-center justify-between">
+            <div>
+                <h5 class="text-base font-semibold text-gray-700 mb-3">Upgrade to Pro</h5>
+                <button class="text-xs font-semibold hover:bg-blue-700 text-white bg-blue-600 rounded-md px-4 py-2">Buy Pro</button>
+            </div>
+            <div class="-mt-12 -mr-2">
+                <img src="{% static 'images/profile/rocket.png' %}" class="max-w-fit" alt="profile"/>
+            </div>
+        </div>
+    </div>
+</aside>

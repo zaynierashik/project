@@ -1,0 +1,102 @@
+{% load static %}
+
+<header class="container full-container w-full text-sm py-5 xl:px-5 px-5">
+    <nav class=" w-full flex items-center justify-between" aria-label="Global">
+        <ul class="icon-nav flex items-center gap-4">
+            <li class="relative xl:hidden">
+                <a class="text-xl icon-hover cursor-pointer text-heading" id="headerCollapse" data-hs-overlay="#application-sidebar-brand" aria-controls="application-sidebar-brand" aria-label="Toggle navigation" href="javascript:void(0)">
+                    <i class="ti ti-menu-2 relative z-1"></i>
+                </a>
+            </li>
+            
+            <li class="relative">
+                <div class="hs-dropdown relative inline-flex [--placement:bottom-left] sm:[--trigger:hover]">
+                    <a class="relative hs-dropdown-toggle inline-flex text-gray-600 dark:text-gray-500" href="#">
+                        <i class="ti ti-bell-ringing text-xl relative z-[1]"></i>
+                        <div class="absolute inline-flex items-center justify-center text-white text-[9px] font-medium bg-blue-600 w-[5.5px] h-[5.5px] rounded-full top-[-2px] -right-[5px]"></div>
+                    </a>
+                    <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-400 rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max w-[300px] hidden z-[12]" aria-labelledby="hs-dropdown-custom-icon-trigger">
+                        <div>
+                            <h3 class="text-gray-600 font-semibold text-base px-6 py-3">Notification</h3>
+                            <ul class="list-none  flex flex-col">
+                                <li>
+                                    <a href="#" class="py-3 px-6 block hover:bg-blue-500">
+                                        <p class="text-sm text-gray-600 font-semibold">Roman Joined the Team!</p>
+                                        <p class="text-xs text-gray-500 font-medium">Congratulate him</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="py-3 px-6 block hover:bg-blue-500">
+                                        <p class="text-sm text-gray-600 font-semibold">New message received</p>
+                                        <p class="text-xs text-gray-500 font-medium">Salma sent you new message</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="py-3 px-6 block hover:bg-blue-500">
+                                        <p class="text-sm text-gray-600 font-semibold">New Payment received</p>
+                                        <p class="text-xs text-gray-500 font-medium">Check your earnings</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="py-3 px-6 block hover:bg-blue-500">
+                                        <p class="text-sm text-gray-600 font-semibold">Jolly completed tasks</p>
+                                        <p class="text-xs text-gray-500 font-medium">Assign her new tasks</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="py-3 px-6 block hover:bg-blue-500">
+                                        <p class="text-sm text-gray-600 font-semibold">Roman Joined the Team!</p>
+                                        <p class="text-xs text-gray-500 font-medium">Congratulate him</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="flex items-center gap-x-4">
+            <div class="text-blue-600">
+                <button id="theme-toggle" class="focus:outline-none">
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-[19px] hidden dark:block">
+                        <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z" clip-rule="evenodd" />
+                    </svg>
+
+                    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 dark:hidden">
+                        <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
+                <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-md">
+                    <img class="object-cover w-9 h-9 rounded-md" src="{% static 'images/profile/user-1.jpg' %}" alt="" aria-hidden="true">
+                </a>
+
+                <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-400 rounded-[7px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]" aria-labelledby="hs-dropdown-custom-icon-trigger">
+                    <div class="card-body p-0 py-2">
+                        <a href="javscript:void(0)" class="flex gap-2 items-center px-4 py-2 text-gray-500 hover:bg-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-[17px]">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                            <p class="text-sm text-gray-500">My Profile</p>
+                        </a>
+
+                        <a href="javscript:void(0)" class="flex gap-2 items-center px-4 py-2 text-gray-500 hover:bg-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-[17px]">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                            <p class="text-sm text-gray-500">Account Settings</p>
+                        </a>
+                        
+                        <div class="px-4 mt-[7px] grid">
+                            <a href="" class="btn-outline-primary w-full hover:bg-blue-600 hover:text-white">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

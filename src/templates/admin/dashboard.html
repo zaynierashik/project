@@ -1,0 +1,46 @@
+{% load static %}
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gurkha Cyber Force</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+	<link href="{% static 'css/theme.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+	</style>
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#121212]">
+	<main>
+		<div id="main-wrapper" class="flex">
+			<!-- Sidebar -->
+			{% include "components/sidebar.html" %}
+
+			<div class="w-full page-wrapper overflow-hidden">
+				<!-- Header -->
+				{% include "components/admin_header.html" %}
+
+				<!-- Main Content -->
+				<main class="h-full overflow-y-auto max-w-full pt-[6px]">
+					<div class="container full-container py-5 flex flex-col gap-6">
+						
+					</div>
+				</main>
+			</div>
+		</div>
+	</main>
+	
+	<script src="{% static 'libs/jquery/dist/jquery.min.js' %} "></script>
+	<script src="{% static 'libs/simplebar/dist/simplebar.min.js' %} "></script>
+	<script src="{% static 'libs/iconify-icon/dist/iconify-icon.min.js' %} "></script>
+	<script src="{% static 'libs/@preline/dropdown/index.js' %} "></script>
+	<script src="{% static 'libs/@preline/overlay/index.js' %} "></script>
+	<script src="{% static 'js/sidebarmenu.js' %} "></script>
+	<script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %} "></script>
+    <script src="{% static 'js/dashboard.js' %} "></script>
+</body>
+</html>

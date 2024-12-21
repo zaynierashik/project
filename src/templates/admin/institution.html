@@ -1,0 +1,89 @@
+{% load static %}
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gurkha Cyber Force</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+	<link href="{% static 'css/theme.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+	</style>
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#121212]">
+	<main>
+		<div id="main-wrapper" class="flex">
+			<!-- Sidebar -->
+			{% include "components/sidebar.html" %}
+
+			<div class="w-full page-wrapper overflow-hidden">
+				<!-- Header -->
+				{% include "components/admin_header.html" %}
+
+				<!-- Main Content -->
+				<main class="h-full overflow-y-auto max-w-full pt-[6px]">
+					<div class="container full-container py-5 flex flex-col gap-6">
+						<div class="card min-h-[613px]">
+                            <div class="card-body">
+                                <h4 class="text-gray-600 text-lg tracking-wider font-semibold mb-6 uppercase">Institution</h4>
+                                <div class="relative overflow-x-auto">
+                                    <!-- table -->
+                                    <table class="text-left w-full whitespace-nowrap text-sm">
+                                        <thead class="text-gray-700">
+                                            <tr class="font-semibold text-gray-600">
+                                                <th scope="col" class="p-4">S.N.</th>
+                                                <th scope="col" class="p-4">Name</th>
+                                                <th scope="col" class="p-4">Phone</th>
+                                                <th scope="col" class="p-4">Email</th>
+                                                <th scope="col" class="p-4"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for institution in institutions %}
+                                            <tr>
+                                                <td class="p-4 font-medium text-gray-500">{{ forloop.counter }}</td>
+                                                <td class="p-4">
+                                                    <div class="flex flex-col gap-1">
+                                                        <h3 class="font-medium text-gray-500">{{ institution.name }}</h3>
+                                                    </div>
+                                                </td>
+                                                <td class="p-4">
+                                                    <span class="font-medium text-gray-500">{{ institution.phone }}</span>
+                                                </td>
+                                                <td class="p-4">
+                                                    <span class="font-medium text-gray-500">{{ institution.email }}</span>
+                                                </td>
+                                                <td class="p-4">
+                                                    <span class="font-medium text-gray-500">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                        </svg>                                                          
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>									
+                            </div>
+                        </div>
+					</div>
+				</main>
+			</div>
+		</div>
+	</main>
+	
+	<script src="{% static 'libs/jquery/dist/jquery.min.js' %} "></script>
+	<script src="{% static 'libs/simplebar/dist/simplebar.min.js' %} "></script>
+	<script src="{% static 'libs/iconify-icon/dist/iconify-icon.min.js' %} "></script>
+	<script src="{% static 'libs/@preline/dropdown/index.js' %} "></script>
+	<script src="{% static 'libs/@preline/overlay/index.js' %} "></script>
+	<script src="{% static 'js/sidebarmenu.js' %} "></script>
+	<script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %} "></script>
+    <script src="{% static 'js/dashboard.js' %} "></script>
+</body>
+</html>
