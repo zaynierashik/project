@@ -9,16 +9,8 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-def dashboard(request):
-    return render(request, 'dashboard.html')
-
-def user(request):
-    users = User.objects.all().order_by('-id')
-    return render(request, 'user.html', {'users': users})
-
-def institution(request):
-    institutions = Institution.objects.all().order_by('-id')
-    return render(request, 'institution.html', {'institutions': institutions})
+def about_us(request):
+    return render(request, 'about.html')
 
 def institution_details(request, id):
     try:
@@ -36,7 +28,20 @@ def institution_details(request, id):
             {'institution': institution, 'programs': programs, 'gallery_images': gallery_images}
         )
     except Institution.DoesNotExist:
-        return render(request, '404.html', {'error': 'Institution not found'})  # Handle missing institutions gracefully
+        return render(request, '404.html', {'error': 'Institution not found'})
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+def user(request):
+    users = User.objects.all().order_by('-id')
+    return render(request, 'user.html', {'users': users})
+
+def institution(request):
+    institutions = Institution.objects.all().order_by('-id')
+    return render(request, 'institution.html', {'institutions': institutions})
+
+  # Handle missing institutions gracefully
 
 def feedback(request):
     feedbacks = Feedback.objects.all().order_by('-id')
