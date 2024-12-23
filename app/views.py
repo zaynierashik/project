@@ -105,10 +105,16 @@ def institutions(request):
     return render(request, 'institutions.html', {'institutions': institutions})
 
 def admissions(request):
+    if 'user_id' not in request.session:
+        return redirect('authentication')
+    
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+
     institutions = Institution.objects.all().order_by('name')
     feedbacks = Feedback.objects.all().order_by('-id')
 
-    context = {'institutions': institutions, 'feedbacks': feedbacks}
+    context = {'institutions': institutions, 'feedbacks': feedbacks, 'user': user}
     return render(request, 'admissions.html', context)
     
 # Admin

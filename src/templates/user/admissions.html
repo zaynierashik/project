@@ -23,13 +23,13 @@
 				{% include "components/user_header.html" %}
 
                 <!-- Main Content -->
-				<main class="h-full overflow-y-auto max-w-full pt-[6px] hidden">
+				<main class="h-full overflow-y-auto max-w-full pt-[6px]" id="admissions-table">
 					<div class="container full-container py-5 flex flex-col gap-6">
 						<div class="card min-h-[613px]">
                             <div class="card-body">
                                 <div class="flex justify-between items-center mb-6">
                                     <h4 class="text-gray-600 text-lg tracking-wider font-semibold uppercase">Admissions</h4>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <svg id="new-admission" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 cursor-pointer">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                     </svg>
                                 </div>
@@ -69,13 +69,18 @@
 					</div>
 				</main>
 
-                <main class="h-full overflow-y-auto max-w-full pt-[6px]">
+                <!-- Admission Form -->
+                <main class="h-full overflow-y-auto max-w-full pt-[6px] hidden" id="admissions-form">
 					<div class="container full-container py-5 flex flex-col gap-6">
-                        <div class="card">
+                        <div class="card relative dark:bg-[#121212]">
 							<div class="card-body flex flex-col gap-6">
 								<form action="{% url 'login' %}" method="POST">
                                     {% csrf_token %}
                                     <div>
+                                        <svg id="back-button" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer size-6 p-1 rounded-md absolute -top-2 right-6 bg-gray-700 text-white dark:bg-white dark:text-gray-700">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                          
                                         <div>
                                             <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Name</label>
                                             <div class="relative mb-6">
@@ -84,7 +89,7 @@
                                                         <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
                                                     </svg>                                                                               
                                                 </div>
-                                                <input type="text" name="name" id="name" class="border border-gray-400 text-sm rounded-md block w-full ps-8 p-2.5 py-[10px] bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" placeholder="John Doe" required>
+                                                <input type="text" value="{{ user.name }}" name="name" id="name" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 py-[10px] bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" style="padding-left: 33px;" placeholder="John Doe" required>
                                             </div>
                                         </div>
 
@@ -97,19 +102,19 @@
                                                         <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
                                                     </svg>                                 
                                                 </div>
-                                                <input type="email" name="email" id="email" class="border border-gray-400 text-sm rounded-md block w-full ps-8 p-2.5 py-[10px] bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" placeholder="john@example.com" required>
+                                                <input type="email" value="{{ user.email }}" name="email" id="email" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 py-[10px] bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" style="padding-left: 33px;" placeholder="john@example.com" required>
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Phone <span class="text-red-600">*</span></label>
+                                            <label for="phone" class="block mb-2 text-sm font-medium text-gray-700">Phone <span class="text-red-600">*</span></label>
                                             <div class="relative mb-6">
                                                 <div class="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
                                                     <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                                        <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                                                        <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
                                                     </svg>                                                                               
                                                 </div>
-                                                <input type="text" name="name" id="name" class="border border-gray-400 text-sm rounded-md block w-full ps-8 p-2.5 py-[10px] bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" placeholder="John Doe" required>
+                                                <input type="number" name="phone" id="phone" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 py-[10px] bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" style="padding-left: 33px;" placeholder="John Doe" required>
                                             </div>
                                         </div>
     
@@ -158,7 +163,23 @@
 			</div>
 		</div>
 	</main>
+
+    <!-- Toggle admissions-table/admission-form form -->
+    <script>
+        document.getElementById('new-admission').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('admissions-table').classList.add('hidden');
+            document.getElementById('admissions-form').classList.remove('hidden');
+        });
+
+        document.getElementById('back-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('admissions-table').classList.remove('hidden');
+            document.getElementById('admissions-form').classList.add('hidden');
+        });
+    </script>
 	
+	<script src="{% static 'js/index.js' %} "></script>
 	<script src="{% static 'js/sidebarmenu.js' %} "></script>
     <script src="{% static 'js/dashboard.js' %} "></script>
 	<script src="{% static 'libs/jquery/dist/jquery.min.js' %} "></script>
