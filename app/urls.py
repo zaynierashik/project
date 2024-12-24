@@ -19,6 +19,7 @@ urlpatterns = [
 
     # User
     path('userpage/', views.userpage, name='userpage'),
+    path('profile/', views.profile, name='profile'),
     path('institutions/', views.institutions, name='institutions'),
     path('admissions/', views.admissions, name='admissions'),
 ]

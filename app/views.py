@@ -100,6 +100,15 @@ def userpage(request):
     institutions = Institution.objects.all()
     return render(request, 'userpage.html', {'institutions': institutions})
 
+def profile(request):
+    if 'user_id' not in request.session:
+        return redirect('authentication')
+    
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+
+    return render(request, 'profile.html', {'user': user})
+
 def institutions(request):
     institutions = Institution.objects.all().order_by('-id')
     return render(request, 'institutions.html', {'institutions': institutions})
