@@ -97,8 +97,16 @@ def institution_details(request, id):
     
 # User
 def userpage(request):
+    if 'user_id' not in request.session:
+        return redirect('authentication')
+    
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+
     institutions = Institution.objects.all()
-    return render(request, 'userpage.html', {'institutions': institutions})
+
+    context = {'institutions': institutions, 'user': user}
+    return render(request, 'userpage.html', context)
 
 def profile(request):
     if 'user_id' not in request.session:
@@ -113,6 +121,9 @@ def institutions(request):
     institutions = Institution.objects.all().order_by('-id')
     return render(request, 'institutions.html', {'institutions': institutions})
 
+def courses(request):
+    return render(request, 'courses.html',)
+
 def admissions(request):
     if 'user_id' not in request.session:
         return redirect('authentication')
@@ -125,8 +136,43 @@ def admissions(request):
 
     context = {'institutions': institutions, 'feedbacks': feedbacks, 'user': user}
     return render(request, 'admissions.html', context)
+
+def feedbacks(request):
+    if 'user_id' not in request.session:
+        return redirect('authentication')
+    
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+
+    feedbacks = Feedback.objects.all().order_by('-id')
+
+    context = {'feedbacks': feedbacks, 'user': user}
+    return render(request, 'feedbacks.html', context)
+
+def send_feedback(request):
+    if 'user_id' not in request.session:
+        return redirect('authentication')
+    
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        review = request.POST.get('review')
+
+        feedback = Feedback(user=user, email=email, phone=phone, review=review)
+        feedback.save()
+        messages.success(request, 'Feedback sent successfully.')
+
+        return redirect('feedbacks')
+
+    return render(request, 'feedbacks.html', {'user': user})
     
 # Admin
+def admin_authentication(request):
+    return render(request, 'admin_authentication.html')
+
 def dashboard(request):
     return render(request, 'dashboard.html')
 

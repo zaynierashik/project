@@ -2,6 +2,10 @@ from django.contrib import admin
 from .models import *
 from django.contrib.admin import TabularInline
 
+@admin.register(SuperAdmin)
+class SuperAdminAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'status')
+
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'status')
@@ -22,4 +26,4 @@ class InstitutionImageAdmin(admin.ModelAdmin):
 
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email')
+    list_display = ('email', 'review')

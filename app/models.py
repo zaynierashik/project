@@ -4,6 +4,27 @@ from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.hashers import make_password
 
+class SuperAdmin(models.Model):
+    STATUS_CHOICES = [
+        ('active', 'Active'),
+        ('inactive', 'In Active'),
+    ]
+    
+    name = models.CharField(max_length=255)
+    phone = models.CharField(max_length=10, unique=True)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=255)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
+    
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        # Hash the password before saving if it's not already hashed
+        if self.password and not self.password.startswith(('pbkdf2_sha256$', 'bcrypt')):
+            self.password = make_password(self.password)
+        super(SuperAdmin, self).save(*args, **kwargs)
+
 class User(models.Model):
     STATUS_CHOICES = [
         ('active', 'Active'),
@@ -79,12 +100,13 @@ class InstitutionImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.institution.name} - {self.caption}"
-
+    
 class Feedback(models.Model):
-    name = models.CharField(max_length=100)
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='feedbacks')
     email = models.EmailField()
+    phone = models.CharField(max_length=10)
     review = models.TextField()
     created_at = models.DateField(default=now)
 
     def __str__(self):
-        return self.name
+        return self.user.name
