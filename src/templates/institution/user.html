@@ -29,32 +29,31 @@
 					<div class="container full-container py-5 flex flex-col gap-6">
 						<div class="card min-h-[613px]">
                             <div class="card-body">
-                                <h4 class="text-gray-600 text-lg tracking-wider font-semibold mb-6 uppercase">Feedback</h4>
+                                <h4 class="text-gray-600 text-lg tracking-wider font-semibold mb-6 uppercase">User</h4>
                                 <div class="relative overflow-x-auto">
-                                    <!-- table -->
                                     <table class="text-left w-full whitespace-nowrap text-sm">
                                         <thead class="text-gray-700">
                                             <tr class="font-semibold text-gray-600">
                                                 <th scope="col" class="p-4">S.N.</th>
                                                 <th scope="col" class="p-4">Name</th>
                                                 <th scope="col" class="p-4">Email</th>
-                                                <th scope="col" class="p-4">Review</th>
+                                                <th scope="col" class="p-4">Phone</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for feedback in feedbacks %}
+                                            {% for user in users %}
                                             <tr>
                                                 <td class="p-4 font-medium text-gray-500">{{ forloop.counter }}</td>
                                                 <td class="p-4">
                                                     <div class="flex flex-col gap-1">
-                                                        <h3 class="font-medium text-gray-500">{{ feedback.user.name }}</h3>
+                                                        <h3 class="font-medium text-gray-500">{{ user.name }}</h3>
                                                     </div>
                                                 </td>
                                                 <td class="p-4">
-                                                    <span class="font-medium text-gray-500">{{ feedback.email }}</span>
+                                                    <span class="font-medium text-gray-500">{{ user.email }}</span>
                                                 </td>
                                                 <td class="p-4">
-                                                    <span class="font-medium break-words text-gray-500">{{ feedback.review }}</span>
+                                                    <span class="font-medium text-gray-500">{{ user.phone }}</span>
                                                 </td>
                                             </tr>
                                             {% endfor %}

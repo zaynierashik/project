@@ -6,10 +6,9 @@ from app.models import *
 # Website
 def index(request):
     institutions = Institution.objects.all()
+    feedbacks = Feedback.objects.all().filter(status='show')
 
-    context = {
-        'institutions': institutions,
-    }
+    context = {'institutions': institutions, 'feedbacks': feedbacks}
     return render(request, 'index.html', context)
 
 def authentication(request):
@@ -75,7 +74,8 @@ def logout(request):
     return redirect('index')
 
 def about_us(request):
-    return render(request, 'about.html')
+    feedbacks = Feedback.objects.filter(status='show').order_by('?')[:5]
+    return render(request, 'about.html', {'feedbacks': feedbacks})
 
 def institution_details(request, id):
     try:
@@ -124,7 +124,7 @@ def institutions(request):
 def courses(request):
     return render(request, 'courses.html',)
 
-def admissions(request):
+def applications(request):
     if 'user_id' not in request.session:
         return redirect('authentication')
     
@@ -135,7 +135,7 @@ def admissions(request):
     feedbacks = Feedback.objects.all().order_by('-id')
 
     context = {'institutions': institutions, 'feedbacks': feedbacks, 'user': user}
-    return render(request, 'admissions.html', context)
+    return render(request, 'applications.html', context)
 
 def feedbacks(request):
     if 'user_id' not in request.session:
@@ -168,13 +168,77 @@ def send_feedback(request):
         return redirect('feedbacks')
 
     return render(request, 'feedbacks.html', {'user': user})
+
+# Institution
+def institution_dashboard(request):
+    return render(request, 'institution_dashboard.html')
+
+def institution_profile(request):
+    AFFILIATION_CHOICES = [
+        ('tribhuvan', 'Tribhuvan University'),
+        ('pokhara', 'Pokhara University'),
+        ('kathmandu', 'Kathmandu University'),
+        ('gandaki', 'Gandaki University'),
+        ('purbanchal', 'Purbanchal University'),
+        ('foreign', 'Foreign University'),
+    ]
+
+    institution = Institution.objects.get(id=2)
+
+    context = {'affiliation_choices': AFFILIATION_CHOICES, 'institution': institution}
+    return render(request, 'institution_profile.html', context)
     
 # Admin
 def admin_authentication(request):
+    if 'admin_id' in request.session:
+        return redirect('dashboard')
+    
     return render(request, 'admin_authentication.html')
 
+def admin_login(request):
+    if 'admin_id' in request.session:
+        return redirect('dashboard')
+    
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('login-password')
+
+        try:
+            admin = SuperAdmin.objects.get(email=email)
+        except SuperAdmin.DoesNotExist:
+            messages.error(request, "Email does not exist.")
+            return render(request, 'admin_authentication.html')
+
+        if not check_password(password, admin.password):
+            messages.error(request, "Invalid password.")
+            return render(request, 'admin_authentication.html')
+
+        if admin.status != 'active':
+            messages.error(request, "Your account is suspended. Please contact support.")
+            return render(request, 'admin_authentication.html')
+
+        request.session['admin_id'] = admin.id
+        request.session.set_expiry(7200) 
+        return redirect('dashboard')
+
+    return render(request, 'admin_authentication.html')
+
+def admin_logout(request):
+    # Check if the admin is logged in
+    if 'admin_id' in request.session:
+        del request.session['admin_id']
+    
+    # Redirect to the admin authentication page after logging out
+    return redirect('admin_authentication')
+
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    if 'admin_id' not in request.session:
+        return redirect('admin-authentication')
+    
+    admin_id = request.session.get('admin_id')
+    admin = SuperAdmin.objects.get(id=admin_id)
+    
+    return render(request, 'dashboard.html', {'admin': admin})
 
 def user(request):
     users = User.objects.all().order_by('-id')

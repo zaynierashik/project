@@ -2,13 +2,7 @@ from django.urls import path
 from app import views
 
 urlpatterns = [
-    # Admin
     path('', views.index, name='index'),
-    path('admin-authentication', views.admin_authentication, name='admin-authentication'),
-    path('dashboard/', views.dashboard, name='dashboard'),
-    path('user/', views.user, name='user'),
-    path('institution/', views.institution, name='institution'),
-    path('feedback/', views.feedback, name='feedback'),
 
     # Website
     path('authentication/', views.authentication, name='authentication'),
@@ -23,8 +17,21 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('institutions/', views.institutions, name='institutions'),
     path('courses/', views.courses, name='courses'),
-    path('admissions/', views.admissions, name='admissions'),
+    path('applications/', views.applications, name='applications'),
     path('feedbacks/', views.feedbacks, name='feedbacks'),
 
     path('send-feedback/', views.send_feedback, name='send-feedback'),
+
+    # Institution
+    path('institution-dashboard/', views.institution_dashboard, name='institution-dashboard'),
+    path('institution-profile/', views.institution_profile, name='institution-profile'),
+
+    # Admin
+    path('admin-authentication', views.admin_authentication, name='admin-authentication'),
+    path('admin-login', views.admin_login, name='admin-login'),
+    path('admin-logout', views.admin_logout, name='admin-logout'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('user/', views.user, name='user'),
+    path('institution/', views.institution, name='institution'),
+    path('feedback/', views.feedback, name='feedback'),
 ]

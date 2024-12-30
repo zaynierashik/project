@@ -22,6 +22,36 @@ function scrollToSection(sectionId){
     }
 }
 
+// Toggle foreign university field
+function toggleForeignUniversityField() {
+    const affiliationSelect = document.getElementById('affiliation');
+    const foreignUniversityField = document.getElementById('foreign-university-field');
+    const selectedAffiliation = affiliationSelect.value;
+    
+    if (selectedAffiliation === 'foreign') {
+        foreignUniversityField.classList.remove('hidden');
+    } else {
+        foreignUniversityField.classList.add('hidden');
+    }
+}
+
+// Call this function initially to check the current value and show/hide the field
+document.addEventListener('DOMContentLoaded', function () {
+    toggleForeignUniversityField();
+});
+
+// Show selected file name
+function showFileName() {
+    const fileInput = document.getElementById('file-upload');
+    const fileNameElement = document.getElementById('file-name');
+
+    if (fileInput.files.length > 0) {
+        fileNameElement.textContent = `${fileInput.files[0].name}`;
+    } else {
+        fileNameElement.textContent = '';
+    }
+}
+
 // Back to top
 window.addEventListener('scroll', function() {
     const button = document.getElementById('back-to-top');
