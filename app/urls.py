@@ -23,6 +23,9 @@ urlpatterns = [
     path('send-feedback/', views.send_feedback, name='send-feedback'),
 
     # Institution
+    path('institution-authentication', views.institution_authentication, name='institution-authentication'),
+    path('institution-signup', views.institution_signup, name='institution-signup'),
+    path('institution-login', views.institution_login, name='institution-login'),
     path('institution-dashboard/', views.institution_dashboard, name='institution-dashboard'),
     path('institution-profile/', views.institution_profile, name='institution-profile'),
 
@@ -34,4 +37,7 @@ urlpatterns = [
     path('user/', views.user, name='user'),
     path('institution/', views.institution, name='institution'),
     path('feedback/', views.feedback, name='feedback'),
+
+    # Ajax
+    path('update-status/<int:institution_id>/', views.update_status, name='update-status'),
 ]

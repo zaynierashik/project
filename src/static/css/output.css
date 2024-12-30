@@ -1021,6 +1021,10 @@ select {
   top: 100%;
 }
 
+.right-5 {
+  right: 1.25rem;
+}
+
 .isolate {
   isolation: isolate;
 }
@@ -3006,6 +3010,11 @@ select {
   background-color: rgb(255 174 31 / var(--tw-bg-opacity, 1));
 }
 
+.bg-green-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 197 94 / var(--tw-bg-opacity, 1));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -3653,6 +3662,22 @@ select {
 
 .pt-\[6px\] {
   padding-top: 6px;
+}
+
+.ps-0 {
+  padding-inline-start: 0px;
+}
+
+.ps-5 {
+  padding-inline-start: 1.25rem;
+}
+
+.ps-7 {
+  padding-inline-start: 1.75rem;
+}
+
+.ps-6 {
+  padding-inline-start: 1.5rem;
 }
 
 .text-left {
@@ -4925,6 +4950,14 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
   .lg\:mb-11 {
     margin-bottom: 2.75rem;
+  }
+
+  .lg\:mb-5 {
+    margin-bottom: 1.25rem;
+  }
+
+  .lg\:mb-3 {
+    margin-bottom: 0.75rem;
   }
 
   .lg\:flex {

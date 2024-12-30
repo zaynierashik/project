@@ -1,7 +1,9 @@
+from app.models import *
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password, make_password
-from app.models import *
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Website
 def index(request):
@@ -170,6 +172,64 @@ def send_feedback(request):
     return render(request, 'feedbacks.html', {'user': user})
 
 # Institution
+def institution_authentication(request):
+    if 'institution_id' in request.session:
+        return redirect('dashboard')
+    
+    return render(request, 'institution_authentication.html')
+
+def institution_signup(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        institution = request.POST.get("institution")
+        email = request.POST.get("signup-email")
+
+        if InstitutionAdmin.objects.filter(email=email).exists():
+            messages.error(request, "Email already exists.")
+            return redirect('institution-authentication')
+            
+        if InstitutionAdmin.objects.filter(institution=institution).exists():
+            messages.error(request, "Institution already exists.")
+            return redirect('institution-authentication')
+
+        password = make_password(request.POST.get("signup-password"))
+
+        user = InstitutionAdmin(name=name, institution=institution, email=email, password=password)
+        user.save()
+        messages.success(request, "Account created successfully.")
+
+        return redirect('institution-authentication')
+
+    return render(request, "institution_authentication.html")
+
+def institution_login(request):
+    if 'institution_id' in request.session:
+        return redirect('institution-dashboard')
+    
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('login-password')
+
+        try:
+            institution = InstitutionAdmin.objects.get(email=email)
+        except InstitutionAdmin.DoesNotExist:
+            messages.error(request, "Email does not exist.")
+            return render(request, 'institution_authentication.html')
+
+        if not check_password(password, institution.password):
+            messages.error(request, "Invalid password.")
+            return render(request, 'institution_authentication.html')
+
+        if institution.status != 'approved':
+            messages.error(request, "Your account is in verification phase.")
+            return render(request, 'institution_authentication.html')
+
+        request.session['institution_id'] = institution.id
+        request.session.set_expiry(7200) 
+        return redirect('institution-dashboard')
+
+    return render(request, 'authentication.html')
+
 def institution_dashboard(request):
     return render(request, 'institution_dashboard.html')
 
@@ -245,9 +305,24 @@ def user(request):
     return render(request, 'user.html', {'users': users})
 
 def institution(request):
-    institutions = Institution.objects.all().order_by('-id')
+    institutions = InstitutionAdmin.objects.all().order_by('-id')
     return render(request, 'institution.html', {'institutions': institutions})
 
 def feedback(request):
     feedbacks = Feedback.objects.all().order_by('-id')
     return render(request, 'feedback.html', {'feedbacks': feedbacks})
+
+# Ajax
+# Update the status of an institution admin account
+@csrf_exempt
+def update_status(request, institution_id):
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        try:
+            institution = InstitutionAdmin.objects.get(id=institution_id)
+            institution.status = status
+            institution.save()
+            return JsonResponse({'success': True, 'message': 'Status updated successfully.'})
+        except InstitutionAdmin.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'Institution not found.'}, status=404)
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'}, status=400)

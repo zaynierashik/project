@@ -46,6 +46,28 @@ class User(models.Model):
             self.password = make_password(self.password)
         super(User, self).save(*args, **kwargs)
 
+class InstitutionAdmin(models.Model):
+    STATUS_CHOICES = [
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+        ('not_decided', 'Not Decided')
+    ]
+    
+    name = models.CharField(max_length=255)
+    institution = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=255)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='not_decided')
+    
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        # Hash the password before saving if it's not already hashed
+        if self.password and not self.password.startswith(('pbkdf2_sha256$', 'bcrypt')):
+            self.password = make_password(self.password)
+        super(InstitutionAdmin, self).save(*args, **kwargs)
+
 def logo_upload_to(instance, filename):
     # Using the institution's name to create a folder structure
     institution_name = instance.name.lower().replace(" ", "-")

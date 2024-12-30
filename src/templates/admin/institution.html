@@ -7,12 +7,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link href="{% static 'css/input.css' %}" rel="stylesheet">
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
 	<link href="{% static 'css/theme.css' %}" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-	</style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-[#FAFAFA] dark:bg-[#121212]">
 	<main>
@@ -37,9 +36,10 @@
                                             <tr class="font-semibold text-gray-600">
                                                 <th scope="col" class="p-4">S.N.</th>
                                                 <th scope="col" class="p-4">Name</th>
-                                                <th scope="col" class="p-4">Phone</th>
+                                                <th scope="col" class="p-4">Institution</th>
                                                 <th scope="col" class="p-4">Email</th>
-                                                <th scope="col" class="p-4"></th>
+                                                <th scope="col" class="ps-6">Status</th>
+                                                <th scope="col" class=""></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -47,22 +47,27 @@
                                             <tr>
                                                 <td class="p-4 font-medium text-gray-500">{{ forloop.counter }}</td>
                                                 <td class="p-4">
-                                                    <div class="flex flex-col gap-1">
-                                                        <h3 class="font-medium text-gray-500">{{ institution.name }}</h3>
-                                                    </div>
+                                                    <span class="font-medium text-gray-500">{{ institution.name }}</span>
                                                 </td>
                                                 <td class="p-4">
-                                                    <span class="font-medium text-gray-500">{{ institution.phone }}</span>
+                                                    <span class="font-medium text-gray-500">{{ institution.institution }}</span>
                                                 </td>
                                                 <td class="p-4">
                                                     <span class="font-medium text-gray-500">{{ institution.email }}</span>
                                                 </td>
                                                 <td class="p-4">
-                                                    <span class="font-medium text-gray-500">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                                        </svg>                                                          
-                                                    </span>
+                                                    <select name="status" class="status-dropdown rounded text-sm border-none ps-2 pr-8" data-institution-id="{{ institution.id }}">
+                                                        <option value="approved" {% if institution.status == 'approved' %}selected{% endif %}>Approved</option>
+                                                        <option value="rejected" {% if institution.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                                        <option value="not_decided" {% if institution.status == 'not_decided' %}selected{% endif %} {% if institution.status != 'not_decided' %}disabled{% endif %}>Not Decided</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'institution-details' institution.id %}" target="_blank" class="font-medium text-gray-500">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
+                                                            <path fill-rule="evenodd" d="M8.25 3.75H19.5a.75.75 0 0 1 .75.75v11.25a.75.75 0 0 1-1.5 0V6.31L5.03 20.03a.75.75 0 0 1-1.06-1.06L17.69 5.25H8.25a.75.75 0 0 1 0-1.5Z" clip-rule="evenodd" />
+                                                        </svg>                                                   
+                                                    </a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -76,14 +81,74 @@
 			</div>
 		</div>
 	</main>
+
+    <div id="toast-container" class="fixed top-5 right-5 z-50 space-y-2 text-xs hidden"></div>
+
+    <script>
+        function showToast(message, type = 'success') {
+            const bgColor = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                info: 'bg-blue-500',
+                warning: 'bg-yellow-500'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${bgColor[type]} text-white p-4 rounded shadow-lg flex items-center space-x-2 transition-opacity duration-300 ease-in-out`;
+            toast.innerHTML = `
+                <span>${message}</span>
+                <button class="text-white focus:outline-none" onclick="this.parentElement.remove()">✕</button>
+            `;
+
+            const container = document.getElementById('toast-container');
+            container.classList.remove('hidden');
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+                if (container.childElementCount === 0) {
+                    container.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        $(document).ready(function () {
+            $('.status-dropdown').change(function () {
+                var institutionId = $(this).data('institution-id');
+                var newStatus = $(this).val();
+                var $dropdown = $(this);
+
+                $.ajax({
+                    url: '/update-status/' + institutionId + '/',
+                    type: 'POST',
+                    data: {
+                        'status': newStatus,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            showToast(response.message, 'success');
+                            // Disable "Not Decided" option permanently
+                            $dropdown.find('option[value="not_decided"]').attr('disabled', true);
+                        } else {
+                            showToast(response.message, 'error');
+                        }
+                    },
+                    error: function (xhr, errmsg, err) {
+                        showToast('Error updating status.', 'error');
+                    }
+                });
+            });
+        });
+    </script>    
 	
-	<script src="{% static 'libs/jquery/dist/jquery.min.js' %} "></script>
-	<script src="{% static 'libs/simplebar/dist/simplebar.min.js' %} "></script>
-	<script src="{% static 'libs/iconify-icon/dist/iconify-icon.min.js' %} "></script>
-	<script src="{% static 'libs/@preline/dropdown/index.js' %} "></script>
-	<script src="{% static 'libs/@preline/overlay/index.js' %} "></script>
-	<script src="{% static 'js/sidebarmenu.js' %} "></script>
-	<script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %} "></script>
-    <script src="{% static 'js/dashboard.js' %} "></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+	<script src="{% static 'js/sidebarmenu.js' %}"></script>
+	<script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+	<script src="{% static 'libs/simplebar/dist/simplebar.min.js' %}"></script>
+	<script src="{% static 'libs/iconify-icon/dist/iconify-icon.min.js' %}"></script>
+	<script src="{% static 'libs/@preline/dropdown/index.js' %}"></script>
+	<script src="{% static 'libs/@preline/overlay/index.js' %}"></script>
+	<script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
 </body>
 </html>

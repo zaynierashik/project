@@ -10,6 +10,10 @@ class SuperAdminAdmin(admin.ModelAdmin):
 class UserAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'status')
 
+@admin.register(InstitutionAdmin)
+class InstitutionAdminAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'status')
+
 class InstitutionImageInline(admin.TabularInline):
     model = InstitutionImage
     extra = 1  # Default number of images to show when adding
