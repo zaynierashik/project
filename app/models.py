@@ -100,6 +100,7 @@ class Institution(models.Model):
     logo = models.ImageField(upload_to=logo_upload_to, blank=True, null=True)
     affiliation = models.CharField(max_length=50, choices=AFFILIATION_CHOICES)
     Foreign_University_Name = models.CharField(max_length=255, blank=True, null=True, help_text="If the affiliation is Foreign University, specify the university name here.")
+    admin = models.OneToOneField(InstitutionAdmin, on_delete=models.CASCADE, related_name='managed_institution', blank=True, null=True)
 
     def save(self, *args, **kwargs):
         # Ensure foreign_university_name is only populated when affiliation is 'foreign'

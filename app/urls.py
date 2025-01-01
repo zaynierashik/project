@@ -26,8 +26,13 @@ urlpatterns = [
     path('institution-authentication', views.institution_authentication, name='institution-authentication'),
     path('institution-signup', views.institution_signup, name='institution-signup'),
     path('institution-login', views.institution_login, name='institution-login'),
+    path('institution-logout', views.institution_logout, name='institution-logout'),
     path('institution-dashboard/', views.institution_dashboard, name='institution-dashboard'),
     path('institution-profile/', views.institution_profile, name='institution-profile'),
+    path('programs/', views.programs, name='programs'),
+
+    path('add-institution/', views.add_institution, name='add-institution'),
+    path('update-institution/<int:institution_id>', views.update_institution, name='update-institution'),
 
     # Admin
     path('admin-authentication', views.admin_authentication, name='admin-authentication'),

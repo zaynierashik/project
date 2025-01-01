@@ -1,5 +1,5 @@
 from app.models import *
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password, make_password
 from django.http import JsonResponse
@@ -228,12 +228,26 @@ def institution_login(request):
         request.session.set_expiry(7200) 
         return redirect('institution-dashboard')
 
-    return render(request, 'authentication.html')
+    return render(request, 'institution_authentication.html')
+
+def institution_logout(request):
+    # Check if the institution is logged in
+    if 'institution_id' in request.session:
+        del request.session['institution_id']
+    
+    # Redirect to the institution authentication page after logging out
+    return redirect('institution-authentication')
 
 def institution_dashboard(request):
     return render(request, 'institution_dashboard.html')
 
 def institution_profile(request):
+    if 'institution_id' not in request.session:
+        return redirect('institution-authentication')
+    
+    institution_id = request.session.get('institution_id')
+    institution = InstitutionAdmin.objects.get(id=institution_id)
+        
     AFFILIATION_CHOICES = [
         ('tribhuvan', 'Tribhuvan University'),
         ('pokhara', 'Pokhara University'),
@@ -243,10 +257,87 @@ def institution_profile(request):
         ('foreign', 'Foreign University'),
     ]
 
-    institution = Institution.objects.get(id=2)
+    # admin_institution = institution.managed_institution
+    admin_institution = Institution.objects.filter(admin=institution).first()
 
-    context = {'affiliation_choices': AFFILIATION_CHOICES, 'institution': institution}
-    return render(request, 'institution_profile.html', context)
+    if admin_institution:
+        return render(request, 'institution_profile.html', {'affiliation_choices': AFFILIATION_CHOICES, 'institution': institution, 'admin_institution': admin_institution, 'edit_mode': True})
+    else:
+        return render(request, 'institution_profile.html', {'affiliation_choices': AFFILIATION_CHOICES, 'institution': institution, 'edit_mode': False})
+
+def add_institution(request):
+    if 'institution_id' not in request.session:
+        return redirect('institution-authentication')
+    
+    institution_id = request.session.get('institution_id')
+    institution = InstitutionAdmin.objects.get(id=institution_id)
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        affiliation = request.POST.get('affiliation')
+        foreign_university_name = request.POST.get('foreign_university_name')
+        program = request.POST.get('program')
+        overview = request.POST.get('overview')
+        message = request.POST.get('message')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        website = request.POST.get('website')
+        address = request.POST.get('address')
+        map = request.POST.get('map')
+        logo = request.FILES.get('file-upload')
+
+        institution = Institution(name=name, affiliation=affiliation, Foreign_University_Name=foreign_university_name, program=program, overview=overview, message=message, phone=phone, email=email, website=website, address=address, map=map, logo=logo, admin=institution)
+        institution.save()
+        messages.success(request, 'Institution added successfully.')
+
+        return redirect('institution-profile')
+    
+def update_institution(request, institution_id):
+    institution = get_object_or_404(Institution, id=institution_id)
+
+    if request.method == 'POST':
+        if 'file-upload' in request.FILES:
+            logo = request.FILES['file-upload']
+            institution.logo = logo
+
+        # Get the form data and update the institution fields
+        affiliation = request.POST.get('affiliation')
+        if affiliation == 'foreign':
+            foreign_university_name = request.POST.get('foreign_university_name')
+            institution.Foreign_University_Name = foreign_university_name
+        else:
+            institution.Foreign_University_Name = None
+
+        # Update the rest of the fields
+        institution.name = request.POST.get('name')
+        institution.affiliation = affiliation
+        institution.email = request.POST.get('email')
+        institution.phone = request.POST.get('phone')
+        institution.website = request.POST.get('website')
+        institution.address = request.POST.get('address')
+        institution.overview = request.POST.get('overview')
+        institution.message = request.POST.get('message')
+        institution.program = request.POST.get('program')
+        institution.map = request.POST.get('map')
+
+        # Save the updated institution object
+        institution.save()
+
+        # Display a success message
+        messages.success(request, 'Institution details updated successfully.')
+
+        # Redirect to the institution profile page or any other page you need
+        return redirect('institution-profile')
+
+    # If it's a GET request, render the form pre-filled with institution data
+    return render(request, 'institution_profile.html', {
+        'institution': institution,
+        'edit_mode': True,
+        'affiliation_choices': Institution.AFFILIATION_CHOICES,
+    })
+
+def programs(request):
+    return render(request, 'programs.html')
     
 # Admin
 def admin_authentication(request):
@@ -284,12 +375,10 @@ def admin_login(request):
     return render(request, 'admin_authentication.html')
 
 def admin_logout(request):
-    # Check if the admin is logged in
     if 'admin_id' in request.session:
         del request.session['admin_id']
     
-    # Redirect to the admin authentication page after logging out
-    return redirect('admin_authentication')
+    return redirect('admin-authentication')
 
 def dashboard(request):
     if 'admin_id' not in request.session:
