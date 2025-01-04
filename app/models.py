@@ -137,6 +137,7 @@ class Course(models.Model):
     
     name = models.CharField(max_length=255, unique=True)
     abbreviation = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    year = models.CharField(max_length=100)
     field = models.CharField(max_length=255, choices=FIELDS)
     level = models.CharField(max_length=255, choices=LEVELS)
     affiliation = models.CharField(max_length=50, choices=AFFILIATION_CHOICES)

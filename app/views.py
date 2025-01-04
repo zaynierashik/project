@@ -8,9 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 # Website
 def index(request):
     institutions = Institution.objects.all()
+    courses = Course.objects.all()
     feedbacks = Feedback.objects.all().filter(status='show')
 
-    context = {'institutions': institutions, 'feedbacks': feedbacks}
+    context = {'institutions': institutions, 'courses': courses, 'feedbacks': feedbacks}
     return render(request, 'index.html', context)
 
 def authentication(request):
@@ -308,7 +309,6 @@ def update_institution(request, institution_id):
         else:
             institution.Foreign_University_Name = None
 
-        # Update the rest of the fields
         institution.name = request.POST.get('name')
         institution.affiliation = affiliation
         institution.email = request.POST.get('email')
@@ -319,22 +319,12 @@ def update_institution(request, institution_id):
         institution.message = request.POST.get('message')
         institution.program = request.POST.get('program')
         institution.map = request.POST.get('map')
-
-        # Save the updated institution object
         institution.save()
 
-        # Display a success message
         messages.success(request, 'Institution details updated successfully.')
-
-        # Redirect to the institution profile page or any other page you need
         return redirect('institution-profile')
 
-    # If it's a GET request, render the form pre-filled with institution data
-    return render(request, 'institution_profile.html', {
-        'institution': institution,
-        'edit_mode': True,
-        'affiliation_choices': Institution.AFFILIATION_CHOICES,
-    })
+    return render(request, 'institution_profile.html', {'institution': institution, 'edit_mode': True, 'affiliation_choices': Institution.AFFILIATION_CHOICES,})
 
 def programs(request):
     return render(request, 'programs.html')
@@ -431,6 +421,7 @@ def add_course(request):
     if request.method == "POST":
         name = request.POST.get('name')
         abbreviation = request.POST.get('abbreviation')
+        year = request.POST.get('year')
         field = request.POST.get('field')
         level = request.POST.get('level')
         affiliation = request.POST.get('affiliation')
@@ -444,7 +435,7 @@ def add_course(request):
 
         offered_by_ids = [institution_id for institution_id in offered_by_ids if institution_id]
 
-        course = Course(name=name, abbreviation=abbreviation, field=field, level=level, affiliation=affiliation, Foreign_University_Name=foreign_university_name, about=about,
+        course = Course(name=name, abbreviation=abbreviation, year=year, field=field, level=level, affiliation=affiliation, Foreign_University_Name=foreign_university_name, about=about,
             eligibility=eligibility, Admission_Criteria=admission_criteria, Job_Prospect=job_prospect, Prospect_Career=prospect_career)
         course.save()
 
@@ -456,6 +447,68 @@ def add_course(request):
 
     institutions = Institution.objects.all()
     return render(request, "course.html", {"institutions": institutions})
+
+def edit_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    institutions = Institution.objects.all()
+
+    FIELDS = [
+        ('engineering', 'Engineering'),
+        ('cit', 'Computer and Information Technology'),
+        ('management', 'Management'),
+        ('st', 'Science and Technology'),
+        ('medicine', 'Medicine'),
+        ('law', 'Law')
+    ]
+
+    LEVELS = [
+        ('bachelor', 'Bachelor'),
+        ('master', 'Master')
+    ]
+
+    AFFILIATION_CHOICES = [
+        ('tribhuvan', 'Tribhuvan University'),
+        ('pokhara', 'Pokhara University'),
+        ('kathmandu', 'Kathmandu University'),
+        ('gandaki', 'Gandaki University'),
+        ('purbanchal', 'Purbanchal University'),
+        ('foreign', 'Foreign University'),
+    ]
+
+    context = {'course': course, 'institutions': institutions, 'fields': FIELDS, 'levels': LEVELS, 'affiliation_choices': AFFILIATION_CHOICES}
+    return render(request, 'edit_course.html', context)
+
+def update_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    if request.method == 'POST':
+        affiliation = request.POST.get('affiliation')
+        if affiliation == 'foreign':
+            foreign_university_name = request.POST.get('foreign_university_name')
+            course.Foreign_University_Name = foreign_university_name
+        else:
+            course.Foreign_University_Name = None
+
+        course.name = request.POST.get('name')
+        course.affiliation = affiliation
+        course.abbreviation = request.POST.get('abbreviation')
+        course.year = request.POST.get('year')
+        course.field = request.POST.get('field')
+        course.level = request.POST.get('level')
+        course.about = request.POST.get('about')
+        course.eligibility = request.POST.get('eligibility')
+        course.Admission_Criteria = request.POST.get('admission_criteria')
+        course.Job_Prospect = request.POST.get('job_prospect')
+        course.Prospect_Career = request.POST.get('prospect_career')
+        offered_by_ids = request.POST.getlist('offered_by')
+        if offered_by_ids:
+            course.Offered_by.set(offered_by_ids)
+        course.save()
+
+        messages.success(request, 'Course details updated successfully.')
+        return redirect('edit-course', course_id=course.id)
+
+    return render(request, 'edit_course.html', {'course': course})
 
 def feedback(request):
     feedbacks = Feedback.objects.all().order_by('-id')

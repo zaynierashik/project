@@ -30,11 +30,10 @@
                             <div class="card-body">
                                 <div class="flex justify-between items-center mb-6">
                                     <h4 class="text-gray-600 text-lg tracking-wider font-semibold uppercase">Courses</h4>
-                                    <svg id="new-course" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer size-6 p-1 rounded-md bg-gray-700 text-white dark:bg-white dark:text-gray-700">
+                                    <svg id="new-course" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer size-6 p-1 rounded-md bg-gray-700 text-white dark:bg-[#121212] dark:text-white">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                     </svg>
                                 </div>
-                                
                                 <div class="relative overflow-x-auto">
                                     <table class="text-left w-full whitespace-nowrap text-sm">
                                         <thead class="text-gray-700">
@@ -73,9 +72,11 @@
                                                     </span>
                                                 </td>
                                                 <td class="p-4">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-gray-500">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                                    </svg>
+                                                    <a href="{% url 'edit-course' course.id %}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-gray-500">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                        </svg>
+                                                    </a>
                                                 </td>
                                                 <td>
                                                     <a href="" target="_blank" class="font-medium text-gray-500">
@@ -101,7 +102,7 @@
                                 <form action="{% url 'add-course' %}" method="POST">
                                     {% csrf_token %}
                                     <div>
-                                        <svg id="back-button" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer size-6 p-1 rounded-md absolute -top-2 right-6 bg-gray-700 text-white dark:bg-white dark:text-gray-700">
+                                        <svg id="back-button" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer size-6 p-1 rounded-md absolute -top-2 right-6 bg-gray-700 text-white dark:bg-[#121212] dark:text-white">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                                         </svg>
                                           
@@ -126,6 +127,11 @@
                                                         <option value="{{ field.0 }}">{{ field.1 }}</option>
                                                     {% endfor %}
                                                 </select>
+                                            </div>
+
+                                            <div class="flex-1 mb-6">
+                                                <label for="year" class="block mb-2 text-sm font-medium text-gray-700">Course Duration [Years] <span class="text-red-600">*</span></label>
+                                                <input type="number" name="year" id="year" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 py-[10px] bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" placeholder="2-4" required>
                                             </div>
                                         
                                             <div class="flex-1 mb-6">
@@ -187,7 +193,7 @@
                                                     <option value="{{ institution.id }}">{{ institution.name }}</option>
                                                 {% endfor %}
                                             </select>
-                                            <p class="mt-2 text-sm text-gray-500">
+                                            <p class="mt-2 text-xs text-gray-500">
                                                 Hold down the Ctrl (Windows) or Command (Mac) key to select multiple institutions.
                                             </p>
                                         </div>

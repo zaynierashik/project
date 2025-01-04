@@ -45,6 +45,8 @@ urlpatterns = [
     path('feedback/', views.feedback, name='feedback'),
     
     path('add-course/', views.add_course, name='add-course'),
+    path('edit-course/<int:course_id>', views.edit_course, name='edit-course'),
+    path('update-course/<int:course_id>', views.update_course, name='update-course'),
 
     # Ajax
     path('update-status/<int:institution_id>/', views.update_status, name='update-status'),
