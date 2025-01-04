@@ -41,7 +41,10 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('user/', views.user, name='user'),
     path('institution/', views.institution, name='institution'),
+    path('course/', views.course, name='course'),
     path('feedback/', views.feedback, name='feedback'),
+    
+    path('add-course/', views.add_course, name='add-course'),
 
     # Ajax
     path('update-status/<int:institution_id>/', views.update_status, name='update-status'),

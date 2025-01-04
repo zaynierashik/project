@@ -110,6 +110,53 @@ class Institution(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Course(models.Model):
+    FIELDS = [
+        ('engineering', 'Engineering'),
+        ('cit', 'Computer and Information Technology'),
+        ('management', 'Management'),
+        ('st', 'Science and Technology'),
+        ('medicine', 'Medicine'),
+        ('law', 'Law')
+    ]
+
+    LEVELS = [
+        ('bachelor', 'Bachelor'),
+        ('master', 'Master')
+    ]
+
+    AFFILIATION_CHOICES = [
+        ('tribhuvan', 'Tribhuvan University'),
+        ('pokhara', 'Pokhara University'),
+        ('kathmandu', 'Kathmandu University'),
+        ('gandaki', 'Gandaki University'),
+        ('purbanchal', 'Purbanchal University'),
+        ('foreign', 'Foreign University')
+    ]
+    
+    name = models.CharField(max_length=255, unique=True)
+    abbreviation = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    field = models.CharField(max_length=255, choices=FIELDS)
+    level = models.CharField(max_length=255, choices=LEVELS)
+    affiliation = models.CharField(max_length=50, choices=AFFILIATION_CHOICES)
+    Foreign_University_Name = models.CharField(max_length=255, blank=True, null=True, help_text="If the affiliation is Foreign University, specify the university name here.")
+    about = models.TextField()
+    eligibility = models.TextField(blank=True, null=True)
+    Admission_Criteria = models.TextField(blank=True, null=True)
+    Job_Prospect = models.TextField(blank=True, null=True)
+    Prospect_Career = models.TextField(blank=True, null=True)
+    Offered_by = models.ManyToManyField('Institution', blank=True, related_name='courses_offered')
+
+    def save(self, *args, **kwargs):
+        if not self.abbreviation:
+            self.abbreviation = None
+        if self.affiliation != 'foreign':
+            self.Foreign_University_Name = None
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 class InstitutionImage(models.Model):
     institution = models.ForeignKey(Institution, related_name="images", on_delete=models.CASCADE)

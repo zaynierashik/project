@@ -28,9 +28,8 @@
 					<div class="container full-container py-5 flex flex-col gap-6">
 						<div class="card min-h-[613px]">
                             <div class="card-body">
-                                <h4 class="text-gray-600 text-lg tracking-wider font-semibold mb-6 uppercase">Institution</h4>
+                                <h4 class="text-gray-600 text-lg tracking-wider font-semibold mb-6 uppercase">Institutions</h4>
                                 <div class="relative overflow-x-auto">
-                                    <!-- table -->
                                     <table class="text-left w-full whitespace-nowrap text-sm">
                                         <thead class="text-gray-700">
                                             <tr class="font-semibold text-gray-600">
@@ -47,13 +46,13 @@
                                             <tr>
                                                 <td class="p-4 font-medium text-gray-500">{{ forloop.counter }}</td>
                                                 <td class="p-4">
+                                                    <span class="font-medium text-gray-500">{{ institution.admin.name }}</span>
+                                                </td>
+                                                <td class="p-4">
                                                     <span class="font-medium text-gray-500">{{ institution.name }}</span>
                                                 </td>
                                                 <td class="p-4">
-                                                    <span class="font-medium text-gray-500">{{ institution.institution }}</span>
-                                                </td>
-                                                <td class="p-4">
-                                                    <span class="font-medium text-gray-500">{{ institution.email }}</span>
+                                                    <span class="font-medium text-gray-500">{{ institution.admin.email }}</span>
                                                 </td>
                                                 <td class="p-4">
                                                     <select name="status" class="status-dropdown rounded text-sm border-none ps-2 pr-8" data-institution-id="{{ institution.id }}">
@@ -86,12 +85,7 @@
 
     <script>
         function showToast(message, type = 'success') {
-            const bgColor = {
-                success: 'bg-green-500',
-                error: 'bg-red-500',
-                info: 'bg-blue-500',
-                warning: 'bg-yellow-500'
-            };
+            const bgColor = {success: 'bg-green-500', error: 'bg-red-500', info: 'bg-blue-500', warning: 'bg-yellow-500'};
 
             const toast = document.createElement('div');
             toast.className = `toast ${bgColor[type]} text-white p-4 rounded shadow-lg flex items-center space-x-2 transition-opacity duration-300 ease-in-out`;
@@ -128,7 +122,6 @@
                     success: function (response) {
                         if (response.success) {
                             showToast(response.message, 'success');
-                            // Disable "Not Decided" option permanently
                             $dropdown.find('option[value="not_decided"]').attr('disabled', true);
                         } else {
                             showToast(response.message, 'error');
