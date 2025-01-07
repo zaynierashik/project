@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Website
 def index(request):
     institutions = Institution.objects.all()
-    courses = Course.objects.all()
+    courses = Course.objects.all().order_by('?')[:5]
     feedbacks = Feedback.objects.all().filter(status='show')
 
     context = {'institutions': institutions, 'courses': courses, 'feedbacks': feedbacks}
@@ -86,16 +86,25 @@ def institution_details(request, id):
         # Get related images using the related_name ('images') on the InstitutionImage model
         gallery_images = institution.images.all()
 
-        # Split the programs into a list
-        programs = institution.program.split(',') if institution.program else []
-        programs = [program.strip() for program in programs]  # Strip extra spaces
+        offered_courses = InstitutionCourse.objects.filter(institution=institution)
         
-        return render(
-            request, 
-            'institution_details.html', 
-            {'institution': institution, 'programs': programs, 'gallery_images': gallery_images}
-        )
+        context = {'institution': institution, 'gallery_images': gallery_images, 'offered_courses': offered_courses}
+        return render(request, 'institution_details.html', context)
     except Institution.DoesNotExist:
+        return render(request, '404.html', {'error': 'Institution not found'})
+    
+def course_details(request, id):
+    try:
+        course = Course.objects.get(id=id)
+        courses = Course.objects.all().order_by('?')[:5]
+        offering_institutions = InstitutionCourse.objects.filter(course=course)
+
+        prospect_careers = course.Prospect_Career.split(',') if course.Prospect_Career else []
+        prospect_careers = [Prospect_Career.strip() for Prospect_Career in prospect_careers]  # Strip extra space
+        
+        context = {'course': course, 'courses': courses, 'prospect_careers': prospect_careers, 'offering_institutions': offering_institutions}
+        return render(request, 'course_details.html', context)
+    except Course.DoesNotExist:
         return render(request, '404.html', {'error': 'Institution not found'})
     
 # User
@@ -431,17 +440,10 @@ def add_course(request):
         admission_criteria = request.POST.get('admission_criteria')
         job_prospect = request.POST.get('job_prospect')
         prospect_career = request.POST.get('prospect_career')
-        offered_by_ids = request.POST.getlist('offered_by')
-
-        offered_by_ids = [institution_id for institution_id in offered_by_ids if institution_id]
 
         course = Course(name=name, abbreviation=abbreviation, year=year, field=field, level=level, affiliation=affiliation, Foreign_University_Name=foreign_university_name, about=about,
             eligibility=eligibility, Admission_Criteria=admission_criteria, Job_Prospect=job_prospect, Prospect_Career=prospect_career)
         course.save()
-
-        if offered_by_ids:
-            institutions = Institution.objects.filter(id__in=offered_by_ids)
-            course.Offered_by.set(institutions)
         
         return redirect("course")
 

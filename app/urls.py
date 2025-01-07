@@ -11,6 +11,7 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('about-us/', views.about_us, name='about-us'),
     path('institution-details/<int:id>', views.institution_details, name='institution-details'),
+    path('course-details/<int:id>', views.course_details, name='course-details'),
 
     # User
     path('userpage/', views.userpage, name='userpage'),

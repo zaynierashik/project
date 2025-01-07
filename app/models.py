@@ -147,7 +147,7 @@ class Course(models.Model):
     Admission_Criteria = models.TextField(blank=True, null=True)
     Job_Prospect = models.TextField(blank=True, null=True)
     Prospect_Career = models.TextField(blank=True, null=True)
-    Offered_by = models.ManyToManyField('Institution', blank=True, related_name='courses_offered')
+    # Offered_by = models.ManyToManyField('Institution', blank=True, related_name='courses_offered')
 
     def save(self, *args, **kwargs):
         if not self.abbreviation:
@@ -158,6 +158,19 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
+    
+class InstitutionCourse(models.Model):
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, related_name='institution_courses')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='institution_courses')
+    details = models.TextField(blank=True, null=True, help_text="Details specific to this course offered by the institution.")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('institution', 'course')  # Prevent duplicate institution-course pairs
+
+    def __str__(self):
+        return f"{self.institution.name} - {self.course.name}"
 
 class InstitutionImage(models.Model):
     institution = models.ForeignKey(Institution, related_name="images", on_delete=models.CASCADE)

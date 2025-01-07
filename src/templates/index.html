@@ -85,7 +85,7 @@
 							{% for course in courses|slice:"5" %}
 							<swiper-slide class="border-[1.7px] border-[#656565] p-5 items-start justify-center cursor-pointer rounded-3xl transform transition-all duration-300 ease-in-out hover:scale-100 hover:translate-z-10 group flex flex-col">
 								<div class="glow-effect rounded-3xl -z-50 absolute inset-0 pointer-events-none opacity-0"></div>
-								<a href="#">
+								<a href="{% url 'course-details' course.id %}">
 									<h6 class="font-medium text-base text-black">{{ course.name }}</h6>
 									<h6 class="mt-3 font-semibold text-sm text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 to-violet-600">{{ course.year }} Years</h6>
 								</a>
