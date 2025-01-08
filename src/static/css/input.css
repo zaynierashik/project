@@ -12,6 +12,10 @@ body{
     font-family: "Plus Jakarta Sans", serif;
 }
 
+.bg-index {
+    background-image: url('/static/images/background/index-bg.png');
+}  
+
 .swiper-slide-active {
     border-color: #7c3aed;
     border-width: 2px;

@@ -55,7 +55,7 @@ function showFileName() {
 // Back to top
 window.addEventListener('scroll', function() {
     const button = document.getElementById('back-to-top');
-    if (window.scrollY > 1400) { // Change the value to show back-to-top button from certain px
+    if (window.scrollY > 1600) { // Change the value to show back-to-top button from certain px
         button.classList.remove('hidden');
         button.classList.add('show');
     } else {
