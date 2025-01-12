@@ -9,12 +9,19 @@ class SuperAdmin(models.Model):
         ('active', 'Active'),
         ('inactive', 'In Active'),
     ]
+
+    ROLES = [
+        ('admin', 'Admin'),
+        ('staff', 'Staff'),
+    ]
     
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=10, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
+    role = models.CharField(max_length=10, choices=ROLES, default='staff')
+    created_at = models.DateField(default=now)
     
     def __str__(self):
         return self.name

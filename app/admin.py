@@ -36,8 +36,6 @@ class FeedbackAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('name', 'affiliation')
 
-from django.contrib import admin
-
 @admin.register(InstitutionCourse)
 class InstitutionCourseAdmin(admin.ModelAdmin):
     list_display = ('institution', 'course', 'updated_at')

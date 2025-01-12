@@ -373,6 +373,32 @@ def admin_login(request):
 
     return render(request, 'admin_authentication.html')
 
+def admin_signup(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        role = request.POST.get("role")
+        phone = request.POST.get("phone")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        if SuperAdmin.objects.filter(phone=phone).exists():
+            messages.error(request, "Phone number already exists.")
+            return redirect('system-user')
+        
+        if SuperAdmin.objects.filter(email=email).exists():
+            messages.error(request, "Email already exists.")
+            return redirect('system-user')
+
+        password = make_password(request.POST.get("signup-password"))
+
+        admin = SuperAdmin(name=name, role=role, phone=phone, email=email, password=password)
+        admin.save()
+        messages.success(request, "Account created successfully.")
+
+        return redirect('system-user')
+
+    return render(request, "system_user.html")
+
 def admin_logout(request):
     if 'admin_id' in request.session:
         del request.session['admin_id']
@@ -387,6 +413,17 @@ def dashboard(request):
     admin = SuperAdmin.objects.get(id=admin_id)
     
     return render(request, 'dashboard.html', {'admin': admin})
+
+def system_user(request):
+    ROLES = [
+        ('admin', 'Admin'),
+        ('staff', 'Staff'),
+    ]
+
+    system_users = SuperAdmin.objects.all().order_by('-id')
+
+    context = {'roles':ROLES, 'system_users':system_users}
+    return render(request, 'system_user.html', context)
 
 def user(request):
     users = User.objects.all().order_by('-id')

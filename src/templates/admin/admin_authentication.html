@@ -20,8 +20,8 @@
                     <img src="{% static 'images/logos/logo-light.png' %}" alt="Gurkha Cyber Force" class="mx-auto lg:mb-11 mb-8 h-11 w-auto">
                 </a>
                 
-                <div class="relative py-7 sm:max-w-xl sm:mx-auto">
-                    <div class="relative px-4 py-10 mx-8 md:mx-0 shadow-lg rounded-3xl sm:py-10 sm:px-7 backdrop-blur-sm">
+                <div class="relative py-14 sm:max-w-xl sm:mx-auto">
+                    <div class="relative px-4 pt-12 pb-4 mx-8 md:mx-0 shadow-lg rounded-3xl sm:pt-12 sm:pb-4 sm:px-7 backdrop-blur-sm">
                         <div class="max-w-md mx-auto w-[375px]">
                             <form action="{% url 'admin-login' %}" method="POST">
                                 {% csrf_token %}
@@ -74,17 +74,17 @@
                                     </a>
                                 </div>
 
-                                <div class="mb-4">
+                                <div>
                                     <button type="submit" class="tracking-wide py-2.5 px-4 bg-gradient-to-tr from-indigo-600 to-violet-600 hover:bg-gradient-to-tr hover:from-indigo-700 hover:to-violet-700 text-white w-full transition ease-in duration-200 text-center text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" type="submit">
                                         Login
                                     </button>
                                 </div>
 
-                                <div class="flex items-center justify-between mt-10">
+                                <!-- <div class="flex items-center justify-between mt-10">
                                     <span class="w-1/5 border-b dark:border-gray-400 md:w-1/4"></span>
                                     <a id="toggleSignup" class="cursor-pointer uppercase text-sm font-semibold text-gray-700 hover:tracking-widest dark:text-gray-400 hover:text-hover-text duration-500">Sign Up</a>
                                     <span class="w-1/5 border-b dark:border-gray-400 md:w-1/4"></span>
-                                </div>
+                                </div> -->
                             </form>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
             </div>
 
             <!-- Signup Form -->
-            <div class="mx-auto max-w-3xl px-6 lg:px-8 absolute pt-12 hidden" id="signup-form">
+            <!-- <div class="mx-auto max-w-3xl px-6 lg:px-8 absolute pt-12 hidden" id="signup-form">
                 <img src="{% static 'images/logos/logo-light.png' %}" alt="Gurkha Cyber Force" class="mx-auto lg:mb-11 mb-8 h-11 w-auto">
 
                 <div class="relative py-3 sm:max-w-2xl sm:mx-auto">
@@ -171,7 +171,7 @@
                         </div>                               
                     </div>
                 </div>
-            </div>
+            </div> -->
         </section>
     </div>
 
@@ -203,6 +203,6 @@
     {% endif %}
 
 	<script src="{% static 'js/script.js' %}"></script>
-	<script src="{% static 'js/index.js' %}"></script>
+	<!-- <script src="{% static 'js/index.js' %}"></script> -->
 </body>
 </html>

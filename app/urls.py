@@ -37,9 +37,11 @@ urlpatterns = [
 
     # Admin
     path('admin-authentication', views.admin_authentication, name='admin-authentication'),
+    path('admin-signup', views.admin_signup, name='admin-signup'),
     path('admin-login', views.admin_login, name='admin-login'),
     path('admin-logout', views.admin_logout, name='admin-logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('system-user/', views.system_user, name='system-user'),
     path('user/', views.user, name='user'),
     path('institution/', views.institution, name='institution'),
     path('course/', views.course, name='course'),

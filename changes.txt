@@ -7,7 +7,6 @@
 7. Add and Edit form for institution to select course they provide and write some details of that course
 8. Graphs in admin and institution dashboard regarding growth, admission, and more
 
-
 In Future:
 1. Recommendation of similar courses and institutions
 2. Chatbot for queries; should be dynamic
