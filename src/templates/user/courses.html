@@ -1,0 +1,105 @@
+{% load static %}
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gurkha Cyber Force</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="{% static 'css/input.css' %}">
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+	<link rel="stylesheet" href="{% static 'css/theme.css' %}">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#121212]">
+	<main>
+		<div id="main-wrapper" class="flex">
+			<!-- Sidebar -->
+			{% include "components/user_sidebar.html" %}
+
+			<div class="w-full page-wrapper overflow-hidden">
+				<!-- Header -->
+				{% include "components/user_header.html" %}
+
+                <!-- Main Content -->
+				<main class="h-full overflow-y-auto max-w-full py-[6px]">
+                    <div class="container full-container py-3 flex flex-col gap-6">
+                        <div class="mx-auto max-w-7xl">
+                            <div class="grid grid-cols-2 mb-8">
+                                <h2 class="font-manrope font-semibold text-3xl min-[400px]:text-3xl text-black max-lg:text-center">Courses</h2>
+                
+                                <div class="relative flex justify-end">
+                                    <div class="relative w-80 transition-all duration-500 focus-within:w-full">
+                                        <input id="searchInput" name="search" class="text-sm shadow-md border-gray-300 pe-10 py-3 rounded-xl w-full transition-all outline-none focus:ring-0 focus:ring-gray-500 focus:border-gray-500" placeholder="Search for courses ..." onkeyup="filterCourses()"/>
+                                        <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                                            <svg class="size-5 text-gray-500" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" stroke-linejoin="round" stroke-linecap="round"></path>
+                                            </svg>                                                                               
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div id="coursesGrid" class="grid lg:grid-cols-3 sm:grid-cols-1 gap-5">
+                                {% for course in courses %}
+                                    <a href="{% url 'course-details' course.id %}" class="course-card min-w-96 hover:transform hover:scale-[1.025] transition-transform duration-[800ms] flex flex-col">
+                                        <div class="card flex-grow">
+                                            <div class="card-body flex flex-col h-full">
+                                                <h6 class="text-lg text-gray-600 font-semibold mb-5">{{ course.name }}</h6>
+                                                
+                                                <div class="flex items-center gap-2 mb-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
+                                                    </svg>
+                                                    <p class="font-semibold text-sm text-gray-600">
+                                                        {% if course.affiliation == 'foreign' and course.Foreign_University_Name %}
+                                                            {{ course.Foreign_University_Name }}
+                                                        {% else %}
+                                                            {{ course.get_affiliation_display }}
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+                            
+                                                <div class="flex items-center gap-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    </svg>
+                                                    <p class="font-medium text-sm text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 to-violet-600">{{ course.year }} Years</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>                            
+                        </div>
+                    </div>
+                </main>
+			</div>
+		</div>
+	</main>
+
+    <script>
+        function filterCourses() {
+            const searchInput = document.getElementById("searchInput").value.toLowerCase();
+            const courseCards = document.querySelectorAll(".course-card");
+    
+            courseCards.forEach(card => {
+                const courseName = card.querySelector("h6.text-lg").textContent.toLowerCase();
+                if (courseName.includes(searchInput)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
+	
+	<script src="{% static 'js/index.js' %} "></script>
+	<script src="{% static 'js/sidebarmenu.js' %} "></script>
+    <script src="{% static 'js/dashboard.js' %} "></script>
+	<script src="{% static 'libs/simplebar/dist/simplebar.min.js' %} "></script>
+	<script src="{% static 'libs/@preline/dropdown/index.js' %} "></script>
+	<script src="{% static 'libs/@preline/overlay/index.js' %} "></script>
+</body>
+</html>

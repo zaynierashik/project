@@ -1,0 +1,51 @@
+{% load static %}
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamrocollege</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link href="{% static 'css/input.css' %}" rel="stylesheet">
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#121212]">
+    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+        <div class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-2xl dark:bg-gray-800">
+            <div class="flex flex-col overflow-y-auto md:flex-row">
+                <div class="h-32 md:h-auto md:w-1/2">
+                    <img src="{% static 'images/profile/change-password.png' %}" alt="Change Password">
+                </div>
+        
+                <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
+                    <div class="w-full">
+                        <form id="requestOtpForm" action="{% url 'request-otp' %}" method="POST">
+                            {% csrf_token %}
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Address <span class="text-red-600">*</span></label>
+                            <input type="email" name="email" id="email" class="border border-gray-400 text-sm rounded-lg block w-full mb-4 p-2.5 bg-transparent text-gray-700 focus:border-gray-500 focus:ring-0 outline-none transition-all duration-700" placeholder="johndoe@example.com" required>
+                            
+                            <button type="submit" value="Request OTP" class="tracking-wide mt-6 py-2.5 px-4 bg-gradient-to-tr from-indigo-600 to-violet-600 hover:bg-gradient-to-tr hover:from-indigo-700 hover:to-violet-700 text-white w-full transition ease-in duration-200 text-center text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">Request OTP</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="fixed top-5 right-5 z-50">
+        {% if error %}
+        <div id="toast" class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400" role="alert">
+            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 00-2 0v3a1 1 0 002 0V7zm0 6a1 1 0 10-2 0 1 1 0 002 0z" clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            <div class="ml-3 text-xs font-normal">{{ error }}</div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

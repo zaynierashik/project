@@ -1,0 +1,220 @@
+{% load static %}
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gurkha Cyber Force</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link href="{% static 'css/input.css' %}" rel="stylesheet">
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#121212]">
+    <div class="relative isolate px-6 lg:px-8">
+        <section class="flex justify-center relative">
+            
+            <!-- Login Form -->
+            <div class="mx-auto max-w-lg px-6 lg:px-8 absolute pt-12" id="login-form">
+                <a href="{% url 'index' %}">
+                    <img src="{% static 'images/logos/logo-light.png' %}" alt="Gurkha Cyber Force" class="mx-auto lg:mb-11 mb-8 h-11 w-auto">
+                </a>
+                
+                <div class="relative py-7 sm:max-w-xl sm:mx-auto">
+                    <div class="relative px-4 py-10 mx-8 md:mx-0 shadow-lg rounded-3xl sm:py-10 sm:px-7 backdrop-blur-sm">
+                        <div class="max-w-md mx-auto w-[375px]">
+                            <form action="{% url 'institution-login' %}" method="POST">
+                                {% csrf_token %}
+                                <div>
+                                    <div>
+                                        <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email Address</label>
+                                        <div class="relative mb-6">
+                                            <div class="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
+                                                <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+                                                    <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+                                                </svg>                                 
+                                            </div>
+                                            <input type="email" name="email" id="email" class="border border-gray-400 text-sm rounded-md block w-full ps-8 p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" placeholder="john@example.com" required>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label for="login-password" class="block mb-2 text-sm font-medium text-gray-700">Password</label>
+                                        <div class="relative mb-6">
+                                            <div class="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
+                                                <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+                                                </svg>                                  
+                                            </div>
+                                            
+                                            <input type="password" name="login-password" id="login-password" class="border border-gray-400 text-sm rounded-md block w-full ps-8 pe-8 p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" placeholder="••••••••" required>
+                                            
+                                            <div class="absolute inset-y-0 end-0 flex items-center pe-2.5" id="login-password-toggle-container" style="display: none;">
+                                                <button type="button" id="login-toggle-password" class="flex items-center justify-center w-6 h-6 text-gray-700 focus:outline-none">
+                                                    <svg id="login-eye-icon-closed" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                        <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM22.676 12.553a11.249 11.249 0 0 1-2.631 4.31l-3.099-3.099a5.25 5.25 0 0 0-6.71-6.71L7.759 4.577a11.217 11.217 0 0 1 4.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113Z" />
+                                                        <path d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0 1 15.75 12ZM12.53 15.713l-4.243-4.244a3.75 3.75 0 0 0 4.244 4.243Z" />
+                                                        <path d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 0 0-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 0 1 6.75 12Z" />
+                                                    </svg>
+                                                    
+                                                    <svg id="login-eye-icon-open" class="hidden w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                        <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-right mb-3">
+                                    <a class="text-xs font-display font-semibold text-gray-500 hover:text-gray-700 duration-300 cursor-pointer" href="#">
+                                        Forgot Password?
+                                    </a>
+                                </div>
+
+                                <div class="mb-4">
+                                    <button type="submit" class="tracking-wide py-2.5 px-4 bg-gradient-to-tr from-indigo-600 to-violet-600 hover:bg-gradient-to-tr hover:from-indigo-700 hover:to-violet-700 text-white w-full transition ease-in duration-200 text-center text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" type="submit">
+                                        Login
+                                    </button>
+                                </div>
+
+                                <div class="flex items-center justify-between mt-10">
+                                    <span class="w-1/5 border-b dark:border-gray-400 md:w-1/4"></span>
+                                    <a id="toggleSignup" class="cursor-pointer uppercase text-sm font-semibold text-gray-700 hover:tracking-widest dark:text-gray-400 hover:text-hover-text duration-500">Sign Up</a>
+                                    <span class="w-1/5 border-b dark:border-gray-400 md:w-1/4"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="mx-auto max-w-3xl px-6 lg:px-8 absolute pt-12 hidden" id="signup-form">
+                <img src="{% static 'images/logos/logo-light.png' %}" alt="Gurkha Cyber Force" class="mx-auto mb-3 h-11 w-auto">
+
+                <div class="relative py-3 sm:max-w-2xl sm:mx-auto">
+                    <div class="relative px-4 py-10 mx-8 md:mx-0 shadow-lg rounded-3xl sm:py-10 sm:px-7 backdrop-blur-sm">
+                        <div class="max-w-md mx-auto w-[375px]">
+                            <form action="{% url 'institution-signup' %}" method="POST">
+                                {% csrf_token %}
+                                <div>
+                                    <div>
+                                        <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Name <span class="text-red-600">*</span></label>
+                                        <div class="relative mb-6">
+                                            <div class="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
+                                                <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                                                </svg>                                                                               
+                                            </div>
+                                            <input type="text" name="name" id="name" class="border border-gray-400 text-sm rounded-md block w-full ps-8 p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" placeholder="John Doe" required>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label for="institution" class="block mb-2 text-sm font-medium text-gray-700">Institution Name <span class="text-red-600">*</span></label>
+                                        <div class="relative mb-6">
+                                            <div class="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
+                                                <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" clip-rule="evenodd" />
+                                                </svg>                                                                                                                      
+                                            </div>
+                                            <input type="text" name="institution" id="institution" class="border border-gray-400 text-sm rounded-md block w-full ps-8 p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" placeholder="Ace Pvt. Ltd." required>
+                                        </div>
+                                    </div>
+
+                                    <div class="relative mb-6">
+                                        <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email Address <span class="text-red-600">*</span></label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
+                                                <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+                                                    <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+                                                </svg>
+                                            </div>
+                                            <input type="email" name="signup-email" id="signup-email" class="border border-gray-400 text-sm rounded-md block w-full ps-8 p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" placeholder="john@example.com" required>
+                                        </div>
+                                        <div id="email-error" class="text-xs text-red-500 mt-1 hidden">This email already exists.</div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="password" class="block mb-2 text-sm font-medium text-gray-700">Password <span class="text-red-600">*</span></label>
+                                        <div class="relative mb-6">
+                                            <div class="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
+                                                <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+                                                </svg>                                  
+                                            </div>
+                                            
+                                            <input type="password" name="signup-password" id="signup-password" class="border border-gray-400 text-sm rounded-md block w-full ps-8 pe-8 p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" minlength="7" maxlength="20" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,20}" title="Password must be 7-20 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character" placeholder="••••••••" required>
+                                            
+                                            <div class="absolute inset-y-0 end-0 flex items-center pe-2.5" id="password-toggle-container" style="display: none;">
+                                                <button type="button" id="toggle-password" class="flex items-center justify-center w-6 h-6 text-gray-700 focus:outline-none">
+                                                    <svg id="eye-icon-closed" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                        <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM22.676 12.553a11.249 11.249 0 0 1-2.631 4.31l-3.099-3.099a5.25 5.25 0 0 0-6.71-6.71L7.759 4.577a11.217 11.217 0 0 1 4.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113Z" />
+                                                        <path d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0 1 15.75 12ZM12.53 15.713l-4.243-4.244a3.75 3.75 0 0 0 4.244 4.243Z" />
+                                                        <path d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 0 0-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 0 1 6.75 12Z" />
+                                                    </svg>
+                                                    
+                                                    <svg id="eye-icon-open" class="hidden w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                        <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-7 mb-4">
+                                    <button class="tracking-wide py-2.5 px-4 bg-gradient-to-tr from-indigo-600 to-violet-600 hover:bg-gradient-to-tr hover:from-indigo-700 hover:to-violet-700 text-white w-full transition ease-in duration-200 text-center text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" type="submit">
+                                        Sign Up
+                                    </button>
+                                </div>
+
+                                <div class="flex items-center justify-between mt-10">
+                                    <span class="w-1/5 border-b dark:border-gray-400 md:w-1/4"></span>
+                                    <a id="toggleLogin" class="cursor-pointer uppercase text-sm font-semibold text-gray-700 hover:tracking-widest dark:text-gray-400 hover:text-hover-text duration-500">Login</a>
+                                    <span class="w-1/5 border-b dark:border-gray-400 md:w-1/4"></span>
+                                </div>
+                            </form>
+                        </div>                               
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    {% if messages %}
+        <div id="toast-container" class="fixed top-10 right-10 z-50 space-y-2">
+            {% for message in messages %}
+                <div class="w-full max-w-sm p-2 pr-5 rounded-lg border shadow-sm {{ message.tags }} text-gray-800 bg-white">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-9 h-9 rounded-lg {% if message.tags == 'error' %} bg-red-200 {% elif message.tags == 'success' %} bg-green-200 {% else %} bg-gray-200 {% endif %} flex items-center justify-center">
+                            {% if message.tags == 'error' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                            </svg>
+                            {% elif message.tags == 'success' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                            </svg>
+                            {% else %}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                            </svg>
+                            {% endif %}
+                        </span>
+                        <p class="text-sm font-base text-gray-950">{{ message }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+	<script src="{% static 'js/script.js' %}"></script>
+	<script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>

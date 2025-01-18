@@ -1,0 +1,265 @@
+{% load static %}
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ institution.name }}</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link href="{% static 'css/input.css' %}" rel="stylesheet">
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#121212]">
+	<div class="lg:mx-32">
+		<!-- Header -->
+		<header class="absolute inset-x-0 top-0 z-50 lg:mx-32">
+			<nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+				<div class="flex lg:flex-1">
+					<a href="{% url 'index' %}" class="-m-1.5">
+						<span class="sr-only">Your Company</span>
+						<img src="{% static 'images/logos/logo-light.png' %}" class="h-11 w-auto block dark:hidden" alt="Gurkha Cyber Force Light Logo" />
+					</a>
+					<a href="{% url 'index' %}" class="-m-1.5">
+						<span class="sr-only">Your Company</span>
+						<img src="{% static 'images/logos/logo-dark.png' %}" class="h-11 w-auto hidden dark:block" alt="Gurkha Cyber Force Dark Logo" />
+					</a>
+				</div>
+		
+				<div class="flex lg:hidden">
+					<button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+						<span class="sr-only">Open main menu</span>
+						<svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+						</svg>
+					</button>
+				</div>
+		
+				<div class="hidden lg:flex lg:gap-x-12">
+					<a onclick="scrollToSection('about')" class="text-sm/6 font-semibold text-gray-900 hover:tracking-widest transition-all duration-500 hover:text-indigo-600 cursor-pointer">About</a>
+					<a onclick="scrollToSection('institutions')" class="text-sm/6 font-semibold text-gray-900 hover:tracking-widest transition-all duration-500 hover:text-indigo-600 cursor-pointer">Institutions</a>
+					<a onclick="scrollToSection('courses')" class="text-sm/6 font-semibold text-gray-900 hover:tracking-widest transition-all duration-500 hover:text-indigo-600 cursor-pointer">Courses</a>
+				</div>
+				
+				<div class="hidden lg:flex lg:flex-1 lg:justify-end">
+					<a href="{% url 'authentication' %}" class="flex justify-center gap-1 items-center py-1 pl-1 pr-2.5 text-sm uppercase cursor-pointer bg-gray-50 backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-[#111827] hover:text-white text-gray-800 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 overflow-hidden border-2 rounded-full group transition-colors duration-700">
+					   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+							<path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+						</svg>	
+						Login
+					</a>
+				</div>
+			</nav>
+		
+			<!-- Mobile menu, show/hide based on menu open state. -->
+			<div class="lg:hidden" role="dialog" aria-modal="true">
+				<!-- Background backdrop, show/hide based on slide-over state. -->
+				<div class="fixed inset-0 z-50"></div>
+				<div class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+					<div class="flex items-center justify-between">
+						<a href="#" class="-m-1.5 p-1.5">
+							<span class="sr-only">Hamrocollege</span>
+							<img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="">
+						</a>
+						<button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+							<span class="sr-only">Close menu</span>
+							<svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+							</svg>
+						</button>
+					</div>
+		
+					<div class="mt-6 flow-root">
+						<div class="-my-6 divide-y divide-gray-500/10">
+							<div class="space-y-2 py-6">
+								<a onclick="scrollToSection('about')" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold cursor-pointer text-gray-900 hover:bg-gray-50">About</a>
+								<a onclick="scrollToSection('institutions')" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold cursor-pointer text-gray-900 hover:bg-gray-50">Institutions</a>
+								<a onclick="scrollToSection('courses')" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold cursor-pointer text-gray-900 hover:bg-gray-50">Courses</a>
+							</div>
+							<div class="py-6">
+								<a href="{% url 'authentication' %}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="relative isolate px-6 mt-[81px] lg:px-8">
+			<div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+				<div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+			</div>
+			
+			<section class="w-full relative overflow-hidden py-12">
+				<div class="flex items-center mt-5 mb-12 px-5">
+					<img src="{{ institution.logo.url }}" class="w-24" alt="{{ institution.name }}">
+					<div class="ml-7">
+						<h1 class="text-[#121212] font-bold font-manrope leading-tight text-2xl">{{ institution.name }}</h1>
+						<h6 class="mt-3 font-semibold text-sm text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 to-violet-600">{{ institution.get_affiliation_display }}</h6>
+					</div>
+				</div>				
+
+				<div class="px-12 xl:px-5">
+					<div class="flex flex-col md:flex-row w-full gap-8">
+						<div class="w-full md:max-w-[176px] md:border-r md:border-gray-200" id="content-tab">
+							<ul class="tab-nav flex flex-col md:items-start items-center lg:gap-5 gap-5">
+								{% if institution.overview %}
+									<li>
+										<a onclick="scrollToSection('overview')" class="cursor-pointer tracking-wide font-medium text-sm text-gray-600 transition-all duration-500 hover:tracking-wider hover:font-semibold hover:text-gray-900">Overview</a>
+									</li>
+								{% endif %}
+
+								{% if offered_courses %}
+									<li>
+										<a onclick="scrollToSection('offered-programs')" class="cursor-pointer tracking-wide font-medium text-sm text-gray-600 transition-all duration-500 hover:tracking-wider hover:font-semibold hover:text-gray-900">Offered Programs</a>
+									</li>
+								{% endif %}
+
+								{% if institution.images.all %}
+									<li>
+										<a onclick="scrollToSection('gallery')" class="cursor-pointer tracking-wide font-medium text-sm text-gray-600 transition-all duration-500 hover:tracking-wider hover:font-semibold hover:text-gray-900">Gallery</a>
+									</li>
+								{% endif %}
+
+								{% if institution.Principal_Message %}
+									<li>
+										<a onclick="scrollToSection('principal-message')" class="cursor-pointer tracking-wide font-medium text-sm text-gray-600 transition-all duration-500 hover:tracking-wider hover:font-semibold hover:text-gray-900">Principal Message</a>
+									</li>
+								{% endif %}
+
+								{% if institution.map %}
+									<li>
+										<a onclick="scrollToSection('map')" class="cursor-pointer tracking-wide font-medium text-sm text-gray-600 transition-all duration-500 hover:tracking-wider hover:font-semibold hover:text-gray-900">Map</a>
+									</li>
+								{% endif %}
+							</ul>
+						</div>
+							
+						<div class="w-full tab-pane max-md:px-4">
+							{% if institution.overview %}
+								<h2 class="font-manrope font-bold lg:text-xl text-3xl text-[#121212] mb-4" id="overview">Overview</h2>
+								<p class="font-medium text-sm text-justify leading-8 text-gray-600 lg:mb-10 mb-8">{{ institution.overview }}</p>
+							{% endif %}
+
+							{% if offered_courses %}
+								<h2 class="font-manrope font-bold lg:text-xl text-3xl text-[#121212] mb-4" id="offered-programs">Offered Programs</h2>
+								<ul class="font-medium text-sm text-justify leading-8 bg-[#f2f4f7] text-gray-600 lg:mb-10 mb-8 p-3 rounded-md">
+									{% for offered_course in offered_courses %}
+										<li class="border-b mb-2">{{ offered_course.course }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+
+							{% if gallery_images %}
+								<h2 class="font-manrope font-bold lg:text-xl text-3xl text-[#121212] mb-4" id="gallery">Gallery</h2>
+								<div class="columns-1 md:columns-2 xl:columns-3 gap-7 lg:mb-10 mb-8">
+									{% for image in gallery_images %}
+										<div class="break-inside-avoid mb-8">
+											<img class="h-auto max-w-full rounded-lg" src="{{ image.image.url }}" alt="{{ image.caption }}" data-modal-src="{{ image.image.url }}" onclick="openModal(this)"/>
+										</div>
+									{% endfor %}
+								</div>
+
+								<div id="imageModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-75 justify-center items-center flex transition-opacity duration-500 opacity-0">
+									<div class="relative">
+										<span class="absolute top-5 -right-5 text-white text-3xl cursor-pointer" onclick="closeModal()">&times;</span>
+										<img id="modalImage" class="max-w-full max-h-full transition-transform duration-500 transform scale-95" src="" alt="Modal Image" onclick="event.stopPropagation()" />
+									</div>
+								</div>
+							{% endif %}
+
+							{% if institution.Principal_Message %}
+								<h2 class="font-manrope font-bold lg:text-xl text-3xl text-[#121212] mb-4" id="principal-message">Principal Message</h2>
+								<blockquote>
+									<svg class="w-7 h-7 text-gray-500 dark:text-gray-600 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
+										<path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"/>
+									</svg>
+									<div class="font-medium text-sm text-justify leading-8 text-gray-600 px-4 lg:mb-10 mb-8">
+										{{ institution.Principal_Message|linebreaksbr }}
+									</div>
+								</blockquote>
+							{% endif %}
+
+							{% if institution.map %}
+							<div>
+								<h2 class="font-manrope font-bold lg:text-xl text-3xl text-[#121212] mb-4" id="map">Map</h2>
+								{{ institution.map|safe }}
+							</div>
+						{% endif %}
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
+				<div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+					<span class="text-sm text-gray-600 sm:text-center dark:text-gray-400">© hamrocollege. All rights reserved.
+					</span>
+					<ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-600 dark:text-gray-400 sm:mt-0">
+						<li>
+							<a href="#" class="hover:underline me-4 md:me-6">About</a>
+						</li>
+						<li>
+							<a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+						</li>
+						<li>
+							<a href="#" class="hover:underline me-4 md:me-6">Licensing</a>
+						</li>
+						<li>
+							<a href="#" class="hover:underline">Contact</a>
+						</li>
+					</ul>
+				</div>
+			</footer>
+		</div>		
+		
+		<button id="back-to-top" class="hidden fixed bottom-3.5 right-4 border border-gray-500 bg-gradient-to-tr from-indigo-600 to-violet-600 group transition-all duration-500 hover:bg-gradient-to-tr hover:from-indigo-700 hover:to-violet-700 text-white p-2 rounded-md shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-100">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5"/>
+            </svg>          
+        </button>
+	</div>
+
+	<script>
+        // Open modal
+        function openModal(element) {
+            var modal = document.getElementById("imageModal");
+            var modalImage = document.getElementById("modalImage");
+            modalImage.src = element.getAttribute("data-modal-src"); // Set the full-size image
+
+            // Show the modal with transition
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                modal.classList.remove("opacity-0");
+                modal.classList.add("opacity-100");
+            }, 10); // Small delay for transition to trigger
+        }
+
+        // Close modal
+        function closeModal() {
+            var modal = document.getElementById("imageModal");
+
+            // Fade out the modal before hiding it
+            modal.classList.remove("opacity-100");
+            modal.classList.add("opacity-0");
+
+            // After transition ends, hide the modal and re-enable background scroll
+            setTimeout(() => {
+                modal.classList.add("hidden");
+                document.body.classList.remove("overflow-hidden");
+            }, 500); // Match duration of transition (500ms)
+        }
+
+        // Close modal if clicked outside of the image
+        document.getElementById("imageModal").addEventListener("click", function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+
+	<script src="{% static 'js/script.js' %}"></script>
+	<script src="{% static 'js/index.js' %}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+</body>
+</html>
