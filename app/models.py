@@ -213,3 +213,26 @@ class OTP(models.Model):
     
     def is_valid(self):
         return (now() - self.created_at).seconds < 300
+    
+class Application(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications')
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, related_name='applications')
+    program = models.ForeignKey(InstitutionCourse, on_delete=models.CASCADE, related_name='applications')
+    phone = models.CharField(max_length=15)
+    email = models.EmailField()
+    query = models.TextField(blank=True, null=True, help_text="Optional user query or additional information.")
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    applied_at = models.DateTimeField(default=now)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        unique_together = ('user', 'institution', 'program')  # Prevent duplicate applications for the same user, institution, and program
+    
+    def __str__(self):
+        return f"Application by {self.user.name} for {self.program.course.name} at {self.institution.name}"

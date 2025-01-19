@@ -8,8 +8,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
     <link rel="stylesheet" href="{% static 'css/input.css' %}">
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
 	<link rel="stylesheet" href="{% static 'css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 </head>
 <body class="bg-[#FAFAFA] dark:bg-[#121212]">
@@ -41,24 +41,36 @@
                                                 <tr class="font-semibold text-gray-600">
                                                     <th scope="col" class="p-4">S.N.</th>
                                                     <th scope="col" class="p-4">Institution</th>
-                                                    <th scope="col" class="p-4">Interested Program</th>
-                                                    <th scope="col" class="p-4">Applied Date</th>
+                                                    <th scope="col" class="p-4">Program</th>
+                                                    <th scope="col" class="p-4">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {% for feedback in feedbacks %}
+                                                {% for application in applications %}
                                                 <tr>
                                                     <td class="p-4 font-medium text-gray-500">{{ forloop.counter }}</td>
                                                     <td class="p-4">
-                                                        <div class="flex flex-col gap-1">
-                                                            <h3 class="font-medium text-gray-500">{{ feedback.name }}</h3>
-                                                        </div>
+                                                        <span class="font-medium text-gray-500">{{ application.institution }}</span>
                                                     </td>
                                                     <td class="p-4">
-                                                        <span class="font-medium text-gray-500">Bachelor of Computer Application (BCA)</span>
+                                                        <span class="font-medium text-gray-500">{{ application.program.course }}</span>
                                                     </td>
                                                     <td class="p-4">
-                                                        <span class="font-medium text-gray-500">Oct. 27, 2024</span>
+                                                        <span class="font-medium text-gray-500">
+                                                            {% if application.status == 'pending' %}
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                            {% elif application.status == 'accepted' %}
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12" />
+                                                                </svg>
+                                                            {% else %}
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                            {% endif %}
+                                                        </span>
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
@@ -70,7 +82,7 @@
                         
                             <div class="card min-h-[613px]">
                                 <div class="card-body">
-                                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 mb-7">
+                                    <div class="grid gap-5 mb-7">
                                         <a href="" class="max-w-56 mx-auto">
                                             <div class="w-full max-w-sm">
                                                 <img src="{% static 'images/banners/islington-ad.png' %}" alt="cream image" class="w-full h-full rounded-md">
@@ -125,7 +137,7 @@
 					<div class="container full-container py-5 flex flex-col gap-6">
                         <div class="card relative dark:bg-[#121212]">
 							<div class="card-body flex flex-col gap-6">
-								<form action="{% url 'login' %}" method="POST">
+								<form action="{% url 'send-application' %}" method="POST">
                                     {% csrf_token %}
                                     <div>
                                         <svg id="back-button" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer size-6 p-1 rounded-md absolute -top-2 right-6 bg-gray-700 text-white dark:bg-white dark:text-gray-700">
@@ -172,7 +184,7 @@
                                         <div>
                                             <label for="institution" class="block mb-2 text-sm font-medium text-gray-700">Institution <span class="text-red-600">*</span></label>
                                             <div class="relative mb-6">
-                                                <select id="institution" name="institution" autocomplete="institution-name" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700">
+                                                <select id="institution" name="institution" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700">
                                                     <option value="" selected>Choose an institution</option>
                                                     {% for institution in institutions %}
                                                         <option value="{{ institution.id }}">{{ institution.name }}</option>
@@ -184,11 +196,8 @@
                                         <div>
                                             <label for="program" class="block mb-2 text-sm font-medium text-gray-700">Interested Program <span class="text-red-600">*</span></label>
                                             <div class="relative mb-6">
-                                                <select id="program" name="program" autocomplete="program-name" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700">
+                                                <select id="program" name="program" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700">
                                                     <option value="" selected>Choose an academic program</option>
-                                                    {% for program in programs %}
-                                                        <option value="{{ program.id }}">{{ program.name }}</option>
-                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
@@ -196,13 +205,13 @@
                                         <div>
                                             <label for="query" class="block mb-2 text-sm/6 font-medium text-gray-900">Query [If Any]</label>
                                             <div class="mb-6">
-                                                <textarea name="query" id="query" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 sm:text-sm/6"></textarea>
+                                                <textarea name="query" id="query" rows="3" class="block w-full rounded-md px-3 py-1.5 text-base bg-transparent text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 sm:text-sm/6"></textarea>
                                             </div>
                                         </div>
                                     </div>
     
                                     <div class="mb-4">
-                                        <button type="submit" class="tracking-wide py-2.5 px-4 bg-gray-500 text-white w-full transition ease-in duration-200 text-center text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" type="submit">
+                                        <button type="submit" class="tracking-wide py-2.5 px-4 bg-gradient-to-tr from-indigo-600 to-violet-600 hover:bg-gradient-to-tr hover:from-indigo-700 hover:to-violet-700 text-white w-full transition ease-in duration-200 text-center text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" type="submit">
                                             Send Application
                                         </button>
                                     </div>
@@ -227,6 +236,27 @@
             e.preventDefault();
             document.getElementById('admissions-table').classList.remove('hidden');
             document.getElementById('admissions-form').classList.add('hidden');
+        });
+    </script>
+
+    <script>
+        document.getElementById('institution').addEventListener('change', function() {
+            const institutionId = this.value;
+            const programSelect = document.getElementById('program');
+
+            if (institutionId) {
+                fetch(`/get-courses/${institutionId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        programSelect.innerHTML = '<option value="" selected>Choose an academic program</option>';
+                        data.courses.forEach(course => {
+                            programSelect.innerHTML += `<option value="${course.id}">${course.name}</option>`;
+                        });
+                    })
+                    .catch(error => console.error('Error fetching courses:', error));
+            } else {
+                programSelect.innerHTML = '<option value="" selected>Choose an academic program</option>';
+            }
         });
     </script>
 	

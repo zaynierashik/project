@@ -43,3 +43,7 @@ class InstitutionCourseAdmin(admin.ModelAdmin):
 @admin.register(OTP)
 class OTPAdmin(admin.ModelAdmin):
     list_display = ('email', 'created_at')
+
+@admin.register(Application)
+class ApplicationAdmin(admin.ModelAdmin):
+    list_display = ('user', 'institution', 'program')

@@ -151,9 +151,63 @@ def applications(request):
     user = User.objects.get(id=user_id)
 
     institutions = Institution.objects.all().order_by('name')
-    feedbacks = Feedback.objects.all().order_by('-id')
+    applications = Application.objects.all().order_by('-id')
 
-    context = {'institutions': institutions, 'feedbacks': feedbacks, 'user': user}
+    context = {'institutions': institutions, 'applications': applications, 'user': user}
+    return render(request, 'applications.html', context)
+
+def send_application(request):
+    # Check if the user is authenticated
+    if 'user_id' not in request.session:
+        return redirect('authentication')  # Redirect to login/authentication if user is not logged in
+
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+
+    if request.method == 'POST':
+        # Retrieve form data
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        institution_id = request.POST.get('institution')
+        program_id = request.POST.get('program')
+        query = request.POST.get('query', '')  # Optional field
+
+        # Validate input
+        if not institution_id or not program_id:
+            messages.error(request, "Please select both an institution and a program.")
+            return redirect('applications')  # Replace with the name of the form view
+
+        # Get the related institution and program objects
+        institution = get_object_or_404(Institution, id=institution_id)
+        program = get_object_or_404(InstitutionCourse, id=program_id)
+
+        # Check if the user has already applied for the same institution and program
+        existing_application = Application.objects.filter(
+            user=user, institution=institution, program=program
+        ).exists()
+
+        if existing_application:
+            messages.warning(request, "You have already applied to this program at this institution.")
+            return redirect('applications')  # Replace with the name of the form view
+
+        # Create and save the application
+        application = Application(
+            user=user,
+            institution=institution,
+            program=program,
+            phone=phone,
+            email=email,
+            query=query,
+        )
+        application.save()
+
+        messages.success(request, "Your application has been successfully submitted!")
+        return redirect('applications')  # Redirect to a success page
+
+    # If not a POST request, redirect to the application form
+    institutions = Institution.objects.all()  # Fetch all institutions for the form
+    context = {'user': user, 'institutions': institutions}
     return render(request, 'applications.html', context)
 
 def feedbacks(request):
@@ -581,6 +635,12 @@ def update_status(request, institution_id):
         except InstitutionAdmin.DoesNotExist:
             return JsonResponse({'success': False, 'message': 'Institution not found.'}, status=404)
     return JsonResponse({'success': False, 'message': 'Invalid request method.'}, status=400)
+
+# Pass dynamic courses
+def get_courses(request, institution_id):
+    courses = InstitutionCourse.objects.filter(institution_id=institution_id).select_related('course')
+    course_data = [{'id': course.course.id, 'name': course.course.name} for course in courses]
+    return JsonResponse({'courses': course_data})
 
 def password_setting(request):
     return render(request, 'request_otp.html')

@@ -1,10 +1,10 @@
 1. Assign features to admin and staff role - Doing it later
 2. Pagination for tables - Doing it later
 3. Admission period on/off feature for institution
-4. Admission form and model
-5. Interested course field in Admission section in user page should be based on institution selected and admission on/off
-6. Add and Edit form for institution to select course they provide and write some details of that course
-7. Graphs in admin and institution dashboard regarding growth, admission, and more
+4. Interested course field in Admission section in user page should be based on institution selected and admission on/off
+5. Add and Edit form for institution to select course they provide and write some details of that course
+6. Graphs in admin and institution dashboard regarding growth, admission, and more
+7. User profile
 
 In Future:
 1. Recommendation of similar courses and institutions
@@ -18,3 +18,4 @@ Problems/Update:
 5. Forgot password done but make it in change password in setting for actors
 6. Sidebar active highlight not working for institution and user
 7. Search feature in admin tables
+8. Error and success message in admission form
