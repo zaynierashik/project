@@ -32,8 +32,10 @@ urlpatterns = [
     path('institution-dashboard/', views.institution_dashboard, name='institution-dashboard'),
     path('institution-profile/', views.institution_profile, name='institution-profile'),
     path('programs/', views.programs, name='programs'),
+    path('admission/', views.admission, name='admission'),
 
     path('add-institution/', views.add_institution, name='add-institution'),
+    path('add-offered-course/', views.add_offered_course, name='add-offered-course'),
     path('update-institution/<int:institution_id>/', views.update_institution, name='update-institution'),
 
     # Admin

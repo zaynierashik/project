@@ -1,10 +1,9 @@
 1. Assign features to admin and staff role - Doing it later
 2. Pagination for tables - Doing it later
-3. Admission period on/off feature for institution
-4. Interested course field in Admission section in user page should be based on institution selected and admission on/off
-5. Add and Edit form for institution to select course they provide and write some details of that course
-6. Graphs in admin and institution dashboard regarding growth, admission, and more
-7. User profile
+3. Admission On/Off in institution page - Applications are not showing
+4. Add and Edit form for institution to select course they provide and write some details of that course
+5. Graphs in admin and institution dashboard regarding growth, admission, and more
+6. User profile
 
 In Future:
 1. Recommendation of similar courses and institutions
@@ -14,7 +13,7 @@ Problems/Update:
 1. Password visibility is not working in admin login
 2. Active highlight not working for system users
 3. Admin logout is not working
-4. What if an email is same in all models: SuperAdmin, User, and InstitutionAdmin
+4. What if an email is same in all models for forget password: SuperAdmin, User, and InstitutionAdmin
 5. Forgot password done but make it in change password in setting for actors
 6. Sidebar active highlight not working for institution and user
 7. Search feature in admin tables
