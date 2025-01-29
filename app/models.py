@@ -37,11 +37,22 @@ class User(models.Model):
         ('active', 'Active'),
         ('suspended', 'Suspended'),
     ]
+
+    PROVINCES = [
+        ('province_1', 'Province No. 1'),
+        ('province_2', 'Province No. 2'),
+        ('bagmati', 'Bagmati Province'),
+        ('gandaki', 'Gandaki Province'),
+        ('lumbini', 'Lumbini Province'),
+        ('karnali', 'Karnali Province'),
+        ('sudurpashchim', 'Sudurpashchim Province'),
+    ]
     
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=10, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
+    province = models.CharField(max_length=100, choices=PROVINCES, blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     
     def __str__(self):
@@ -109,6 +120,21 @@ class Institution(models.Model):
     Foreign_University_Name = models.CharField(max_length=255, blank=True, null=True, help_text="If the affiliation is Foreign University, specify the university name here.")
     admin = models.OneToOneField(InstitutionAdmin, on_delete=models.CASCADE, related_name='managed_institution', blank=True, null=True)
     admission = models.BooleanField(default=False, help_text="Toggle to enable or disable the admission period.")
+
+    last_admissions = models.IntegerField(default=0, help_text="Admissions count from the last admission period.")
+    current_admissions = models.IntegerField(default=0, help_text="Current admissions count.")
+    
+    def increment_admission_count(self):
+        """Increase admission count if admission period is active."""
+        if self.admission:
+            self.current_admissions += 1
+            self.save()
+
+    def reset_admissions(self):
+        """Move current admissions to last_admissions and reset count."""
+        self.last_admissions = self.current_admissions
+        self.current_admissions = 0
+        self.save()
 
     def save(self, *args, **kwargs):
         # Ensure foreign_university_name is only populated when affiliation is 'foreign'
@@ -235,5 +261,14 @@ class Application(models.Model):
     class Meta:
         unique_together = ('user', 'institution', 'program')  # Prevent duplicate applications for the same user, institution, and program
     
+    def save(self, *args, **kwargs):
+        """Automatically update admission count when status changes to accepted."""
+        if self.pk:
+            old_application = Application.objects.get(pk=self.pk)
+            if old_application.status != "accepted" and self.status == "accepted":
+                self.institution.increment_admission_count()
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"Application by {self.user.name} for {self.program.course.name} at {self.institution.name}"

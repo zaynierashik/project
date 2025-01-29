@@ -133,7 +133,40 @@ def profile(request):
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
 
-    return render(request, 'profile.html', {'user': user})
+    PROVINCES = [
+        ('province_1', 'Province No. 1'),
+        ('province_2', 'Province No. 2'),
+        ('bagmati', 'Bagmati Province'),
+        ('gandaki', 'Gandaki Province'),
+        ('lumbini', 'Lumbini Province'),
+        ('karnali', 'Karnali Province'),
+        ('sudurpashchim', 'Sudurpashchim Province'),
+    ]
+
+    context = {'user': user, 'provinces': PROVINCES}
+    return render(request, 'profile.html', context)
+
+def update_profile(request, id):
+    if 'user_id' not in request.session:
+        return redirect('authentication')
+    
+    user = get_object_or_404(User, id=id)
+
+    if request.method == 'POST':
+        user.name = request.POST.get('name')
+        user.email = request.POST.get('email')
+        user.phone = request.POST.get('phone')
+        
+        province = request.POST.get('province')
+        if province:
+            user.province = province
+
+        user.save()
+        
+        messages.success(request, 'Profile details updated successfully.')
+        return redirect('profile')
+    
+    return redirect('profile')
 
 def institutions(request):
     institutions = Institution.objects.all().order_by('name')
@@ -324,10 +357,30 @@ def institution_dashboard(request):
     except InstitutionAdmin.DoesNotExist:
         return redirect('institution-authentication')
 
-    offered_courses_count = InstitutionCourse.objects.filter(institution=institution).count
-    admissions_count = Application.objects.filter(institution=institution).count
+    offered_courses_count = InstitutionCourse.objects.filter(institution=institution).count()
+    admissions_count = Application.objects.filter(institution=institution, status='accepted').count()
 
-    context = {'offered_courses_count': offered_courses_count, 'admissions_count': admissions_count}
+    # Access the last_admissions field correctly
+    last_admissions = institution.last_admissions
+    current_admissions = admissions_count
+
+    # Avoid division by zero and calculate the percentage change
+    if last_admissions != 0:
+        percentage_change = ((current_admissions - last_admissions) / last_admissions) * 100
+    else:
+        percentage_change = 0  # Handle case where last_admissions is 0 (no data for last admissions)
+
+    percentage_change = round(percentage_change, 1)
+
+    # Determine if the change is positive or negative
+    if percentage_change > 0:
+        change_type = "increase"
+    elif percentage_change < 0:
+        change_type = "decrease"
+    else:
+        change_type = "no change"
+
+    context = {'institution': institution, 'offered_courses_count': offered_courses_count, 'admissions_count': admissions_count, 'percentage_change': percentage_change, 'change_type': change_type}
     return render(request, 'institution_dashboard.html', context)
 
 def institution_profile(request):
@@ -818,3 +871,29 @@ def change_password(email, otp, new_password):
     otp_entry.delete()
     
     return True, "Password changed successfully"
+
+# Test Views
+# Getting application count and resetting admission count
+def update_application_status(request, application_id):
+    """Approve or reject an application and track admissions."""
+    application = get_object_or_404(Application, id=application_id)
+
+    if request.method == "POST":
+        new_status = request.POST.get("status")
+
+        if new_status in ['accepted', 'rejected', 'pending']:
+            application.status = new_status
+            application.save()
+            messages.success(request, f"Application status updated to {new_status.capitalize()}!")
+
+    return redirect('institution-dashboard')
+
+def reset_admission_count(request, institution_id):
+    """Reset admission count for a new academic period."""
+    institution = get_object_or_404(Institution, id=institution_id)
+    
+    if request.method == "POST":
+        institution.reset_admissions()
+        messages.success(request, "Admissions count has been reset for the new period.")
+
+    return redirect('institution-dashboard')

@@ -1,7 +1,6 @@
 1. Assign features to admin and staff role - Doing it later
 2. Pagination for tables - Doing it later
 3. Admission On/Off in institution page - Applications are not showing
-4. Graphs in admin and institution dashboard regarding growth, admission, and more
 5. User profile
 
 In Future:
@@ -17,7 +16,5 @@ Problems/Update:
 6. Sidebar active highlight not working for institution and user
 7. Search feature in admin tables
 8. Error and success message in admission form, institution course form
-
-
-- Offered Courses
-- Pending Applications
+9. The last admission count is not updating with current one when resetting
+10. Graphs is not showing

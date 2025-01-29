@@ -20,7 +20,8 @@ urlpatterns = [
     path('courses/', views.courses, name='courses'),
     path('applications/', views.applications, name='applications'),
     path('feedbacks/', views.feedbacks, name='feedbacks'),
-
+    
+    path('update-profile/<int:id>', views.update_profile, name='update-profile'),
     path('send-application/', views.send_application, name='send-application'),
     path('send-feedback/', views.send_feedback, name='send-feedback'),
 
@@ -66,4 +67,8 @@ urlpatterns = [
     # Ajax
     path('update-status/<int:institution_id>/', views.update_status, name='update-status'),
     path('get-courses/<int:institution_id>/', views.get_courses, name='get_courses'),
+
+    # Test URLs
+    path('update-application/<int:application_id>/', views.update_application_status, name='update-application'),
+    path('reset-admissions/<int:institution_id>/', views.reset_admission_count, name='reset-admissions'),
 ]
