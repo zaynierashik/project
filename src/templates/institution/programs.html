@@ -29,7 +29,7 @@
                             <div class="card-body">
                                 <div class="flex justify-between items-center mb-6">
                                     <h4 class="text-gray-600 text-lg tracking-wider font-semibold uppercase">Offered Courses</h4>
-                                    <svg id="new-system-user" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer size-6 p-1 rounded-md bg-gray-700 text-white dark:bg-[#121212] dark:text-white">
+                                    <svg id="new-offered-course" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer size-6 p-1 rounded-md bg-gray-700 text-white dark:bg-[#121212] dark:text-white">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                     </svg>
                                 </div>
@@ -40,7 +40,7 @@
                                             <tr class="font-semibold text-gray-600">
                                                 <th scope="col" class="p-4">S.N.</th>
                                                 <th scope="col" class="p-4">Course</th>
-                                                <th scope="col" class="p-4"></th>
+                                                <th scope="col"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -50,8 +50,12 @@
                                                 <td class="p-4">
                                                     <span class="font-medium text-gray-500">{{ offered_course.course }}</span>
                                                 </td>
-                                                <td class="p-4">
-                                                    <span class="font-medium text-gray-500"></span>
+                                                <td>
+                                                    <a href="{% url 'edit-offered-course' offered_course.id %}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-gray-500">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                        </svg>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -78,22 +82,20 @@
                                     <form action="{% url 'add-offered-course' %}" method="POST" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <div>
-                                            <div>
-                                                <label for="course" class="block mb-2 text-sm font-medium text-gray-700">Course <span class="text-red-600">*</span></label>
-                                                <div class="relative mb-6">
-                                                    <select id="course" name="course" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700">
-                                                        <option value="" selected>Choose a course</option>
-                                                        {% for course in courses %}
-                                                            <option value="{{ course.id }}">{{ course.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                            <label for="course" class="block mb-2 text-sm font-medium text-gray-700">Course <span class="text-red-600">*</span></label>
+                                            <div class="relative mb-6">
+                                                <select id="course" name="course" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700">
+                                                    <option value="" selected>Choose a course</option>
+                                                    {% for course in courses %}
+                                                        <option value="{{ course.id }}">{{ course.name }}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
+                                        </div>
 
-                                            <div class="mb-6">
-                                                <label for="overview" class="block mb-2 text-sm/6 font-medium text-gray-900">Details <span class="text-red-600">*</span></label>
-                                                <textarea name="overview" id="overview" rows="5" class="block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400" required></textarea>
-                                            </div>
+                                        <div class="mb-6">
+                                            <label for="overview" class="block mb-2 text-sm/6 font-medium text-gray-900">Details <span class="text-red-600">*</span></label>
+                                            <textarea name="overview" id="overview" rows="14" class="block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400" required></textarea>
                                         </div>
         
                                         <div class="mb-4">
@@ -113,7 +115,7 @@
 
     <!-- Toggle offered-course-table/form -->
     <script>
-        document.getElementById('new-system-user').addEventListener('click', function(e) {
+        document.getElementById('new-offered-course').addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('offered-course-table').classList.add('hidden');
             document.getElementById('offered-course-form').classList.remove('hidden');

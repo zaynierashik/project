@@ -36,7 +36,9 @@ urlpatterns = [
 
     path('add-institution/', views.add_institution, name='add-institution'),
     path('add-offered-course/', views.add_offered_course, name='add-offered-course'),
+    path('edit-offered-course/<int:institution_course_id>/', views.edit_offered_course, name='edit-offered-course'),
     path('update-institution/<int:institution_id>/', views.update_institution, name='update-institution'),
+    path('update-offered-course/<int:institution_course_id>/', views.update_offered_course, name='update-offered-course'),
 
     # Admin
     path('admin-authentication/', views.admin_authentication, name='admin-authentication'),

@@ -314,7 +314,21 @@ def institution_logout(request):
     return redirect('institution-authentication')
 
 def institution_dashboard(request):
-    return render(request, 'institution_dashboard.html')
+    if 'institution_id' not in request.session:
+        return redirect('institution-authentication')
+
+    institution_admin_id = request.session.get('institution_id')
+    try:
+        institution_admin = InstitutionAdmin.objects.get(id=institution_admin_id)
+        institution = institution_admin.managed_institution
+    except InstitutionAdmin.DoesNotExist:
+        return redirect('institution-authentication')
+
+    offered_courses_count = InstitutionCourse.objects.filter(institution=institution).count
+    admissions_count = Application.objects.filter(institution=institution).count
+
+    context = {'offered_courses_count': offered_courses_count, 'admissions_count': admissions_count}
+    return render(request, 'institution_dashboard.html', context)
 
 def institution_profile(request):
     if 'institution_id' not in request.session:
@@ -406,22 +420,15 @@ def programs(request):
 
     institution_admin_id = request.session.get('institution_id')
     try:
-        # Get the institution admin based on the session ID
         institution_admin = InstitutionAdmin.objects.get(id=institution_admin_id)
         institution = institution_admin.managed_institution
     except InstitutionAdmin.DoesNotExist:
-        return redirect('institution-authentication')  # Redirect if no institution admin is found
+        return redirect('institution-authentication')
 
-    # Get all courses and offered courses for the specific institution managed by the admin
     courses = Course.objects.all().order_by('name')
     offered_courses = InstitutionCourse.objects.filter(institution=institution).order_by('course__name')
 
-    context = {
-        'institution': institution,
-        'courses': courses,
-        'offered_courses': offered_courses
-    }
-    
+    context = {'institution': institution, 'courses': courses, 'offered_courses': offered_courses}
     return render(request, 'programs.html', context)
 
 def add_offered_course(request):
@@ -459,6 +466,28 @@ def add_offered_course(request):
 
     context = {'institution': institution, 'courses': courses}
     return render(request, 'programs.html', context)
+
+def edit_offered_course(request, institution_course_id):
+    try:
+        offered_course = InstitutionCourse.objects.get(id=institution_course_id)
+    except InstitutionCourse.DoesNotExist:
+        return redirect('programs')
+
+    return render(request, 'edit_offered_course.html', {'offered_course': offered_course})
+
+def update_offered_course(request, institution_course_id):
+    if 'institution_id' not in request.session:
+        return redirect('institution-authentication')
+
+    offered_course = get_object_or_404(InstitutionCourse, id=institution_course_id)
+
+    if request.method == 'POST':
+        offered_course.details = request.POST.get('details', '').strip()
+        offered_course.save()
+        messages.success(request, "Course details updated successfully.")
+        return redirect('edit-offered-course', institution_course_id=institution_course_id)
+
+    return redirect('edit-offered-course', institution_course_id=institution_course_id)
 
 def admission(request):
     if 'institution_id' not in request.session:

@@ -1,0 +1,75 @@
+{% load static %}
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gurkha Cyber Force</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link href="{% static 'css/input.css' %}" rel="stylesheet">
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+	<link href="{% static 'css/theme.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#121212]">
+	<main>
+		<div id="main-wrapper" class="flex">
+			<!-- Sidebar -->
+			{% include "components/institution_sidebar.html" %}
+
+			<div class="w-full page-wrapper overflow-hidden">
+				<!-- Header -->
+				{% include "components/institution_header.html" %}
+
+				<!-- Main Content -->
+				<main class="h-full overflow-y-auto max-w-full pt-[6px]" id="institution-edit-card">
+					<div class="container full-container py-5 flex flex-col gap-6">
+						<div class="card min-h-[613px]">
+                            <div class="card-body">
+                                <h4 class="mb-6 text-gray-600 text-lg tracking-wider font-semibold uppercase">Edit: {{ offered_course.course }}</h4>
+                                <a href="{% url 'programs' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer size-6 p-1 rounded-md absolute -top-2 right-6 bg-gray-700 text-white dark:bg-[#121212] dark:text-white">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                    </svg>
+                                </a>
+
+                                <div class="relative overflow-x-auto">
+                                    <form action="{% url 'update-offered-course' offered_course.id %}" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div>
+                                            <div class="mb-6">
+                                                <label for="course" class="block mb-2 text-sm font-medium text-gray-700">Course</label>
+                                                <input type="text" value="{{ offered_course.course }}" name="course" id="course" class="border border-gray-400 text-sm rounded-md block w-full p-2.5 py-[10px] bg-transparent text-gray-700 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" readonly>
+                                            </div>
+
+                                            <div class="mb-6">
+                                                <label for="details" class="block mb-2 text-sm/6 font-medium text-gray-900">Details <span class="text-red-600">*</span></label>
+                                                <textarea name="details" id="details" rows="14" class="block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 border-gray-400 focus:border-gray-700 focus:ring-0 outline-none transition-all duration-700" required>{{ offered_course.details }}</textarea>
+                                            </div>
+                                        </div>
+        
+                                        <div class="mb-4">
+                                            <button type="submit" class="tracking-wide py-2.5 px-4 bg-gray-500 text-white w-full transition ease-in duration-200 text-center text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" type="submit">
+                                                Save Changes
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>									
+                            </div>
+                        </div>
+					</div>
+				</main>
+			</div>
+		</div>
+	</main>
+	
+    <script src="{% static 'js/script.js' %} "></script>
+	<script src="{% static 'js/sidebarmenu.js' %} "></script>
+    <script src="{% static 'js/dashboard.js' %} "></script>
+	<script src="{% static 'libs/simplebar/dist/simplebar.min.js' %} "></script>
+	<script src="{% static 'libs/iconify-icon/dist/iconify-icon.min.js' %} "></script>
+	<script src="{% static 'libs/@preline/dropdown/index.js' %} "></script>
+	<script src="{% static 'libs/@preline/overlay/index.js' %} "></script>
+</body>
+</html>
