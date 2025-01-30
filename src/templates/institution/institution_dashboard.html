@@ -23,26 +23,78 @@
 				{% include "components/institution_header.html" %}
 
 				<!-- Main Content -->
-				<main class="h-full overflow-y-auto max-w-full pt-[6px]">
+				<main class="max-w-full pt-[6px]">
+					<div class="container full-container py-5 flex flex-col gap-6">
+                        <div class="mx-auto py-16">
+                            <div class="mb-14 text-center">
+                                <h2 class="text-4xl text-center font-bold text-gray-900 dark:text-gray-500 leading-[3.25rem] mb-6 max-w-max lg:max-w-3xl lg:mx-auto">Welcome, <span class="text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 to-violet-600">{{ institution.admin }}.</span></h2>
+                                <p class="text-base font-normal text-gray-500 lg:max-w-2xl lg:mx-auto mb-8">Manage your institution's profile effortlessly and provide students with the insights they need for their academic journey.</p>  
+                            </div>
+                            
+                            <div class="grid grid-cols-4 gap-5 max-w-lg mx-auto md:max-w-2xl lg:max-w-full">
+                                <div class="relative w-full h-auto md:col-span-2">
+                                    <div class="bg-gray-800 rounded-2xl flex  justify-between flex-row flex-wrap">
+                                        <div class="p-5 xl:p-8 w-full md:w-1/2">
+                                            <div class="block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
+                                                </svg>                               
+                                            </div>
+
+                                            <h3 class="text-lg font-bold xl:text-xl text-white py-5 w-full xl:w-64">Manage Institution Profile.</h3>
+                                            <p class="text-sm text-justify font-normal text-gray-300 w-full mb-8 xl:w-64">Update and customize your institution's profile to showcase key details, rankings, and unique offerings.</p>
+                                            
+											<button class="py-2 px-5 border border-solid border-gray-300 rounded-3xl text-xs text-white font-semibold transition-all duration-500 hover:bg-white/5">
+                                                <a href="{% url 'institution-profile' %}" class="flex items-center justify-between gap-2">
+                                                    View More
+                                                    <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1 9L3.58579 6.41421C4.25245 5.74755 4.58579 5.41421 4.58579 5C4.58579 4.58579 4.25245 4.25245 3.58579 3.58579L1 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg> 
+                                                </a>    
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="relative w-full h-auto">
+                                    <div class="bg-indigo-500 rounded-2xl p-5 xl:p-8 h-full">
+                                        <h3 class="pb-5 text-white text-lg font-bold xl:text-xl">Manage Courses.</h3>
+                                        <p class="text-6xl font-semibold text-white mb-8">{{ offered_courses_count }}</p>
+                                        
+                                        <button class="py-2 px-5 border border-solid border-gray-300 rounded-3xl text-xs text-white font-semibold transition-all duration-500 hover:bg-white/5">
+                                            <a href="{% url 'programs' %}" class="flex items-center justify-between gap-2">
+                                                View More
+                                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M1 9L3.58579 6.41421C4.25245 5.74755 4.58579 5.41421 4.58579 5C4.58579 4.58579 4.25245 4.25245 3.58579 3.58579L1 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg> 
+                                            </a>    
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="relative w-full h-auto">
+                                    <div class="bg-violet-500 rounded-2xl p-5 xl:p-8 h-full">
+                                        <h3 class="pb-5 text-white text-lg font-bold xl:text-xl">Manage Admissions.</h3>
+                                        <p class="text-6xl font-semibold text-white mb-8">{{ admissions_count }}</p>
+                                        
+                                        <button class="py-2 px-5 border border-solid border-gray-300 rounded-3xl text-xs text-white font-semibold transition-all duration-500 hover:bg-white/5">
+                                            <a href="{% url 'admission' %}" class="flex items-center justify-between gap-2">
+                                                View More
+                                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M1 9L3.58579 6.41421C4.25245 5.74755 4.58579 5.41421 4.58579 5C4.58579 4.58579 4.25245 4.25245 3.58579 3.58579L1 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg> 
+                                            </a>    
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                             
+					</div>
+				</main>
+				
+				<!-- <main class="h-full overflow-y-auto max-w-full pt-[6px]">
 					<div class="container full-container py-5 flex flex-col gap-6">
 						<div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 gap-x-0 lg:gap-y-0 gap-y-6">
-							<div class="col-span-2">
-								<div class="card dark:bg-[#161618] dark:shadow-none dark:border border-gray-800">
-									<div class="card-body">
-										<div class="sm:flex block justify-between mb-5">
-											<h4 class="text-gray-600 dark:text-gray-400 text-lg font-semibold sm:mb-0 mb-2">Sales Overview</h4>
-											<select name="cars" id="cars" class=" border-gray-400 text-gray-500 rounded-md text-sm border-[1px] focus:ring-0 sm:w-auto w-full">
-												<option value="volvo">March2023</option>
-												<option value="saab">April2023</option>
-												<option value="mercedes">May2023</option>
-												<option value="audi">June2023</option>
-											</select>
-										</div>
-										<div id="chart"></div>
-									</div>
-								</div>
-							</div>
-						 
 							<div class="flex flex-col gap-6">
 								<div class="card dark:bg-[#161618] dark:shadow-none dark:border border-gray-800">
 									<div class="card-body">
@@ -93,7 +145,7 @@
 							</div>
 						</div>
 					</div>
-				</main>
+				</main> -->
 			</div>
 		</div>
 	</main>
@@ -104,7 +156,6 @@
 	<script src="{% static 'libs/@preline/dropdown/index.js' %} "></script>
 	<script src="{% static 'libs/@preline/overlay/index.js' %} "></script>
 	<script src="{% static 'js/sidebarmenu.js' %} "></script>
-	<script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %} "></script>
     <script src="{% static 'js/dashboard.js' %} "></script>
 </body>
 </html>

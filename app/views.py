@@ -282,7 +282,7 @@ def send_feedback(request):
 # Institution
 def institution_authentication(request):
     if 'institution_id' in request.session:
-        return redirect('dashboard')
+        return redirect('institution-dashboard')
     
     return render(request, 'institution_authentication.html')
 
