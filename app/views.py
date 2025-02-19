@@ -1,3 +1,4 @@
+import json
 from app.models import *
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
@@ -407,6 +408,33 @@ def institution_profile(request):
     else:
         return render(request, 'institution_profile.html', {'affiliation_choices': AFFILIATION_CHOICES, 'institution': institution, 'edit_mode': False})
 
+def institutionadmin_profile(request):
+    if 'institution_id' not in request.session:
+        return redirect('institution-authentication')
+    
+    institution_id = request.session.get('institution_id')
+    institution = InstitutionAdmin.objects.get(id=institution_id)
+    admin_institution = Institution.objects.filter(admin=institution).first()
+
+    return render(request, 'institutionadmin_profile.html', {'institution': institution, 'admin_institution': admin_institution})
+
+def update_institutionadminprofile(request, id):
+    if 'institution_id' not in request.session:
+        return redirect('institution-authentication')
+    
+    admin_institution = get_object_or_404(InstitutionAdmin, id=id)
+
+    if request.method == 'POST':
+        admin_institution.name = request.POST.get('name')
+        admin_institution.email = request.POST.get('email')
+
+        admin_institution.save()
+        
+        messages.success(request, 'Profile details updated successfully.')
+        return redirect('institution-admin-profile')
+    
+    return redirect('institution-admin-profile')
+
 def add_institution(request):
     if 'institution_id' not in request.session:
         return redirect('institution-authentication')
@@ -547,12 +575,28 @@ def admission(request):
         return redirect('institution-authentication')
     
     institution_id = request.session.get('institution_id')
-    institution = InstitutionAdmin.objects.get(id=institution_id)
+    institution = InstitutionAdmin.objects.get(id=institution_id).managed_institution
 
-    admissions = Application.objects.all().order_by('-id')
+    admissions = Application.objects.filter(institution=institution).order_by('-id')
 
     context = {'institutions': institutions, 'admissions': admissions, 'institution': institution}
     return render(request, 'admission.html', context)
+
+@csrf_exempt
+def toggle_admission(request, institution_id):
+    if request.method == "POST":
+        try:
+            institution = Institution.objects.get(id=institution_id)
+            data = json.loads(request.body)
+            institution.admission = data.get("admission", False)
+            institution.save()
+            return JsonResponse({"success": True, "admission": institution.admission})
+        except Institution.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Institution not found"})
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)})
+
+    return JsonResponse({"success": False, "error": "Invalid request method"})
     
 # Admin
 def admin_authentication(request):
@@ -629,6 +673,33 @@ def dashboard(request):
     admin = SuperAdmin.objects.get(id=admin_id)
     
     return render(request, 'dashboard.html', {'admin': admin})
+
+def admin_profile(request):
+    if 'admin_id' not in request.session:
+        return redirect('admin-authentication')
+    
+    admin_id = request.session.get('admin_id')
+    admin = SuperAdmin.objects.get(id=admin_id)
+
+    return render(request, 'admin_profile.html', {'admin': admin})
+
+def update_adminprofile(request, id):
+    if 'admin_id' not in request.session:
+        return redirect('admin-authentication')
+    
+    admin = get_object_or_404(SuperAdmin, id=id)
+
+    if request.method == 'POST':
+        admin.name = request.POST.get('name')
+        admin.email = request.POST.get('email')
+        admin.phone = request.POST.get('phone')
+
+        admin.save()
+        
+        messages.success(request, 'Profile details updated successfully.')
+        return redirect('admin-profile')
+    
+    return redirect('admin-profile')
 
 def system_user(request):
     ROLES = [

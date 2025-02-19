@@ -11,6 +11,63 @@
 	<link rel="stylesheet" href="{% static 'css/theme.css' %}">
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+
+    <style>
+        .switch {
+            font-size: 12px;
+            position: relative;
+            display: inline-block;
+            width: 3.5em;
+            height: 2em;
+        }
+
+        .switch input {
+            opacity: 0; /* Hide default HTML checkbox */
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 1.4em;
+            width: 1.4em;
+            right: 0.3em;
+            bottom: 0.3em;
+            transform: translateX(150%);
+            background-color: #59d102;
+            border-radius: inherit;
+            transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+
+        .slider:after {
+            position: absolute;
+            content: "";
+            height: 1.4em;
+            width: 1.4em;
+            left: 0.3em;
+            bottom: 0.3em;
+            background-color: #cccccc;
+            border-radius: inherit;
+            transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateY(0);
+        }
+
+        .switch input:checked + .slider::after {
+            transform: translateX(-150%);
+        }
+    </style>
 </head>
 <body class="bg-[#FAFAFA] dark:bg-[#121212]">
 	<main>
@@ -27,7 +84,21 @@
 					<div class="container full-container py-5 flex flex-col gap-6">
                         <div class="card min-h-[613px]">
                             <div class="card-body">
-                                <h4 class="text-gray-600 text-lg tracking-wider font-semibold uppercase mb-6">Admissions</h4>
+                                <div class="flex justify-between items-center mb-6">
+                                    <h4 class="text-gray-600 text-lg tracking-wider font-semibold uppercase">Admissions</h4>
+                                    <div class="relative inline-block group">
+                                        <label class="switch">
+                                            <input type="checkbox" id="admissionToggle" data-institution-id="{{ institution.id }}" {% if institution.admission %}checked{% endif %}>
+                                            <span class="slider border rounded-full"></span>
+                                        </label>
+                                    
+                                        <div role="tooltip" class="absolute hidden -right-32 transform -translate-x-1/2 mt-2 z-10 group-hover:block w-64 text-xs text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-md opacity-100 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                            <div class="px-3 py-2">
+                                                <p>Toggles the admission period on and off.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                     
                                 <div class="relative overflow-x-auto">
                                     <table class="text-left w-full whitespace-nowrap text-sm">
@@ -78,6 +149,33 @@
 			</div>
 		</div>
 	</main>
+
+    <script>
+        document.getElementById("admissionToggle").addEventListener("change", function() {
+            let institutionId = this.getAttribute("data-institution-id");
+            let isChecked = this.checked;
+    
+            fetch(`/toggle-admission/${institutionId}/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"  // Ensure CSRF protection
+                },
+                body: JSON.stringify({ admission: isChecked })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    alert("Error toggling admission!");
+                    this.checked = !isChecked;  // Revert checkbox if error occurs
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                this.checked = !isChecked;
+            });
+        });
+    </script>
 	
 	<script src="{% static 'js/index.js' %} "></script>
 	<script src="{% static 'js/sidebarmenu.js' %} "></script>

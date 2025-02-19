@@ -1,10 +1,9 @@
 1. Assign features to admin and staff role - Doing it later
 2. Pagination for tables - Doing it later
-3. Admission On/Off in institution page - Applications are not showing
-4. Institution Admin Profile
-5. Filtering in tables
-6. Delete offering courses
-7. Admission status change in institution portal
+3. Filtering in tables
+4. Delete offering courses
+5. Admission status change in institution portal
+6. Put institution login url through homepage login
 
 In Future:
 1. Recommendation of similar courses and institutions
@@ -20,5 +19,5 @@ Problems/Update:
 6. Sidebar active highlight not working for institution and user
 7. Search feature in admin tables
 8. Error and success message in admission form, institution course form, user profile
-9. The last admission count is not updating with current one when resetting
+9. The last admission count is not updating with current one when reseting
 10. Graphs is not showing
