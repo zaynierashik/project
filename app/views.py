@@ -570,6 +570,15 @@ def update_offered_course(request, institution_course_id):
 
     return redirect('edit-offered-course', institution_course_id=institution_course_id)
 
+def delete_offered_course(request, course_id):
+    if request.method == "POST":
+        course = get_object_or_404(InstitutionCourse, id=course_id)
+        course.delete()
+        messages.success(request, "Course deleted successfully!")
+        return redirect("programs")  # Redirect to the course list page
+
+    return redirect("programs")
+
 def admission(request):
     if 'institution_id' not in request.session:
         return redirect('institution-authentication')

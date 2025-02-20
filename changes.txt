@@ -1,9 +1,6 @@
 1. Assign features to admin and staff role - Doing it later
 2. Pagination for tables - Doing it later
 3. Filtering in tables
-4. Delete offering courses
-5. Admission status change in institution portal
-6. Put institution login url through homepage login
 
 In Future:
 1. Recommendation of similar courses and institutions
