@@ -1,36 +1,17 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Chatbot</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans">
-    <!-- Chatbot Button -->
-    <button id="chatbot-toggle" class="fixed bottom-4 right-4 bg-gradient-to-r from-blue-500 to-teal-500 text-white px-6 py-3 rounded-full shadow-lg transform hover:scale-110 transition-all duration-300 ease-in-out">
-        <span class="font-semibold">Chat</span>
-    </button>
+    <title>Gurkha Cyber Force</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="{% static 'css/input.css' %}">
+	<link rel="stylesheet" href="{% static 'css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 
-    <!-- Chatbot Window -->
-    <div id="chatbot-container" class="hidden fixed bottom-16 right-4 bg-white w-96 max-w-sm shadow-lg rounded-lg transform scale-95 transition-transform duration-300 ease-out">
-        <div class="p-4 bg-gradient-to-r from-blue-500 to-teal-500 text-white font-bold flex justify-between items-center rounded-t-lg">
-            <span class="text-lg">Chatbot</span>
-            <button id="chatbot-close" class="text-xl font-semibold">&times;</button>
-        </div>
-        <div id="chatbot-messages" class="p-4 h-72 overflow-y-auto space-y-4 bg-gray-50 rounded-b-lg">
-            <!-- Dynamic messages will appear here -->
-        </div>
-        <div class="p-4 border-t bg-gray-200 flex items-center rounded-b-lg">
-            <input id="chatbot-input" type="text" class="flex-grow border p-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type a message...">
-            <button id="chatbot-send" class="bg-gradient-to-r from-blue-500 to-teal-500 text-white px-6 py-3 rounded-r-lg hover:bg-teal-600 focus:outline-none">
-                Send
-            </button>
-        </div>
-    </div>
-
-    <!-- Animation for Chatbot -->
     <style>
         #chatbot-container {
             animation: slideUp 0.5s ease-in-out;
@@ -47,7 +28,71 @@
             }
         }
     </style>
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#121212]">
+	<main>
+		<div id="main-wrapper" class="flex">
+			<!-- Sidebar -->
+			{% include "components/user_sidebar.html" %}
 
+			<div class="w-full page-wrapper overflow-hidden">
+				<!-- Header -->
+				{% include "components/user_header.html" %}
+
+                <!-- Main Content -->
+				<main class="h-full overflow-y-auto max-w-full py-[6px]">
+                    <div class="container full-container py-3 flex flex-col gap-6">
+                        <div class="mx-auto max-w-7xl">
+                            <button id="chatbot-toggle" class="fixed bottom-3.5 right-4 bg-[#121212] group transform hover:scale-105 transition-all duration-500 ease-in-out hover:bg-gradient-to-tr hover:from-indigo-700 hover:to-violet-700 text-white p-2.5 rounded-md shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-robot-face size-6">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"/><path d="M9 16c1 .667 2 1 3 1s2 -.333 3 -1"/><path d="M9 7l-1 -4"/><path d="M15 7l1 -4"/><path d="M9 12v-1"/><path d="M15 12v-1"/>
+                                </svg>          
+                            </button>
+                        
+                            <!-- Chatbot Window -->
+                            <div id="chatbot-container" class="hidden fixed bottom-[72px] right-4 bg-white w-96 max-w-sm shadow-lg rounded-md transform transition-transform duration-300 ease-out">
+                                <div class="p-3 bg-[#121212] text-white font-bold flex justify-between items-center rounded-t-md">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-robot-face size-6">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"/><path d="M9 16c1 .667 2 1 3 1s2 -.333 3 -1"/><path d="M9 7l-1 -4"/><path d="M15 7l1 -4"/><path d="M9 12v-1"/><path d="M15 12v-1"/>
+                                        </svg>
+                                        <span class="text-sm">HamroBot</span>
+                                    </div>
+                                    <button id="chatbot-close">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div id="chatbot-messages" class="p-2 h-72 text-sm overflow-y-auto space-y-4 bg-gray-50">
+                                    <!-- Dynamic messages will appear here -->
+                                </div>
+
+                                <div class="relative flex justify-center p-4">
+                                    <div class="relative w-96 transition-all duration-500 focus-within:w-full">
+                                        <input id="chatbot-input" type="text" class="text-sm border-gray-300 p-3 py-2.5 pr-9 rounded-md w-full transition-all duration-500 outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-300" placeholder="Type a message ..."/>
+                                        <div class="absolute inset-y-0 right-3 flex items-center">
+                                            <svg id="chatbot-send" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-telegram size-5 text-gray-500 cursor-pointer">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>       
+                        </div>
+                    </div>
+                </main>
+			</div>
+		</div>
+	</main>
+	
+	<script src="{% static 'js/index.js' %} "></script>
+	<script src="{% static 'js/sidebarmenu.js' %} "></script>
+    <script src="{% static 'js/dashboard.js' %} "></script>
     <script src="{% static 'js/chatbot.js' %}"></script>
+	<script src="{% static 'libs/simplebar/dist/simplebar.min.js' %} "></script>
+	<script src="{% static 'libs/@preline/dropdown/index.js' %} "></script>
+	<script src="{% static 'libs/@preline/overlay/index.js' %} "></script>
 </body>
 </html>

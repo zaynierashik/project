@@ -1,6 +1,9 @@
 1. Assign features to admin and staff role - Doing it later
 2. Pagination for tables - Doing it later
 3. Filtering in tables
+4. Put a field of study, university board category filter or section
+5. Maybe put some ads
+6. Admin approves the institution request to register. Registration status should be mailed to the respective admin email
 
 In Future:
 1. Recommendation of similar courses and institutions

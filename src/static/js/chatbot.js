@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const userMessage = chatbotInput.value.trim();
         if (!userMessage) return;
 
-        addMessage("You", userMessage, "text-right text-blue-600");
+        addMessage("Me", userMessage, "text-right text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 to-violet-600");
         chatbotInput.value = "";
 
         // Handle different query types
