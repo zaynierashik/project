@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Chatbot Button -->
+    <button id="chatbot-toggle" class="fixed bottom-4 right-4 bg-gradient-to-r from-blue-500 to-teal-500 text-white px-6 py-3 rounded-full shadow-lg transform hover:scale-110 transition-all duration-300 ease-in-out">
+        <span class="font-semibold">Chat</span>
+    </button>
+
+    <!-- Chatbot Window -->
+    <div id="chatbot-container" class="hidden fixed bottom-16 right-4 bg-white w-96 max-w-sm shadow-lg rounded-lg transform scale-95 transition-transform duration-300 ease-out">
+        <div class="p-4 bg-gradient-to-r from-blue-500 to-teal-500 text-white font-bold flex justify-between items-center rounded-t-lg">
+            <span class="text-lg">Chatbot</span>
+            <button id="chatbot-close" class="text-xl font-semibold">&times;</button>
+        </div>
+        <div id="chatbot-messages" class="p-4 h-72 overflow-y-auto space-y-4 bg-gray-50 rounded-b-lg">
+            <!-- Dynamic messages will appear here -->
+        </div>
+        <div class="p-4 border-t bg-gray-200 flex items-center rounded-b-lg">
+            <input id="chatbot-input" type="text" class="flex-grow border p-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type a message...">
+            <button id="chatbot-send" class="bg-gradient-to-r from-blue-500 to-teal-500 text-white px-6 py-3 rounded-r-lg hover:bg-teal-600 focus:outline-none">
+                Send
+            </button>
+        </div>
+    </div>
+
+    <!-- Animation for Chatbot -->
+    <style>
+        #chatbot-container {
+            animation: slideUp 0.5s ease-in-out;
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <script src="{% static 'js/chatbot.js' %}"></script>
+</body>
+</html>

@@ -77,4 +77,9 @@ urlpatterns = [
     # Test URLs
     path('update-application/<int:application_id>/', views.update_application_status, name='update-application'),
     path('reset-admissions/<int:institution_id>/', views.reset_admission_count, name='reset-admissions'),
+
+    # ChatBot API
+    path('api/chatbotinstitutions/', views.chatbot_institutions, name='chatbotinstitutions'),
+    path('api/chatbotcourses/', views.chatbot_courses, name='chatbotcourses'),
+    path('chat/', views.chat, name='chat'),
 ]

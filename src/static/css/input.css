@@ -78,7 +78,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #7e3af2;
+    background-color: #747474;
 }
 
 ::-webkit-scrollbar-track {

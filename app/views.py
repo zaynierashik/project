@@ -977,3 +977,43 @@ def reset_admission_count(request, institution_id):
         messages.success(request, "Admissions count has been reset for the new period.")
 
     return redirect('institution-dashboard')
+
+# ChatBot
+def chatbot_institutions(request):
+    institutions = Institution.objects.all()
+    data = [{"name": institution.name} for institution in institutions]
+    return JsonResponse(data, safe=False)
+
+def chatbot_courses(request):
+    courses = Course.objects.all()
+    data = [{"name": course.name} for course in courses]
+    return JsonResponse(data, safe=False)
+
+def chatbot_institution_details(request, name):
+    institution = Institution.objects.filter(name=name).first()
+    if institution:
+        data = {
+            "name": institution.name,
+            "overview": institution.overview,
+            "address": institution.address,
+            "programs": institution.program
+        }
+    else:
+        data = None
+    return JsonResponse(data)
+
+def chatbot_course_details(request, name):
+    course = Course.objects.filter(name=name).first()
+    if course:
+        data = {
+            "name": course.name,
+            "about": course.about,
+            "eligibility": course.eligibility,
+            "admission_criteria": course.Admission_Criteria
+        }
+    else:
+        data = None
+    return JsonResponse(data)
+
+def chat(request):
+    return render(request, 'chatbot.html')
