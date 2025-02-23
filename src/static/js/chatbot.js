@@ -20,8 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const courseCountRegex = /how many course(s)?|count course(s)?|course(s)? count/i;
     const institutionListRegex = /institution(s)? list|list institution(s)?|show me institution(s)?/i;
     const courseListRegex = /course(s)? list|list course(s)?|show me course(s)?/i;
-    const institutionQueryRegex = /tell me about (.+) institution/i;
-    const courseQueryRegex = /what is (.+) course/i;
+    const institutionQueryRegex = /tell me about (.+)/i;
+    const courseQueryRegex = /tell me about (.+)/i;
     const helpQueryRegex = /help|what can you do|what can I ask/i;
     const aboutQueryRegex = /about you|who are you|what is this/i;
     const greetingQueryRegex = /hello|hi|hey|howdy/i;
@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const institutionName = userMessage.match(institutionQueryRegex)[1];
             fetchInstitutionDetails(institutionName);
         } else if (courseQueryRegex.test(userMessage)) {
-            const courseName = userMessage.match(courseQueryRegex)[1];
-            fetchCourseDetails(courseName);
+            const courseName = userMessage.match(courseQueryRegex)[1].trim();
+        fetchCourseDetails(courseName);
         } else if (helpQueryRegex.test(userMessage)) {
             addMessage("Bot", "I can help with institutions, courses, and more. Just ask!", "text-gray-600");
         } else if (aboutQueryRegex.test(userMessage)) {
@@ -88,20 +88,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fetch institution/course details
     function fetchInstitutionDetails(name) {
-        fetch(`/api/chatbotinstitutions/${name}`)
+        const encodedName = encodeURIComponent(name);
+        fetch(`/api/chatbotinstitutions/${encodedName}/`)
             .then(response => response.json())
             .then(data => {
-                const details = data ? `Name: ${data.name}, Overview: ${data.overview}` : "Institution not found!";
+                const details = data.overview ? data.overview : "Institution not found!";
                 addMessage("Bot", details, "text-gray-600");
             })
             .catch(error => addMessage("Bot", "Sorry, something went wrong.", "text-red-500"));
     }
-
+    
     function fetchCourseDetails(name) {
-        fetch(`/api/chatbotcourses/${name}`)
+        fetch(`/api/chatbotcourses/${encodeURIComponent(name)}`)
             .then(response => response.json())
             .then(data => {
-                const details = data ? `Course Name: ${data.name}, About: ${data.about}` : "Course not found!";
+                const details = data && data.about ? data.about : "Course not found!";
                 addMessage("Bot", details, "text-gray-600");
             })
             .catch(error => addMessage("Bot", "Sorry, something went wrong.", "text-red-500"));
@@ -120,10 +121,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add message to the chat
     function addMessage(sender, text, textStyle) {
+        const messageWrapper = document.createElement("div");
+        messageWrapper.classList.add("flex", "w-full");
+
         const messageElement = document.createElement("div");
-        messageElement.classList.add("p-2", "rounded-lg", "mb-2", ...textStyle.split(" "));
+        messageElement.classList.add(
+            "p-2", "rounded-lg", "max-w-xs", "break-words", "shadow-sm", "text-[13px]"
+        );
+
+        // Apply different styles for user and bot messages
+        if (sender === "Me") {
+            messageWrapper.classList.add("justify-end");
+            messageElement.classList.add("bg-gray-500", "text-white", "rounded-br-none");
+        } else {
+            messageWrapper.classList.add("justify-start");
+            messageElement.classList.add("bg-gray-200", "text-gray-800", "rounded-bl-none");
+        }
+
         messageElement.innerHTML = `<strong>${sender}:</strong> ${text}`;
-        chatbotMessages.appendChild(messageElement);
+        messageWrapper.appendChild(messageElement);
+        chatbotMessages.appendChild(messageWrapper);
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
     }
 });

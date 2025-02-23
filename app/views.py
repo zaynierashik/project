@@ -1,4 +1,5 @@
 import json
+from urllib.parse import unquote
 from app.models import *
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
@@ -990,7 +991,8 @@ def chatbot_courses(request):
     return JsonResponse(data, safe=False)
 
 def chatbot_institution_details(request, name):
-    institution = Institution.objects.filter(name=name).first()
+    name = unquote(name)  # Decode URL encoding (import `from urllib.parse import unquote`)
+    institution = Institution.objects.filter(name__iexact=name).first()
     if institution:
         data = {
             "name": institution.name,
@@ -999,7 +1001,7 @@ def chatbot_institution_details(request, name):
             "programs": institution.program
         }
     else:
-        data = None
+        data = {"error": "Institution not found!"}
     return JsonResponse(data)
 
 def chatbot_course_details(request, name):

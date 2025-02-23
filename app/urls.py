@@ -80,6 +80,8 @@ urlpatterns = [
 
     # ChatBot API
     path('api/chatbotinstitutions/', views.chatbot_institutions, name='chatbotinstitutions'),
+    path('api/chatbotinstitutions/<str:name>/', views.chatbot_institution_details, name='chatbot_institution_details'),
     path('api/chatbotcourses/', views.chatbot_courses, name='chatbotcourses'),
+    path('api/chatbotcourses/<str:name>/', views.chatbot_course_details, name='chatbot_course_details'),
     path('chat/', views.chat, name='chat'),
 ]
