@@ -7,7 +7,7 @@
 
 In Future:
 1. Recommendation of similar courses and institutions
-2. Chatbot for queries; should be dynamic
+2. Chatbot done for now but not dynamic
 3. Dynamic notifications in all actors portal
 
 Problems/Update:

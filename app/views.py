@@ -90,13 +90,21 @@ def about_us(request):
 
 def institution_details(request, id):
     try:
-        institution = Institution.objects.get(id=id)  # Get the institution by ID
-        # Get related images using the related_name ('images') on the InstitutionImage model
-        gallery_images = institution.images.all()
-
-        offered_courses = InstitutionCourse.objects.filter(institution=institution)
+        institution = Institution.objects.get(id=id)
+        # Ensure that average_rating is a float
+        institution.average_rating = float(institution.average_rating)
         
-        context = {'institution': institution, 'gallery_images': gallery_images, 'offered_courses': offered_courses}
+        # Calculate the number of full stars and the half-star condition
+        full_stars = int(institution.average_rating)
+        half_star = (institution.average_rating - full_stars) >= 0.5
+        
+        # Create a list for star display (full stars, half star, empty stars)
+        stars = ['filled'] * full_stars
+        if half_star:
+            stars.append('half')
+        stars.extend(['empty'] * (5 - len(stars)))  # Ensure 5 stars in total
+        
+        context = {'institution': institution, 'stars': stars, 'gallery_images': institution.images.all(), 'offered_courses': InstitutionCourse.objects.filter(institution=institution)}
         return render(request, 'institution_details.html', context)
     except Institution.DoesNotExist:
         return render(request, '404.html', {'error': 'Institution not found'})

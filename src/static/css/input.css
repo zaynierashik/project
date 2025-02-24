@@ -21,6 +21,28 @@ body{
     border-width: 2px;
 }
 
+/* Rating */
+.star-rating {
+    display: inline-block;
+}
+
+.star {
+    font-size: 15px;
+    color: gray;
+}
+
+.star.filled {
+    color: gold;
+}
+
+.star.empty {
+    color: lightgray;
+}
+
+.star.half {
+    color: gold;
+}
+
 /* Pagination */
 .pagination-wrapper {
     position: sticky;

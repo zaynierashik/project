@@ -1,6 +1,7 @@
 import os
 
 from django.db import models
+from django.db.models import Avg
 from django.utils.timezone import now
 from django.contrib.auth.hashers import make_password
 
@@ -123,6 +124,8 @@ class Institution(models.Model):
 
     last_admissions = models.IntegerField(default=0, help_text="Admissions count from the last admission period.")
     current_admissions = models.IntegerField(default=0, help_text="Current admissions count.")
+
+    average_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
     
     def increment_admission_count(self):
         """Increase admission count if admission period is active."""
@@ -141,6 +144,12 @@ class Institution(models.Model):
         if self.affiliation != 'foreign':
             self.Foreign_University_Name = None
         super().save(*args, **kwargs)
+
+    def update_average_rating(self):
+        # Calculate the average rating using the reverse relationship
+        average = self.ratings.aggregate(Avg('rating'))['rating__avg']
+        self.average_rating = average if average else 0  # Set the average rating
+        self.save()
 
     def __str__(self):
         return self.name
@@ -272,3 +281,20 @@ class Application(models.Model):
 
     def __str__(self):
         return f"Application by {self.user.name} for {self.program.course.name} at {self.institution.name}"
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, related_name='ratings')
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
+    comment = models.TextField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        existing_rating = Rating.objects.filter(user=self.user, institution=self.institution).first()
+        if existing_rating:
+            # If a rating exists, delete the old one
+            existing_rating.delete()
+        # Now create a new rating
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Rating by {self.user} for {self.institution}"
