@@ -39,8 +39,52 @@
 				<!-- Header -->
 				{% include "components/user_header.html" %}
 
-                <!-- Main Content -->
-				<main class="h-full overflow-y-auto max-w-full py-[6px]">
+                <!-- Main Content [Full ChatBot] -->
+                <main class="h-full overflow-y-auto max-w-full pt-[6px]">
+                    <div class="container full-container py-5 gap-6">
+                        <div class="mx-auto max-w-7xl">
+                            <div id="chatbot-container" class="bg-white w-full min-h-[613px] shadow-lg rounded-md flex flex-col transition-transform duration-300 ease-out">
+                                <div class="p-3 bg-[#121212] text-white font-bold rounded-t-md">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-robot-face size-6">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"/>
+                                            <path d="M9 16c1 .667 2 1 3 1s2 -.333 3 -1"/>
+                                            <path d="M9 7l-1 -4"/>
+                                            <path d="M15 7l1 -4"/>
+                                            <path d="M9 12v-1"/>
+                                            <path d="M15 12v-1"/>
+                                        </svg>
+                                        <span class="text-sm">HamroBot</span>
+                                    </div>
+                                </div>
+                
+                                <!-- Chat Messages -->
+                                <div class="flex-grow p-4 h-72 overflow-y-auto flex flex-col space-y-3 bg-white" id="chatbot-messages">
+                                    <div id="chatbot-placeholder" class="flex justify-center">
+                                        <img src="{% static '/images/background/chatbot-bg.jpg' %}" alt="Chatbot Welcome Image" class="w-full opacity-80">
+                                    </div>
+                                </div>
+                
+                                <!-- Input Field (Moved to Bottom) -->
+                                <div class="relative flex justify-center rounded-b-md p-4 bg-white border-gray-200">
+                                    <div class="relative w-full transition-all duration-500 focus-within:w-full">
+                                        <input id="chatbot-input" type="text" class="text-sm border-gray-300 p-3 py-2.5 pr-9 rounded-md w-full transition-all duration-500 outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-300" placeholder="Type a message ..."/>
+                                        <div class="absolute inset-y-0 right-3 flex items-center">
+                                            <svg id="chatbot-send" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-telegram size-5 text-gray-500 cursor-pointer">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>       
+                        </div>
+                    </div>
+                </main>                
+
+                <!-- Main Content [ChatBot Bubble] -->
+				<!-- <main class="h-full overflow-y-auto max-w-full py-[6px]">
                     <div class="container full-container py-3 flex flex-col gap-6">
                         <div class="mx-auto max-w-7xl">
                             <button id="chatbot-toggle" class="fixed bottom-3.5 right-4 bg-[#121212] group transform hover:scale-105 transition-all duration-500 ease-in-out hover:bg-gradient-to-tr hover:from-indigo-700 hover:to-violet-700 text-white p-2.5 rounded-md shadow-lg">
@@ -49,7 +93,6 @@
                                 </svg>          
                             </button>
                         
-                            <!-- Chatbot Window -->
                             <div id="chatbot-container" class="hidden fixed bottom-[72px] right-4 bg-white w-96 max-w-sm shadow-lg rounded-md transform transition-transform duration-300 ease-out">
                                 <div class="p-3 bg-[#121212] text-white font-bold flex justify-between items-center rounded-t-md">
                                     <div class="flex items-center">
@@ -66,9 +109,7 @@
                                     </button>
                                 </div>
 
-                                <div id="chatbot-messages" class="p-4 h-72 overflow-y-auto flex flex-col space-y-3 bg-gray-50">
-                                    <!-- Dynamic messages will be shown here -->
-                                </div>
+                                <div id="chatbot-messages" class="p-4 h-72 overflow-y-auto flex flex-col space-y-3 bg-gray-50"></div>
 
                                 <div class="relative flex justify-center p-4">
                                     <div class="relative w-96 transition-all duration-500 focus-within:w-full">
@@ -83,7 +124,7 @@
                             </div>       
                         </div>
                     </div>
-                </main>
+                </main> -->
 			</div>
 		</div>
 	</main>
