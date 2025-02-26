@@ -1,0 +1,4 @@
+# hamrocollege - college information system
+
+# Tailwind CLI Build Code:
+npx tailwindcss -i ./src/static/css/input.css -o ./src/static/css/output.css --watch

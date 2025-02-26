@@ -1,4 +1,5 @@
 import json
+
 from urllib.parse import unquote
 from app.models import *
 from django.shortcuts import get_object_or_404, redirect, render
@@ -9,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.utils.crypto import get_random_string
+from django.db.models import Count
+from datetime import timedelta
 
 # Website
 def index(request):
@@ -16,10 +19,11 @@ def index(request):
         return redirect('userpage')
     
     institutions = Institution.objects.all()
+    trending_institutions = get_trending_institutions()
     courses = Course.objects.all().order_by('?')[:5]
     feedbacks = Feedback.objects.all().filter(status='show')
 
-    context = {'institutions': institutions, 'courses': courses, 'feedbacks': feedbacks}
+    context = {'institutions': institutions, 'trending_institutions': trending_institutions, 'courses': courses, 'feedbacks': feedbacks}
     return render(request, 'index.html', context)
 
 def authentication(request):
@@ -91,6 +95,7 @@ def about_us(request):
 def institution_details(request, id):
     try:
         institution = Institution.objects.get(id=id)
+
         # Ensure that average_rating is a float
         institution.average_rating = float(institution.average_rating)
         
@@ -103,6 +108,8 @@ def institution_details(request, id):
         if half_star:
             stars.append('half')
         stars.extend(['empty'] * (5 - len(stars)))  # Ensure 5 stars in total
+
+        InstitutionView.objects.create(institution=institution)
         
         context = {'institution': institution, 'stars': stars, 'gallery_images': institution.images.all(), 'offered_courses': InstitutionCourse.objects.filter(institution=institution)}
         return render(request, 'institution_details.html', context)
@@ -179,6 +186,9 @@ def update_profile(request, id):
     return redirect('profile')
 
 def institutions(request):
+    if 'user_id' not in request.session:
+        return redirect('authentication')
+    
     institutions = Institution.objects.all().order_by('name')
     return render(request, 'institutions.html', {'institutions': institutions})
 
@@ -200,9 +210,8 @@ def applications(request):
     return render(request, 'applications.html', context)
 
 def send_application(request):
-    # Check if the user is authenticated
     if 'user_id' not in request.session:
-        return redirect('authentication')  # Redirect to login/authentication if user is not logged in
+        return redirect('authentication')
 
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
@@ -860,6 +869,16 @@ def feedback(request):
     
     feedbacks = Feedback.objects.all().order_by('-id')
     return render(request, 'feedback.html', {'feedbacks': feedbacks})
+
+def get_trending_institutions():
+    """Fetch institutions with the most views in the last 7 days."""
+    last_week = now() - timedelta(days=7)
+
+    trending_institutions = Institution.objects.annotate(
+        recent_views=Count('views', filter=models.Q(views__timestamp__gte=last_week))
+    ).order_by('-recent_views')
+
+    return trending_institutions
 
 # Ajax
 # Update the status of an institution admin account

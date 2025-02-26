@@ -51,3 +51,7 @@ class ApplicationAdmin(admin.ModelAdmin):
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
     list_display = ('user', 'institution', 'rating')
+
+@admin.register(InstitutionView)
+class InstitutionViewAdmin(admin.ModelAdmin):
+    list_display = ('institution', 'timestamp')

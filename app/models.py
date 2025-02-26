@@ -92,6 +92,11 @@ def logo_upload_to(instance, filename):
     institution_name = instance.name.lower().replace(" ", "-")
     return os.path.join(f'institution/{institution_name}/logo/{filename}')
 
+def cover_upload_to(instance, filename):
+    # Using the institution's name to create a folder structure
+    institution_name = instance.name.lower().replace(" ", "-")
+    return os.path.join(f'institution/{institution_name}/cover/{filename}')
+
 def gallery_upload_to(instance, filename):
     # Using the institution's name to create a folder structure for gallery images
     institution_name = instance.institution.name.lower().replace(" ", "-")
@@ -117,6 +122,7 @@ class Institution(models.Model):
     address = models.CharField(max_length=255)
     map = models.TextField(blank=True, null=True, help_text="Embed map URL with width value 950 and height value 500.")
     logo = models.ImageField(upload_to=logo_upload_to, blank=True, null=True)
+    Cover_Photo = models.ImageField(upload_to=cover_upload_to, blank=True, null=True)
     affiliation = models.CharField(max_length=50, choices=AFFILIATION_CHOICES)
     Foreign_University_Name = models.CharField(max_length=255, blank=True, null=True, help_text="If the affiliation is Foreign University, specify the university name here.")
     admin = models.OneToOneField(InstitutionAdmin, on_delete=models.CASCADE, related_name='managed_institution', blank=True, null=True)
@@ -298,3 +304,10 @@ class Rating(models.Model):
 
     def __str__(self):
         return f"Rating by {self.user} for {self.institution}"
+
+class InstitutionView(models.Model):
+    institution = models.ForeignKey('Institution', on_delete=models.CASCADE, related_name='views')
+    timestamp = models.DateTimeField(default=now)
+
+    def __str__(self):
+        return f"View for {self.institution.name} on {self.timestamp}"

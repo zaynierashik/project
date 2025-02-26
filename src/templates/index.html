@@ -158,7 +158,7 @@
 
 					<div class="relative flex justify-center mt-32">
 						<div class="relative w-96 transition-all duration-500 focus-within:w-full">
-							<input name="search" class="text-center text-sm shadow-lg border-gray-300 px-10 py-3.5 rounded-xl w-full transition-all outline-none focus:ring-1 focus:ring-gray-500 focus:border-gray-500" placeholder="Search for institutions and courses ..."/>
+							<input name="search" class="text-center text-sm rounded-xl shadow-lg border-gray-300 px-10 py-3.5 2 w-full transition-all outline-none focus:ring-1 focus:ring-gray-500 focus:border-gray-500" placeholder="Search for institutions and courses ..."/>
 							<div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
 								<svg class="size-5 text-gray-500" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" stroke-linejoin="round" stroke-linecap="round"></path>
@@ -169,18 +169,21 @@
 				</div>
 			</section>
 
-			<!-- Institutions -->
-			<section class="py-11" id="institutions">
+			<!-- Trending Institutions -->
+			<section class="mt-20 py-11" id="institutions">
 				<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-					<h2 class="mb-8 font-manrope font-semibold text-3xl min-[400px]:text-3xl text-black max-lg:text-center flex-grow">Institutions</h2>
-					
+					<div class="w-full mb-8 text-center">
+						<h2 class="text-pretty text-lg font-medium tracking-tight text-primary-text">Most Viewed<span class="text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 to-violet-600"> Institutions</span></h2>
+					</div>
+
 					<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-						{% for institution in institutions|slice:":7" %}
-						<a href="{% url 'institution-details' institution.id %}" class="max-w-[384px] mx-auto">
-							<div class="w-full max-w-sm aspect-square">
-								<img src="https://pagedone.io/asset/uploads/1701157806.png" alt="cream image" class="w-full h-full rounded-xl object-cover">
+						{% for institution in trending_institutions|slice:":3" %}
+						<a href="{% url 'institution-details' institution.id %}" class="max-w-[384px] bg-white mx-auto transform transition-all duration-[800ms] rounded-2xl shadow-md shadow-gray-100 hover:translate-x-2 hover:-translate-y-2 hover:shadow-lg">
+							<div class="w-full max-w-sm">
+								<img src="{% if institution.Cover_Photo %}{{ institution.Cover_Photo.url }}{% else %}{{ 'default-cover.jpg' }}{% endif %}" alt="cream image" class="min-h-[100px] rounded-t-xl object-cover">
 							</div>
-							<div class="mt-5">
+							
+							<div class="mt-5 px-2 pb-5">
 								<h6 class="font-medium text-base text-black">{{ institution.name }}</h6>
 								<h6 class="mt-3 font-semibold text-sm text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 to-violet-600">
 									{% if institution.affiliation == 'foreign' %}
@@ -190,11 +193,11 @@
 									{% endif %}
 								</h6>
 							</div>
-						</a>
+						</a>						
 						{% endfor %}
 
 						<div class="flex justify-center items-center">
-							<a href="" class="flex justify-center gap-1 items-center py-2 pl-4 pr-2 text-sm cursor-pointer bg-gray-50 backdrop-blur-md lg:font-medium isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-[#111827] hover:text-white text-gray-800 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 overflow-hidden border-2 rounded-full group transition-colors duration-700">
+							<a href="{% url 'institutions' %}" class="flex justify-center gap-1 items-center py-2 pl-4 pr-2 text-sm cursor-pointer bg-gray-50 backdrop-blur-md lg:font-medium isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-[#111827] hover:text-white text-gray-800 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 overflow-hidden border-2 rounded-full group transition-colors duration-700">
 								Explore More
 								<svg class="w-7 h-7 justify-end group-hover:rotate-90 group-hover:bg-gray-50 text-gray-50 ease-linear duration-300 rounded-full border border-gray-700 group-hover:border-none p-2 rotate-45" viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg">
 									<path class="fill-gray-800 group-hover:fill-gray-800" d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path>
@@ -213,6 +216,7 @@
 							<span class="text-lg text-primary-text font-medium mb-4 block">Popular</span>
 							<h2 class="text-pretty text-3xl font-semibold tracking-tight text-primary-text sm:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 to-violet-600">Courses</span> in Nepal</h2>
 						</div>
+						
 						<div class="justify-center content-center border-s-2 border-gray-400 w-full h-full p-2 lg:w-3/5">
 							<swiper-container class="mySwiper relative h-56 w-full" slides-per-view="2" space-between="30" centered-slides="true">
 								<div class="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl" aria-hidden="true">
@@ -263,6 +267,7 @@
 						<a href="{% url 'index' %}" class="cursor-pointer flex justify-center lg:justify-start">
 							<img src="{% static 'images/logos/logo-light.png' %}" class="h-11 w-auto" alt="Hamrocollege">
 						</a>
+						
 						<p class="py-5 text-sm text-gray-500 text-justify leading-5 lg:text-left">Hamrocollege is an extensive search engine for the students, parents, and education industry players who are seeking information on higher education sector in Nepal.</p>
 						<a href="{% url 'index' %}" class="py-2.5 cursor-pointer px-5 h-9 block w-fit bg-gradient-to-tr from-indigo-600 to-violet-600 group rounded-full shadow-sm text-xs text-white mx-auto transition-all duration-500 hover:from-indigo-700 hover:to-violet-700 lg:mx-0">
 							Contact us
@@ -313,6 +318,11 @@
 				</div>
 			</div>
 		</footer>
+
+		<!-- Ad -->
+		<!-- <div class="fixed bottom-3.5 left-1/2 transform -translate-x-1/2 z-50 border">
+			<img src="{% static '/images/banners/thelondoncollege.gif' %}" alt="Ad">
+		</div>		 -->
 
 		<button id="back-to-top" class="hidden fixed bottom-3.5 right-4 border border-gray-500 bg-gradient-to-tr from-indigo-600 to-violet-600 group transition-all duration-500 hover:bg-gradient-to-tr hover:from-indigo-700 hover:to-violet-700 text-white p-2 rounded-md shadow-lg">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-100">

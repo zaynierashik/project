@@ -2,11 +2,11 @@
 2. Pagination for tables - Doing it later
 3. Filtering in tables
 4. Put a field of study, university board category filter or section
-5. Maybe put some ads
-6. Admin approves the institution request to register. Registration status should be mailed to the respective admin email
+5. Institution registration status should be mailed to the respective admin email [Status updating is not working]
+6. Search in homepage should work
 
 In Future:
-1. Recommendation of similar courses and institutions
+1. Algorithm
 2. Chatbot done for now but not dynamic
 3. Dynamic notifications in all actors portal
 
@@ -21,3 +21,6 @@ Problems/Update:
 8. Error and success message in admission form, institution course form, user profile
 9. The last admission count is not updating with current one when reseting
 10. Graphs is not showing
+
+Algorithm Implemented
+1. Time Decay Ranking - For ranking most viewed institutions
